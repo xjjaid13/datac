@@ -1,0 +1,143 @@
+.input_class{
+	width : 470px;
+	padding : 3px;
+	background-color : #FFFFFF;
+	border-radius : 3px 3px 3px 3px;
+	border : 1px solid #AAAAAA;
+}
+#header, .secondary_navigation{
+	font-family: "News Gothic MT W01 Bold",Arial,Helvetica,sans-serif;
+    left: 0;
+    letter-spacing: 0.2em;
+    line-height: 12px;
+    text-transform: uppercase;
+    top: 0;
+    width: 100%;
+    z-index: 90000;
+}
+body{
+	color: #2D2B2D;
+    font-family: "News Gothic MT W01",Helvetica,Arial,sans-serif;
+    font-size: 12px;
+}
+.menu{
+    letter-spacing: 0.1em;
+    line-height: 17px;
+}
+#header a, #header span, .secondary_navigation a, .secondary_navigation span {
+    display: inline-block;
+    margin: 0;
+    padding: 15px;
+    text-transform: uppercase;
+}
+#header #header_padding, .secondary_navigation .header_padding {
+    border-bottom: 1px solid #2D2B2D;
+    margin: 0 35px;
+}
+a {
+    text-decoration: none;
+}
+#header #cart_info, .secondary_navigation #cart_info {
+    float: right;
+}
+#footer_links {
+    bottom: 53px;
+    height: 18px;
+    line-height: 18px;
+    position: fixed;
+    right: 35px;
+    width: 100%;
+    z-index: 99000;
+}
+#footer_links a {
+    border-left: 1px solid #2D2B2D;
+    float: right;
+    margin: 0 0 0 20px;
+    padding: 0 0 0 20px;
+}
+#footer_links #service_links {
+    display: block;
+    float: right;
+    height: 18px;
+    overflow: hidden;
+    text-align: right;
+    width: 400px;
+}
+a {
+    color: #2D2B2D;
+}
+.secondary_navigation {
+    padding: 5px 0 0 35px;
+    width: auto;
+    z-index: 9500;
+}
+.secondary_navigation_padding {
+    margin-right: 35px;
+}
+a:hover, #site a:active {
+    color: #35AF46;
+}
+#login_div{
+	float: right;
+    position: absolute;
+    top: -320px;
+    width: 220px;
+    border : 1px solid #35af46;
+    padding : 5px;
+    right : 35px;
+    z-index : 10px;
+    border-radius : 3px 3px 3px 3px;
+    display : none;
+    background-color : white;
+    z-index : 99999;
+}
+#login_div div{
+	padding : 5px;
+}
+.input_class_login{
+	padding : 3px;
+	background-color : #FFFFFF;
+	border-radius : 3px 3px 3px 3px;
+	border : 1px solid #35af46;
+}
+.btn_class{
+	background-color: #35af46;
+    border-color: #21759B #21759B #1E6A8D;
+    box-shadow: 0 1px 0 rgba(120, 200, 230, 0.5) inset;
+    color: #FFFFFF;
+    text-decoration: none;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1);
+    height: 30px;
+    line-height: 28px;
+    padding: 0 12px 2px;
+}
+#errinfo{
+	padding-left:5px;
+	color :red;	
+}
+.content{
+	padding-bottom : 10px;
+	padding-left : 50px;
+}
+.content>div{
+	padding-right : 20px;
+	padding-top : 20px;
+	width : 500px;
+}
+.liWeblink{
+	padding:10px;margin:10px;border:1px solid grey;float:left;position:relative;
+}
+.liWeblink .deleteWeblink{
+	line-height: 10px;
+    position: absolute;
+    right: 3px;
+    top: 0;
+    cursor : pointer;
+}
+.liWebType{
+	position:relative;
+}
+.deleteWeblinkType{
+	top:-3px;right:7px;position:absolute;
+	cursor:pointer;
+}

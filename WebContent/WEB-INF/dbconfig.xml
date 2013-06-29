@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dbconfig>
+<proxool>
+<alias>db</alias>
+<driver-url>jdbc:mysql://127.0.0.1:3306/yuqiao</driver-url>
+<driver-class>com.mysql.jdbc.Driver</driver-class>
+<driver-properties>
+<property name="user" value="root"/>
+<property name="password" value="111111"/>
+</driver-properties>
+<minimum-connection-count>30</minimum-connection-count>
+<maximum-connection-count>100</maximum-connection-count>
+<maximum-active-time>100000</maximum-active-time> <trace>true</trace>
+<house-keeping-test-sql>select CURRENT_DATE</house-keeping-test-sql>
+<dbtype>mysql</dbtype>
+</proxool>
+</dbconfig>
+

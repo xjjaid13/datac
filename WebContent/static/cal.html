@@ -1,0 +1,183 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>XML Query Parser demo</title>
+	<script src="/datac/js/jquery-1.8.3.js"></script>
+	<script>
+		$(function(){
+			$("#fCal").click(function(){
+				var fLen = $("#fLen").val();
+				var fWidth = $("#fWidth").val();
+				var fHeight = $("#fHeight").val();
+				var fMidu = $("#fMidu").val() * 0.000001;
+				var fPrice = $("#fPrice").val();
+				var fNum = $("#fNum").val();
+				var fWeight = fLen * fWidth * fHeight * fMidu;
+				var fCailiaoprice = changeTwoDecimal(fWeight * fPrice);
+				var fSumprice = changeTwoDecimal(fCailiaoprice * fNum);
+				var fFaheiprice = changeTwoDecimal(fWeight * 1.5);
+				var fChuhuoprice = changeTwoDecimal(fWeight * 1.5);
+				var fDanhuaprice = changeTwoDecimal(fWeight * 4.5);
+				$("#fWeight").html(fWeight);
+				$("#fCailiaoprice").html(fCailiaoprice);
+				$("#fSumprice").html(fSumprice);
+				$("#fFaheiprice").html(fFaheiprice);
+				$("#fChuhuoprice").html(fChuhuoprice);
+				$("#fDanhuaprice").html(fDanhuaprice);
+			});
+			$("#yCal").click(function(){
+				var yMeter = $("#yMeter").val();
+				var yHeight = $("#yHeight").val();
+				var yMidu = $("#yMidu").val() * 0.000001;
+				var yPrice = $("#yPrice").val();
+				var yNum = $("#yNum").val();
+				var yWeight = 3.14 * yMeter * yMeter * yHeight * yMidu;
+				var yCailiaoprice = changeTwoDecimal(yWeight * yPrice);
+				var ySumprice = changeTwoDecimal(yCailiaoprice * yNum);
+				var yFaheiprice = changeTwoDecimal(yWeight * 1.5);
+				var yChuhuoprice = changeTwoDecimal(yWeight * 1.5);
+				var yDanhuaprice = changeTwoDecimal(yWeight * 4.5);
+				$("#yWeight").html(yWeight);
+				$("#yCailiaoprice").html(yCailiaoprice);
+				$("#ySumprice").html(ySumprice);
+				$("#yFaheiprice").html(yFaheiprice);
+				$("#yChuhuoprice").html(yChuhuoprice);
+				$("#yDanhuaprice").html(yDanhuaprice);
+			});
+		});
+		function changeTwoDecimal(x){  
+			var f_x = parseFloat(x);  
+			if (isNaN(f_x)){  
+				alert('function:changeTwoDecimal->parameter error');  
+				return false;  
+			}  
+			var f_x = Math.round(x*1000)/1000;  
+			return f_x;
+		}  
+	</script>
+</head>
+<body>
+<div style="width:500px;float:left;">
+方
+	<table>
+		<tr>
+			<td>长度</td>
+			<td><input type="text" id="fLen"></td>
+		</tr>
+		<tr>
+			<td>宽度</td>
+			<td><input type="text" id="fWidth"></td>
+		</tr>
+		<tr>
+			<td>高度</td>
+			<td><input type="text" id="fHeight"></td>
+		</tr>
+		<tr>
+			<td>密度</td>
+			<td><input type="text" id="fMidu"></td>
+		</tr>
+		<tr>
+			<td>单价</td>
+			<td><input type="text" id="fPrice"></td>
+		</tr>
+		<tr>
+			<td>数量</td>
+			<td><input type="text" id="fNum"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input type="button" id="fCal" value="计算"></td>
+		</tr>
+	</table>
+	
+<table>
+		<tr>
+			<td>重量</td>
+			<td><span id="fWeight"></span></td>
+		</tr>
+		<tr>
+			<td>材料价格</td>
+			<td><span id="fCailiaoprice"></span></td>
+		</tr>
+		<tr>
+			<td>总价</td>
+			<td><span id="fSumprice"></span></td>
+		</tr>
+		<tr>
+			<td>发黑价格</td>
+			<td><span id="fFaheiprice"></span></td>
+		</tr>
+		<tr>
+			<td>淬火价格</td>
+			<td><span id="fChuhuoprice"></span></td>
+		</tr>
+		<tr>
+			<td>氮化价格</td>
+			<td><span id="fDanhuaprice"></span></td>
+		</tr>
+		<tr>
+		</tr>
+	</table>
+</div>
+<div style="float:left;">
+圆
+	<table>
+		<tr>
+			<td>半径</td>
+			<td><input type="text" id="yMeter"></td>
+		</tr>
+		<tr>
+			<td>高度</td>
+			<td><input type="text" id="yHeight"></td>
+		</tr>
+		<tr>
+			<td>密度</td>
+			<td><input type="text" id="yMidu"></td>
+		</tr>
+		<tr>
+			<td>单价</td>
+			<td><input type="text" id="yPrice"></td>
+		</tr>
+		<tr>
+			<td>数量</td>
+			<td><input type="text" id="yNum"></td>
+		</tr>
+		<tr>
+			<td></td>
+			<td><input type="button" id="yCal" value="计算"></td>
+		</tr>
+	</table>
+	
+<table>
+		<tr>
+			<td>重量</td>
+			<td><span id="yWeight"></span></td>
+		</tr>
+		<tr>
+			<td>材料价格</td>
+			<td><span id="yCailiaoprice"></span></td>
+		</tr>
+		<tr>
+			<td>总价</td>
+			<td><span id="ySumprice"></span></td>
+		</tr>
+		<tr>
+			<td>发黑价格</td>
+			<td><span id="yFaheiprice"></span></td>
+		</tr>
+		<tr>
+			<td>淬火价格</td>
+			<td><span id="yChuhuoprice"></span></td>
+		</tr>
+		<tr>
+			<td>氮化价格</td>
+			<td><span id="yDanhuaprice"></span></td>
+		</tr>
+		<tr>
+		</tr>
+	</table>
+</div>
+
+</body>
+</html>

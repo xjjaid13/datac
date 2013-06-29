@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dao.BgArticleMapperDao">
+
+	<resultMap id="bgArticle" type="BgArticle">
+		
+		<result property="bgArticleId" column="bgArticleId " />
+		
+		<result property="title" column="title" />
+		
+		<result property="content" column="content"/>
+		
+		<result property="createDate" column="createDate" />
+		
+		<result property="hit" column="hit" />
+		
+		<result property="bgUserId" column="bgUserId" />
+		
+		<result property="shortContent" column="shortContent" />
+		
+		<result property="commentnum" column="commentnum" />
+		
+		<result property="articleType" column="articleType" />
+		
+		<result property="keywords" column="keywords" />
+		
+	</resultMap>
+
+	<select id="selectBgArticle" resultType="java.util.Map" resultMap="bgArticle">
+		select * from bg_article where bgArticleId = #{bgArticleId}
+	</select>
+	
+	<select id="selectListBgArticle"  resultType="java.util.List" resultMap="bgArticle">
+		select * from bg_article where 1 = 1  <if test="bgArticleId != null"> and bgArticleId = #{bgArticleId}</if>  <if test="title != null"> and title = '#{title}'</if>  <if test="content != null"> and content = '#{content}'</if>  <if test="createDate != null"> and createDate = '#{createDate}'</if>  <if test="hit != null"> and hit = #{hit}</if>  <if test="bgUserId != null"> and bgUserId = #{bgUserId}</if>  <if test="shortContent != null"> and shortContent = '#{shortContent}'</if>  <if test="commentnum != null"> and commentnum = #{commentnum}</if>  <if test="articleType != null"> and articleType = #{articleType}</if>  <if test="keywords != null"> and keywords = '#{keywords}'</if> order by createDate desc  limit #{startPage},#{page} 
+	</select>
+	
+	<select id="selectCountBgArticle"  resultType="java.lang.Integer" >
+		select count(bgArticleId) from bg_article where 1 = 1  <if test="bgArticleId != null"> and bgArticleId = #{bgArticleId}</if>  <if test="title != null"> and title = '#{title}'</if>  <if test="content != null"> and content = '#{content}'</if>  <if test="createDate != null"> and createDate = '#{createDate}'</if>  <if test="hit != null"> and hit = #{hit}</if>  <if test="bgUserId != null"> and bgUserId = #{bgUserId}</if>  <if test="shortContent != null"> and shortContent = '#{shortContent}'</if>  <if test="commentnum != null"> and commentnum = #{commentnum}</if>  <if test="articleType != null"> and articleType = #{articleType}</if>  <if test="keywords != null"> and keywords = '#{keywords}'</if>  
+	</select>
+	
+	<insert id="insertBgArticle" parameterType="BgArticle">
+		insert into bg_article (bgArticleId,title,content,createDate,hit,bgUserId,shortContent,commentnum,articleType,keywords) values (#{bgArticleId},#{title},#{content},#{createDate},#{hit},#{bgUserId},#{shortContent},#{commentnum},#{articleType},#{keywords})
+	</insert>
+	
+	<update id="updateBgArticle" parameterType="BgArticle">
+		update bg_article set   <if test="bgArticleId != null">bgArticleId = #{bgArticleId},</if>  <if test="title != null">title = #{title},</if>  <if test="content != null">content = #{content},</if>  <if test="createDate != null">createDate = #{createDate},</if>  <if test="hit != null">hit = #{hit},</if>  <if test="bgUserId != null">bgUserId = #{bgUserId},</if>  <if test="shortContent != null">shortContent = #{shortContent},</if>  <if test="commentnum != null">commentnum = #{commentnum},</if>  <if test="articleType != null">articleType = #{articleType},</if>  <if test="keywords != null">keywords = #{keywords},</if>bgArticleId = #{bgArticleId} where bgArticleId = #{bgArticleId}
+	</update>
+	
+	<delete id="deleteByIdsBgArticle" parameterType="BgArticle">
+		delete from bg_article where bgArticleId in (#{ids})
+	</delete>
+
+	<select id="maxIdBgArticle" resultType="java.lang.Integer">
+		select max(bgArticleId) from bg_article		
+	</select>
+	
+	<select id="returnTitleListEntity"  resultType="java.util.List" resultMap="bgArticle">
+		select bgArticleId,title,createDate from bg_article where 1 = 1
+		<if test="bgUserId != 0"> and bgUserId = #{bgUserId} </if> order by bgArticleId desc
+		 limit #{startPage},#{page}
+	</select>
+	
+</mapper>

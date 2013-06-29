@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration PUBLIC     
+    "-//mybatis.org//DTD Config 3.0//EN"    
+    "http://mybatis.org/dtd/mybatis-3-config.dtd"> 
+<configuration>    
+
+    <typeAliases>
+		
+        <typeAlias alias="BgArticle" type="com.spring.entity.BgArticle" /> 
+		
+        <typeAlias alias="BgComment" type="com.spring.entity.BgComment" /> 
+		
+        <typeAlias alias="BgKeyword" type="com.spring.entity.BgKeyword" /> 
+		
+        <typeAlias alias="BgUser" type="com.spring.entity.BgUser" /> 
+		
+        <typeAlias alias="WebLink" type="com.spring.entity.WebLink" /> 
+        
+        <typeAlias alias="WebLinktype" type="com.spring.entity.WebLinktype" /> 
+		
+    </typeAliases>    
+    
+</configuration> 

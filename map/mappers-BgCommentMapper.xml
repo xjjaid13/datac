@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dao.BgCommentMapperDao">
+
+	<resultMap id="bgComment" type="BgComment">
+		
+		<result property="bgCommentId" column="bgCommentId" />
+		
+		<result property="userId" column="userId" />
+		
+		<result property="content" column="content" />
+		
+		<result property="bgArticleId" column="bgArticleId" />
+		
+	</resultMap>
+
+	<select id="selectBgComment" resultType="java.util.Map" resultMap="bgComment">
+		select * from bg_article where bgCommentId = #{bgCommentId}
+	</select>
+	
+	<select id="selectListBgComment"  resultType="java.util.List" resultMap="bgComment">
+		select * from bg_comment where 1 = 1  <if test="bgCommentId != null"> and bgCommentId = #{bgCommentId}</if>  <if test="userId != null"> and userId = #{userId}</if>  <if test="content != null"> and content = '#{content}'</if>  <if test="bgArticleId != null"> and bgArticleId = #{bgArticleId}</if>  limit #{startPage},#{page}
+	</select>
+	
+	<select id="selectCountBgComment"  resultType="java.lang.Integer" >
+		select count(bgCommentId) from bg_comment where 1 = 1  <if test="bgCommentId != null"> and bgCommentId = #{bgCommentId}</if>  <if test="userId != null"> and userId = #{userId}</if>  <if test="content != null"> and content = '#{content}'</if>  <if test="bgArticleId != null"> and bgArticleId = #{bgArticleId}</if>  
+	</select>
+	
+	<insert id="insertBgComment" parameterType="BgComment">
+		insert into bg_comment (bgCommentId,userId,content,bgArticleId) values (#{bgCommentId},#{userId},#{content},#{bgArticleId})
+	</insert>
+	
+	<update id="updateBgComment" parameterType="BgComment">
+		update bg_comment set   <if test="bgCommentId != null">bgCommentId = #{bgCommentId},</if>  <if test="userId != null">userId = #{userId},</if>  <if test="content != null">content = #{content},</if>  <if test="bgArticleId != null">bgArticleId = #{bgArticleId},</if>bgCommentId = #{bgCommentId} where bgCommentId = #{bgCommentId}
+	</update>
+	
+	<delete id="deleteIdsBgComment" parameterType="BgComment">
+		delete from bg_comment where bgCommentId} in (#{ids})
+	</delete>
+
+	<select id="maxIdBgComment" resultType="java.lang.Integer">
+		select max(bgCommentId) from bg_comment		
+	</select>
+	
+</mapper>

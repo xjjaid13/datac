@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dao.BgUserMapperDao">
+
+	<resultMap id="bgUser" type="BgUser">
+		
+		<result property="bgUserId" column="bgUserId" />
+		
+		<result property="username" column="username" />
+		
+		<result property="password" column="password" />
+		
+	</resultMap>
+
+	<select id="selectBgUser" resultType="java.util.Map" resultMap="bgUser">
+		select * from bg_article where bgUserId = #{bgUserId}
+	</select>
+	
+	<select id="selectListBgUser"  resultType="java.util.List" resultMap="bgUser">
+		select * from bg_user where 1 = 1  <if test="bgUserId != null"> and bgUserId = #{bgUserId}</if>  <if test="username != null"> and username = '#{username}'</if>  <if test="password != null"> and password = '#{password}'</if>  limit #{startPage},#{page}
+	</select>
+	
+	<select id="selectCountBgUser"  resultType="java.lang.Integer" >
+		select count(bgUserId) from bg_user where 1 = 1  <if test="bgUserId != null"> and bgUserId = #{bgUserId}</if>  <if test="username != null"> and username = '#{username}'</if>  <if test="password != null"> and password = '#{password}'</if>  
+	</select>
+	
+	<insert id="insertBgUser" parameterType="BgUser">
+		insert into bg_user (bgUserId,username,password) values (#{bgUserId},#{username},#{password})
+	</insert>
+	
+	<update id="updateBgUser" parameterType="BgUser">
+		update bg_user set   <if test="bgUserId != null">bgUserId = #{bgUserId},</if>  <if test="username != null">username = #{username},</if>  <if test="password != null">password = #{password},</if>bgUserId = #{bgUserId} where bgUserId = #{bgUserId}
+	</update>
+	
+	<delete id="deleteIdsBgUser" parameterType="BgUser">
+		delete from bg_user where bgUserId} in (#{ids})
+	</delete>
+
+	<select id="maxIdBgUser" resultType="java.lang.Integer">
+		select max(bgUserId) from bg_user		
+	</select>
+	
+	<select id="returnUserEntityByUserName" resultType="java.util.Map" resultMap="bgUser">
+		select * from bg_user where username = #{username} and password = #{password}
+	</select>
+	
+</mapper>

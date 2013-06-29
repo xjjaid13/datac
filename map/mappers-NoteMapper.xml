@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dao.NoteMapperDao">
+
+	<resultMap id="note" type="Note">
+		
+		<result property="noteID" column="noteID" />
+		
+		<result property="content" column="content" />
+		
+	</resultMap>
+
+	<select id="selectNote" resultType="java.util.Map" resultMap="note">
+		select * from note where noteId = #{noteId}
+	</select>
+	
+	<select id="selectListNote"  resultType="java.util.List" resultMap="note">
+		select * from note where 1 = 1<if test="noteID != null"> and noteID = #{noteID}</if><if test="content != null"> and content = '#{content}'</if> limit #{startPage},#{page}
+	</select>
+	
+	<select id="selectCountNote"  resultType="java.lang.Integer" >
+		select count(noteId) from note where 1 = 1 <if test="noteID != null"> and noteID = #{noteID}</if><if test="content != null"> and content = '#{content}'</if> 
+	</select>
+	
+	<insert id="insertNote" parameterType="Note">
+		insert into note (noteID,content) values (#{noteID},#{content})
+	</insert>
+	
+	<update id="updateNote" parameterType="Note">
+		update note set <if test="noteID != null">noteID = #{noteID},</if><if test="content != null">content = #{content},</if>noteId = #{noteId} where noteId = #{noteId}
+	</update>
+	
+	<delete id="deleteIdsNote" parameterType="Note">
+		delete from note where noteId} in (#{ids})
+	</delete>
+
+	<select id="maxIdNote" resultType="java.util.Map" resultMap="note">
+		select max(noteId) from note		
+	</select>
+	
+</mapper>
