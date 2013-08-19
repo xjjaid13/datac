@@ -1,4 +1,4 @@
-package com.spring.action;
+package com.spring.action.interceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

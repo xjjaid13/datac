@@ -17,6 +17,10 @@
         <typeAlias alias="WebLink" type="com.spring.entity.WebLink" /> 
         
         <typeAlias alias="WebLinktype" type="com.spring.entity.WebLinktype" /> 
+        
+        <typeAlias alias="Note" type="com.spring.entity.Note" /> 
+		
+		<typeAlias alias="NoteType" type="com.spring.entity.NoteType" /> 
 		
     </typeAliases>    
     
