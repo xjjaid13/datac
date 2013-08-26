@@ -4,9 +4,15 @@
 
 	<resultMap id="note" type="Note">
 		
-		<result property="noteID" column="noteID" />
+		<result property="noteId" column="noteId" />
 		
 		<result property="content" column="content" />
+		
+		<result property="noteTypeId" column="noteTypeId" />
+		
+		<result property="createDate" column="createDate" />
+		
+		<result property="bgUserId" column="bgUserId" />
 		
 	</resultMap>
 
@@ -15,19 +21,19 @@
 	</select>
 	
 	<select id="selectListNote"  resultType="java.util.List" resultMap="note">
-		select * from note where 1 = 1<if test="noteID != null"> and noteID = #{noteID}</if><if test="content != null"> and content = '#{content}'</if> limit #{startPage},#{page}
+		select * from note where 1 = 1<if test="noteId != null"> and noteId = #{noteId}</if><if test="content != null"> and content = '#{content}'</if><if test="noteTypeId != null"> and noteTypeId = #{noteTypeId}</if><if test="createDate != null"> and createDate = '#{createDate}'</if><if test="bgUserId != null"> and bgUserId = #{bgUserId}</if> limit #{startPage},#{page}
 	</select>
 	
 	<select id="selectCountNote"  resultType="java.lang.Integer" >
-		select count(noteId) from note where 1 = 1 <if test="noteID != null"> and noteID = #{noteID}</if><if test="content != null"> and content = '#{content}'</if> 
+		select count(noteId) from note where 1 = 1 <if test="noteId != null"> and noteId = #{noteId}</if><if test="content != null"> and content = '#{content}'</if><if test="noteTypeId != null"> and noteTypeId = #{noteTypeId}</if><if test="createDate != null"> and createDate = '#{createDate}'</if><if test="bgUserId != null"> and bgUserId = #{bgUserId}</if> 
 	</select>
 	
 	<insert id="insertNote" parameterType="Note">
-		insert into note (noteID,content) values (#{noteID},#{content})
+		insert into note (noteId,content,noteTypeId,createDate,bgUserId) values (#{noteId},#{content},#{noteTypeId},#{createDate},#{bgUserId})
 	</insert>
 	
 	<update id="updateNote" parameterType="Note">
-		update note set <if test="noteID != null">noteID = #{noteID},</if><if test="content != null">content = #{content},</if>noteId = #{noteId} where noteId = #{noteId}
+		update note set <if test="noteId != null">noteId = #{noteId},</if><if test="content != null">content = #{content},</if><if test="noteTypeId != null">noteTypeId = #{noteTypeId},</if><if test="createDate != null">createDate = #{createDate},</if><if test="bgUserId != null">bgUserId = #{bgUserId},</if>noteId = #{noteId} where noteId = #{noteId}
 	</update>
 	
 	<delete id="deleteIdsNote" parameterType="Note">

@@ -33,9 +33,7 @@
 					<img src="${base}/image/angryCat.png" style="height:50px;margin-top:5px;"/>
 				</a>
 				
-
 				<c:choose>
-				
 					<c:when test="${user != null}">
 						<ul class="nav pull-right" style="padding-top:10px;">
 		            		<li class="dropdown">

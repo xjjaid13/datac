@@ -2,11 +2,9 @@ package com.spring.entity;
 
 public class BaseEntity {
 
-	private int startPage;
+	private int startPage = 0;
 	
-	private int endPage;
-	
-	private int page;
+	private int page = 10;
 	
 	private String ids;
 
@@ -16,14 +14,6 @@ public class BaseEntity {
 
 	public void setStartPage(int startPage) {
 		this.startPage = startPage;
-	}
-
-	public int getEndPage() {
-		return endPage;
-	}
-
-	public void setEndPage(int endPage) {
-		this.endPage = endPage;
 	}
 
 	public int getPage() {

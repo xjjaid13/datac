@@ -62,7 +62,7 @@
 	<div>名称: <input type="text" name="linkType" id="linkType"></div>
 </div>
 <%@include file="../../static/endNew.jsp" %>
-<script src="${base}/js/xDialog-master/xDialog.min.js"></script>
+<script src="${base}/js/xDialog-master/xDialog.js"></script>
 <script>
 	$(function(){
 		$(".typeTab").click(function(){

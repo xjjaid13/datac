@@ -150,7 +150,6 @@ public class BlogController {
 	public void doBlogListAjax(HttpServletRequest request,
 			HttpServletResponse response, HttpSession session)
 			throws IOException {
-		System.out.println(response.getCharacterEncoding());
 		BgUser htUser = (BgUser) session.getAttribute(Constant.USER);
 		int page = DataHandle.returnValueInt(request, "page");
 		int rp = DataHandle.returnValueInt(request, "rp");

@@ -33,8 +33,7 @@ public class MyExceptionHandler implements HandlerExceptionResolver {
             e.printStackTrace();
         }
         return null;
-        
-    }  
+    }
     
     private boolean isAjax(HttpServletRequest request) {
         return "XMLHttpRequest".equals(request.getHeader("X-Requested-With"));
