@@ -41,7 +41,7 @@
 								<ul aria-labelledby="drop5" role="menu" class="dropdown-menu" id="userInfo" style="background-color:grey;font:12px/1.5 微软雅黑,Tahoma,Verdana,宋体">
 				                    <li role="presentation"><a href="${base}/blog/${user.bgUserId}" tabindex="-1" role="menuitem">我的博客</a></li>
 				                    <li role="presentation"><a href="${base}/weblink/${user.bgUserId}" tabindex="-1" role="menuitem">我的导航</a></li>
-				                    <li role="presentation"><a href="${base}/note/${user.bgUserId}" tabindex="-1" role="menuitem">我的纸条</a></li>
+				                    <li role="presentation"><a href="${base}/note/${user.bgUserId}" tabindex="-1" role="menuitem">我的便签</a></li>
 				                    <li class="divider" role="presentation"></li>
 				                    <li role="presentation"><a href="#" tabindex="-1" role="menuitem">退出</a></li>
 				                </ul>
