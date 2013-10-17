@@ -55,6 +55,13 @@ public class NoteController {
         response.getWriter().write(jsonObject.toString());
     }
     
+    @RequestMapping("returnNoteContent")
+    public void returnNoteContent(HttpServletRequest request,HttpServletResponse response,HttpSession session){
+        Note note = new Note();
+        List<Note> list = noteMapperService.selectList("select * from note", null);
+        System.out.println(list.size());
+    }
+    
     @RequestMapping("test")
     public void test(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
         JSONArray listDay = new JSONArray();

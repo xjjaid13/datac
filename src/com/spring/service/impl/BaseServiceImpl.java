@@ -58,4 +58,9 @@ public class BaseServiceImpl<T> implements BaseService<T>{
         this.baseDao = baseDao;
     }
 
+    @Override
+    public List<T> selectList(String sql, Object param) {
+        return baseDao.selectList(sql, param);
+    }
+
 }

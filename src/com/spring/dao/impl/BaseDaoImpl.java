@@ -51,5 +51,10 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
 	public int deleteByIds(T t){
 		return sqlSessionTemplate.delete("deleteByIds" + t.toString(), t);
 	}
+
+    @Override
+    public List<T> selectList(String sql, Object param) {
+        return sqlSessionTemplate.selectList(sql, param);
+    }
 	
 }

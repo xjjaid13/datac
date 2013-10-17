@@ -19,4 +19,6 @@ public interface BaseDao<T> {
 	int maxId(T t);
 	
 	int deleteByIds(T t);
+	
+	List<T> selectList(String sql,Object param);
 }

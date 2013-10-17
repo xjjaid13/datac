@@ -20,4 +20,6 @@ public interface BaseService<T> {
 	
 	int deleteByIds(T t);
 	
+	List<T> selectList(String sql,Object param);
+	
 }

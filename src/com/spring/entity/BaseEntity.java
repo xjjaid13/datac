@@ -7,6 +7,8 @@ public class BaseEntity {
 	private int page = 10;
 	
 	private String ids;
+	
+	private String condition;
 
 	public int getStartPage() {
 		return startPage;
@@ -31,5 +33,13 @@ public class BaseEntity {
 	public void setIds(String ids) {
 		this.ids = ids;
 	}
+
+    public String getCondition() {
+        return condition;
+    }
+
+    public void setCondition(String condition) {
+        this.condition = condition;
+    }
 	
 }

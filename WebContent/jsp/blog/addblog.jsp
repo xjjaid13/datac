@@ -8,13 +8,13 @@
 <title>新增博客</title>
 <link href="${base}/css/common.css" rel="stylesheet" type="text/css"/>
 <style>
-	.main{
+	.main{     
 		margin-left : 40px;
 		margin-right : 40px;
 		border : 1px solid grey;
 		border-radius : 3px 3px 3px 3px;
 	}
-	.menu_ul{
+	.menu_ul{      
 		padding-left : 0px;
 	}
 	.title_div{
@@ -30,9 +30,9 @@
 </style>
 </head>
 <body>
-
+        
 	<%@include file="../../static/headNew.jsp" %>
-	
+	       
 	<div class="main">
 		
 			<div class="row-fluid" style="padding-top:20px;">

@@ -6,10 +6,13 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <title>博客</title>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
- 
-</head>
-
+    
+</head>     
+     
 <body >
+    <div>
+    
+    </div>
 <input type="hidden" name="page" value="${page+1}" >
 <%@include file="../../static/headNew.jsp" %>
 <!-- end navbar -->
