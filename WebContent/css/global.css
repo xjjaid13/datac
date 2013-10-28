@@ -432,9 +432,12 @@ border-bottom-color: #999;
 }
 /*end user_info*/
 /*----- start footer -----*/
-.footer {
+.footer{
+	position : fixed;
 	background-color:#1d1f23;
-	padding:20px 0px;
+	bottom : 0;
+	height : 50px;
+	width : 100%;
 }
 .footer .coppy_right{
 	margin-top:10px;

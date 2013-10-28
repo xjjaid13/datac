@@ -1,7 +1,6 @@
 package com.spring.action;
 
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -56,10 +55,29 @@ public class NoteController {
     }
     
     @RequestMapping("returnNoteContent")
-    public void returnNoteContent(HttpServletRequest request,HttpServletResponse response,HttpSession session){
+    public void returnNoteContent(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException, InterruptedException{
+    	int startPage = DataHandle.returnValueInt(request, "startPage");
+    	int recordNum = DataHandle.returnValueInt(request, "recordNum");
+    	String searchKey = DataHandle.returnValue(request, "searchKey");
+    	String timeValue = DataHandle.returnValue(request, "timeValue");
+    	// 1 年 2月  3日
+    	String condition = " 1 = 1 ";
+    	int timeType = DataHandle.returnValueInt(request, "timeType");
+    	if(timeType == 1){
+    		condition += " and createDate >= " + timeValue + "-01-01 00:00:00 and createDate <= " + timeValue + "-12-31 23:59:59";
+    	}else if(timeType == 2){
+    		condition += " and createDate >= " + timeValue + "-01 00:00:00 and createDate <= " + timeValue + "-31 23:59:59";
+    	}else if(timeType == 3){
+    		condition += " and createDate >= " + timeValue + " 00:00:00 and createDate <= " + timeValue + " 23:59:59";
+    	}
         Note note = new Note();
-        List<Note> list = noteMapperService.selectList("select * from note", null);
-        System.out.println(list.size());
+        note.setCondition(condition);
+        note.setStartPage(startPage);
+        note.setPage(recordNum);
+        List<Note> list = noteMapperService.selectList(note);
+        JSONObject jsonObject = new JSONObject();
+        jsonObject.put("data", list);
+        response.getWriter().write(jsonObject.toString());
     }
     
     @RequestMapping("test")
@@ -94,7 +112,6 @@ public class NoteController {
         JSONObject object = new JSONObject();
         object.put("data", listYear);
         String jsonString = JSONObject.fromObject(object).toString();
-        System.out.println("||||||||||||"+jsonString);
         response.getWriter().write(JSONObject.fromObject(object).toString());
     }
     

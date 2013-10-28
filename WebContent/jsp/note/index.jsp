@@ -27,6 +27,24 @@
         margin : 5px;
         background-color : #5692F5;
     }
+    #timeTree div{
+        //float : left;
+    }
+    #timeTree ul {
+        margin : 0px;
+    }
+    #timeTree span {
+        display : block;
+        height : 25px;
+        padding-top : 5px;
+        cursor : pointer;
+    }
+    #timeTree span>a{
+        color : white;
+    }
+    #timeTree span>a:hover{
+        color : grey;
+    }
 </style>
 </head>
 <body>
@@ -43,36 +61,22 @@
     </div>
     <div class="container" style="height:500px;">
         <div id="container" class="span10" style="margin:0px;padding:0px;">
-	        <c:forEach var="item" items="${noteList}" varStatus="status">
-	            <div class="flow flowClass">${item.content}</div>
-	        </c:forEach>
+	        
         </div>
-        <style>
-            #timeTree div{
-                //float : left;
-            }
-            #timeTree ul {
-                margin : 0px;
-            }
-            #timeTree span {
-                display : block;
-                height : 25px;
-                padding-top : 5px;
-                cursor : pointer;
-            }
-            #timeTree span>a{
-                color : white;
-            }
-            #timeTree span>a:hover{
-                color : grey;
-            }
-        </style>
         <div class="span2" style="margin-left : 0px;">
-            <ul id="timeTree" style="background-color:#07b5f6;text-align:center;margin:0px;margin-top:6px;">
-                
-            </ul>
+        	<div id="toolDiv" style="width:150px;">
+        		<div id="timeMenu" style="height:300px;">
+		            <ul id="timeTree" style="background-color:#258ff2;text-align:center;margin:0px;margin-top:6px;">
+		            
+		            </ul>
+	            </div>
+	            <div id="searchDiv">
+	            	<input type="text" style="" /><span style='width:'>查询</span>
+	            </div>
+        	</div>
         </div>
     </div>
+    <div id="loading" class="container" style="position:fixed;bottom:60px;left:50%;display:none;">加载中......</div>
 </div>
 <div>
     
@@ -82,8 +86,12 @@
 <script src="${base}/js/sticky-info/sticky.js"></script>
 <script src="${base}/js/masonry/jquery.masonry.js"></script>
 <script src="${base}/js/masonry/js/jquery.infinitescroll.min.js"></script>
+<script src="${base}/js/sticky/jquery.sticky.js"></script>
 <script>
+	var startPage = 0;
+	var isLoad = false;
     $(function(){
+    	$("#toolDiv").sticky({ topSpacing: 70, center:true, className:"hey" });
     	$("#timeTree span").live("click",function(event){
     		var $ul = $(this).parent().find(">ul");
     		if(!$ul.is(":hidden")){
@@ -94,7 +102,6 @@
     		}
     	});
     	$("#test").click(function(event){
-    		alert("aaa");
     		event.stopPropagation();
     	});
     	$("#addNoteBtn").hover(function(){
@@ -121,10 +128,7 @@
 	    		$("#noteContentDiv").animate({"top":"60px"});
     		}
     	});
-    	$("#container").masonry({
-            itemSelector: '.flow',
-            columnWidth: 15
-        });
+    	returnContent();
     	var $noteContent = $("#noteContentDiv");
     	$(document).click(function(e){
     		if($(e.target).closest("#noteContentDiv").length == 0 && $noteContent.css("top") == '60px'){
@@ -135,8 +139,54 @@
     		dataSource : "${base}/note/test?1=1",
     		embedId : "timeTree"
     	});
+    	
+    	$(window).bind("scroll",function() {
+    		if(!isLoad){
+    			if ($(document).scrollTop() + $(window).height() > $(document).height() - 300) {
+    				$("#loading").show();
+        	    	returnContent('reload');
+        	    }
+    		}
+    	});
+    	    
     });
-    
+	function returnContent(type){
+		isLoad = true;
+		$.ajax({
+			url : 'returnNoteContent.action',
+			data : 'startPage='+startPage+'&recordNum=4',
+			type : 'post',
+			dataType : 'json',
+			success : function(ajaxData){
+				startPage++;
+				var data = ajaxData.data;
+				if(data.length == 0){
+					$("#loading").html('未查询到记录');
+					setTimeout(function(){
+						$("#loading").fadeOut();
+					},5000);
+					return;
+				}
+				$("#loading").hide();
+				var htmlContent = '';
+				for(var i = 0; i < data.length; i++){
+					var record = data[i];
+					htmlContent += "<div class='flow flowClass'>"+record.content+"</div>";
+				}
+				$("#container").append(htmlContent);
+				if(type == 'reload'){
+					$("#container").masonry('reload');
+				}else{
+					$("#container").masonry({
+			            itemSelector: '.flow',
+			            columnWidth: 15
+			        });
+				}
+				//$("#container").masonry( 'appended', htmlContent, true ); 
+				isLoad = false;
+			}
+		});
+	}    
 </script>
 </body>
 </html>

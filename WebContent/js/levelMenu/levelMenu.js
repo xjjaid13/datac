@@ -19,7 +19,7 @@ $(function($) {
 		}
 	
 	});
-	colorArr = ['grey','red','black','pink','yellow'];
+	colorArr = ['#339cf5','#63b3f6','#8dc5f5','pink','yellow'];
 	function jointHtml(json,colorNum){
         var content = "";
         for(var i = 0; i < json.length; i++){

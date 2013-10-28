@@ -21,11 +21,11 @@
 	</select>
 	
 	<select id="selectListNote"  resultType="java.util.List" resultMap="note">
-		select * from note where 1 = 1<if test="noteId != null"> and noteId = #{noteId}</if><if test="content != null"> and content = '#{content}'</if><if test="noteTypeId != null"> and noteTypeId = #{noteTypeId}</if><if test="createDate != null"> and createDate = '#{createDate}'</if><if test="bgUserId != null"> and bgUserId = #{bgUserId}</if> limit #{startPage},#{page}
+		select * from note where 1 = 1 <if test="condition != null"> and ${condition}</if> <if test="noteId != null"> and noteId = #{noteId}</if><if test="content != null"> and content = '#{content}'</if><if test="noteTypeId != null"> and noteTypeId = #{noteTypeId}</if><if test="createDate != null"> and createDate = '#{createDate}'</if><if test="bgUserId != null"> and bgUserId = #{bgUserId}</if> limit #{startPage},#{page}
 	</select>
 	
 	<select id="selectCountNote"  resultType="java.lang.Integer" >
-		select count(noteId) from note where 1 = 1 <if test="noteId != null"> and noteId = #{noteId}</if><if test="content != null"> and content = '#{content}'</if><if test="noteTypeId != null"> and noteTypeId = #{noteTypeId}</if><if test="createDate != null"> and createDate = '#{createDate}'</if><if test="bgUserId != null"> and bgUserId = #{bgUserId}</if> 
+		select count(noteId) from note where 1 = 1 <if test="condition != null"> and ${condition}</if> <if test="noteId != null"> and noteId = #{noteId}</if><if test="content != null"> and content = '#{content}'</if><if test="noteTypeId != null"> and noteTypeId = #{noteTypeId}</if><if test="createDate != null"> and createDate = '#{createDate}'</if><if test="bgUserId != null"> and bgUserId = #{bgUserId}</if> 
 	</select>
 	
 	<insert id="insertNote" parameterType="Note">

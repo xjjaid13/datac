@@ -156,7 +156,7 @@ public class BlogController {
 		BgArticle bgArticle = new BgArticle();
 		bgArticle.setBgUserId(htUser.getBgUserId());
 		bgArticle.setPage(rp);
-		bgArticle.setStartPage((page - 1) * rp);
+		bgArticle.setStartPage(page);
 		List<BgArticle> blogList = bgArticleMapperService
 				.returnTitleEntity(bgArticle);
 		List<BgArticle> blogListNew = new ArrayList<BgArticle>();
