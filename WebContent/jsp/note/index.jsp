@@ -64,14 +64,18 @@
 	        
         </div>
         <div class="span2" style="margin-left : 0px;">
-        	<div id="toolDiv" style="width:150px;">
+        	<div id="toolDiv" style="width:200px;">
         		<div id="timeMenu" style="height:300px;">
 		            <ul id="timeTree" style="background-color:#258ff2;text-align:center;margin:0px;margin-top:6px;">
 		            
 		            </ul>
 	            </div>
+	            <div>
+	            	总记录<a>100</a>条.
+	            	页数 10/22.每页显示10条
+	            </div>
 	            <div id="searchDiv">
-	            	<input type="text" style="" /><span style='width:'>查询</span>
+	            	<input type="text" style="width:150px" /><span style='width:50px;height:30px;background-color:green;'>查询</span>
 	            </div>
         	</div>
         </div>
