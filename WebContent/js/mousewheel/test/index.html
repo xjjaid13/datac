@@ -247,8 +247,7 @@
                         event.preventDefault();
                     });
 
-                $('#test6')
-                    .mousewheel(function(event, delta, deltaX, deltaY) {
+                $('#test6').mousewheel(function(event, delta, deltaX, deltaY) {
                         var o = '';
                         if (delta > 0)
                             o = '#test6: up ('+delta+')';

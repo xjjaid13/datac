@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.spring.entity.BgUser;
 import com.spring.entity.Note;
 import com.spring.service.NoteMapperService;
+import com.util.CommonHandle;
 import com.util.Constant;
 import com.util.DataHandle;
 import com.util.TimeHandle;
@@ -58,7 +59,7 @@ public class NoteController {
     public void returnNoteContent(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException, InterruptedException{
     	int startPage = DataHandle.returnValueInt(request, "startPage");
     	int recordNum = DataHandle.returnValueInt(request, "recordNum");
-    	String searchKey = DataHandle.returnValue(request, "searchKey");
+    	//String searchKey = DataHandle.returnValue(request, "searchKey");
     	String timeValue = DataHandle.returnValue(request, "timeValue");
     	// 1 年 2月  3日
     	String condition = " 1 = 1 ";
@@ -70,13 +71,18 @@ public class NoteController {
     	}else if(timeType == 3){
     		condition += " and createDate >= " + timeValue + " 00:00:00 and createDate <= " + timeValue + " 23:59:59";
     	}
+    	condition += "order by createDate desc";
         Note note = new Note();
         note.setCondition(condition);
         note.setStartPage(startPage);
         note.setPage(recordNum);
         List<Note> list = noteMapperService.selectList(note);
+        int recordSum = noteMapperService.count(note);
+        int pageSum = CommonHandle.returnPageCount(recordSum, recordNum);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("data", list);
+        jsonObject.put("recordSum", recordSum);
+        jsonObject.put("pageSum", pageSum);
         response.getWriter().write(jsonObject.toString());
     }
     

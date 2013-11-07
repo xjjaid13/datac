@@ -1,8 +1,8 @@
 (function($) {
-	$.sticky = function(note, options, callback) {
-		return $.fn.sticky(note, options, callback)
+	$.stickyInfo = function(note, options, callback) {
+		return $.fn.stickyInfo(note, options, callback)
 	};
-	$.fn.sticky = function(note, options, callback) {
+	$.fn.stickyInfo = function(note, options, callback) {
 		var position = "top-right";
 		var settings = {
 			speed: "fast",

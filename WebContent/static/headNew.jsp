@@ -38,7 +38,7 @@
 						<ul class="nav pull-right" style="padding-top:10px;">
 		            		<li class="dropdown">
 		            			<a href="#" data-toggle="dropdown" class="dropdown-toggle" style="color : #8DD1FF;">${user.username}<b class="caret"></b></a>
-								<ul aria-labelledby="drop5" role="menu" class="dropdown-menu" id="userInfo" style="background-color:grey;font:12px/1.5 微软雅黑,Tahoma,Verdana,宋体">
+								<ul aria-labelledby="drop5" role="menu" class="dropdown-menu" id="userInfo" style="background-color:#8DD1FF;font:12px/1.5 微软雅黑,Tahoma,Verdana,宋体">
 				                    <li role="presentation"><a href="${base}/blog/${user.bgUserId}" tabindex="-1" role="menuitem">我的博客</a></li>
 				                    <li role="presentation"><a href="${base}/weblink/${user.bgUserId}" tabindex="-1" role="menuitem">我的导航</a></li>
 				                    <li role="presentation"><a href="${base}/note/${user.bgUserId}" tabindex="-1" role="menuitem">我的便签</a></li>

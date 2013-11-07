@@ -26,6 +26,7 @@
         width : 200px;
         margin : 5px;
         background-color : #5692F5;
+        word-break : break-all;
     }
     #timeTree div{
         //float : left;
@@ -53,34 +54,37 @@
     <div style="position:fixed;width:95%;height:300px;background-color:#5692F5;
         border-radius:5px;text-align:center;padding:15px;
         box-shadow:0 0 10px #06C;top:-268px;z-index:10;" id="noteContentDiv">
-        <textarea style="width:100%;height:100%;margin:0px;padding:0px;" id="noteContent"></textarea>
+        <textarea style="width:100%;height:100%;margin:0px;padding:0px;" id="noteContent" onkeyup="javascript:return ctrlEnter(event,submitNote);"></textarea>
         <div style="position:absolute;right:20px;bottom:-25px;height:30px;
             background-color:#5692F5;width:100px;border-radius:5px;line-height:30px;">
             <div id="addNoteBtn">新建笔记</div>
         </div>
     </div>
     <div class="container" style="height:500px;">
-        <div id="container" class="span10" style="margin:0px;padding:0px;">
+        <div id="container" class="span10" style="margin:0px;padding:0px;box-shadow:0 0 10px #258FF2;">
 	        
         </div>
         <div class="span2" style="margin-left : 0px;">
         	<div id="toolDiv" style="width:200px;">
-        		<div id="timeMenu" style="height:300px;">
+        		<div id="timeMenu" style="border-radius:5px;padding:10px;box-shadow:0px 0px 10px #258ff2;">
 		            <ul id="timeTree" style="background-color:#258ff2;text-align:center;margin:0px;margin-top:6px;">
 		            
 		            </ul>
 	            </div>
-	            <div>
-	            	总记录<a>100</a>条.
-	            	页数 10/22.每页显示10条
+	            <div style="background-color:#258FF2;border-radius:5px;padding:10px;box-shadow:0px 0px 10px #258ff2;">
+	            	<div>总记录<a id="recordSum">0</a>条.</div>
+	            	<div>页数<a id="page">1</a>/<a id="pageSum">1</a>.</div>
+	            	<div>每页显示<a id="recordNum">20</a>条.</div>
+	            	<div id="loading" class="container" style="display:none;">加载中......</div>
 	            </div>
-	            <div id="searchDiv">
-	            	<input type="text" style="width:150px" /><span style='width:50px;height:30px;background-color:green;'>查询</span>
+	            <!-- <div id="searchDiv">
+	            	<input type="text" style="width:150px" /><span style='width:50px;height:30px;background-color:#258ff2;'>查询</span>
 	            </div>
+	            -->
+	            
         	</div>
         </div>
     </div>
-    <div id="loading" class="container" style="position:fixed;bottom:60px;left:50%;display:none;">加载中......</div>
 </div>
 <div>
     
@@ -91,6 +95,7 @@
 <script src="${base}/js/masonry/jquery.masonry.js"></script>
 <script src="${base}/js/masonry/js/jquery.infinitescroll.min.js"></script>
 <script src="${base}/js/sticky/jquery.sticky.js"></script>
+<script src="${base}/js/mousewheel/jquery.mousewheel.js"></script>
 <script>
 	var startPage = 0;
 	var isLoad = false;
@@ -115,22 +120,7 @@
     		$(this).removeClass("divBtn");
     		$("#noteContentDiv").css({"background-color":"#5692F5"});
     	}).click(function(){
-    		var $noteContent = $("#noteContentDiv");
-    		if($noteContent.css("top") == '60px'){
-    			$.ajax({
-                    url : '${base}/note/my-addNote',
-                    data : 'content='+$("#noteContent").val(),
-                    type : 'post',
-                    dataType : 'json',
-                    success : function(data){
-                    	$.sticky(data.message);
-                    	$("#container").append("<div class='flow flowClass'>"+$("#noteContent").val()+"</div>").masonry('reload');
-                    }
-                });
-    			$("#noteContentDiv").animate({"top":"-268px"});
-    		}else{
-	    		$("#noteContentDiv").animate({"top":"60px"});
-    		}
+    		submitNote();
     	});
     	returnContent();
     	var $noteContent = $("#noteContentDiv");
@@ -145,24 +135,66 @@
     	});
     	
     	$(window).bind("scroll",function() {
-    		if(!isLoad){
+    		if(!isLoad && (parseInt($("#page").html()) != parseInt($("#pageSum").html()))){
     			if ($(document).scrollTop() + $(window).height() > $(document).height() - 300) {
-    				$("#loading").show();
         	    	returnContent('reload');
         	    }
     		}
     	});
-    	    
+    	var delayReturnData = null;
+    	$("#page").mousewheel(function(event, delta, deltaX, deltaY) {
+    		var pageSumValue = parseInt($("#pageSum").html());
+    		var pageValue = parseInt($(this).html());
+    		if(delta < 0){
+    			if(pageValue > 1){
+	    			$(this).html(pageValue - 1);
+	    			clearTimeout(delayReturnData);
+	    			delayReturnData = setTimeout(returnContent,2000);
+    			}
+    		}else{
+    			if(pageValue < pageSumValue){
+	    			$(this).html(pageValue + 1);
+	    			clearTimeout(delayReturnData);
+	    			delayReturnData = setTimeout(returnContent,2000);
+    			}
+    		}
+    		event.preventDefault();
+    	});
+    	$("#recordNum").mousewheel(function(event, delta, deltaX, deltaY) {
+    		var recordNumValue = parseInt($(this).html());
+    		if(delta < 0){
+    			if(recordNumValue > 10){
+    				$(this).html(recordNumValue - 10);
+    				clearTimeout(delayReturnData);
+	    			delayReturnData = setTimeout(returnContent,1000);
+    			}
+    		}else{
+    			if(recordNumValue < 50){
+    				$(this).html(recordNumValue + 10);
+    				clearTimeout(delayReturnData);
+	    			delayReturnData = setTimeout(returnContent,1000);
+    			}
+    		}
+    		event.preventDefault();
+    	});
+    	$("body").keydown(function(){
+    		alert('aaa');
+    	});
+    	
     });
 	function returnContent(type){
+		$("#loading").show();
 		isLoad = true;
+		var page = $("#page").html();
+		var recordNum = $("#recordNum").html();
 		$.ajax({
 			url : 'returnNoteContent.action',
-			data : 'startPage='+startPage+'&recordNum=4',
+			data : 'startPage='+page+'&recordNum='+recordNum,
 			type : 'post',
 			dataType : 'json',
 			success : function(ajaxData){
 				startPage++;
+				$("#page").html(startPage);
 				var data = ajaxData.data;
 				if(data.length == 0){
 					$("#loading").html('未查询到记录');
@@ -177,20 +209,91 @@
 					var record = data[i];
 					htmlContent += "<div class='flow flowClass'>"+record.content+"</div>";
 				}
-				$("#container").append(htmlContent);
 				if(type == 'reload'){
+					$("#container").append(htmlContent);
 					$("#container").masonry('reload');
 				}else{
+					$("#container").html(htmlContent);
 					$("#container").masonry({
 			            itemSelector: '.flow',
 			            columnWidth: 15
 			        });
+					$("#container").masonry('reload');
 				}
+				$("#recordSum").html(ajaxData.recordSum);
+				$("#pageSum").html(ajaxData.pageSum);
 				//$("#container").masonry( 'appended', htmlContent, true ); 
 				isLoad = false;
 			}
 		});
 	}    
+	function isKeyTrigger(e,keyCode){
+	    var argv = isKeyTrigger.arguments;
+	    var argc = isKeyTrigger.arguments.length;
+	    var bCtrl = false;
+	    if(argc > 2){
+	        bCtrl = argv[2];
+	    }
+	    var bAlt = false;
+	    if(argc > 3){
+	        bAlt = argv[3];
+	    }
+	    var nav4 = window.Event ? true : false;
+	    if(typeof e == 'undefined') {
+	        e = event;
+	    }
+	    if( bCtrl && 
+	        !((typeof e.ctrlKey != 'undefined') ? 
+	            e.ctrlKey : e.modifiers & Event.CONTROL_MASK > 0)){
+	        return false;
+	    }
+	    if( bAlt && 
+	        !((typeof e.altKey != 'undefined') ? 
+	            e.altKey : e.modifiers & Event.ALT_MASK > 0)){
+	        return false;
+	    }
+	    var whichCode = 0;
+	    if (nav4) whichCode = e.which;
+	    else if (e.type == "keypress" || e.type == "keydown")
+	        whichCode = e.keyCode;
+	    else whichCode = e.button;
+
+	    return (whichCode == keyCode);
+	}
+
+	function ctrlEnter(e,fuc){
+	    var ie =navigator.appName=="Microsoft Internet Explorer"?true:false; 
+	    if(ie){
+	        if(event.ctrlKey && window.event.keyCode==13){fuc(e);}
+	    }else{
+	        if(isKeyTrigger(e,13,true)){fuc();}
+	    }
+	}
+	
+	function submitNote(){
+		var $noteContent = $("#noteContentDiv");
+		if($noteContent.css("top") == '60px'){
+			$.ajax({
+                url : '${base}/note/my-addNote',
+                data : {'content':$("#noteContent").val()},
+                type : 'post',
+                dataType : 'json',
+                success : function(data){
+                	$.stickyInfo(data.message);
+                	returnContent();
+                }
+            });
+			$("#noteContentDiv").animate({"top":"-268px"});
+			$("#noteContent").val('');
+			$("#noteContent").unfocus();
+		}else{
+    		$("#noteContentDiv").animate({"top":"60px"});
+    		$("#noteContent").focus();
+		}
+	}
+	function showAddBox(){
+		alert('sjdksjdksljds');
+	}
 </script>
 </body>
 </html>

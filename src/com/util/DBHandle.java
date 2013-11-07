@@ -15,6 +15,7 @@ import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -54,7 +55,7 @@ public class DBHandle {
 	
 	public void openConnMysql(){
 		String strDirverPath = "com.mysql.jdbc.Driver";
-		String url = "jdbc:mysql://127.0.0.1:3306/fastjavaproject?characterEncoding=utf-8";
+		String url = "jdbc:mysql://127.0.0.1:3306/datac?characterEncoding=utf-8";
 		try {
 			Class.forName(strDirverPath);
 			conn = DriverManager.getConnection(url,"root","111111");
@@ -444,138 +445,16 @@ public class DBHandle {
 	}
 	
 	public static void main(String[] args){
-//		DBHandle db = new DBHandle();
-//		db.openConnMysql();
-//		String strProvice = "SELECT sw_id,sw_name FROM ht_province";
-//		String[][] strSch = db.executeQuery(strProvice);
-//		int temCity = 0;
-//		for(int i = 0; strSch != null && i < strSch.length; i++){
-//			String sw_province_id = DataHandle.handleValue(strSch[i][0]);
-//			String sw_province_name = DataHandle.handleValue(strSch[i][1]);
-//			int temProvince = i+1;
-//			String insertProvince = "INSERT com_province (id,name) VALUES ("+temProvince+",'"+sw_province_name+"')";
-//			db.executeUpdate(insertProvince);
-//			
-//			String strCity = "SELECT sw_id,sw_name FROM ht_city WHERE sw_province_id = '"+sw_province_id+"'";
-//			String[][] sqlCity = db.executeQuery(strCity);
-//			for(int j = 0; sqlCity != null && j < sqlCity.length; j++){
-//				String sw_city_id = DataHandle.handleValue(sqlCity[j][0]);
-//				String sw_city_name = DataHandle.handleValue(sqlCity[j][1]);
-//				temCity = temCity + 1;
-//				String insertCity = "INSERT com_city (id,name,province_id) VALUES ("+temCity+",'"+sw_city_name+"',"+temProvince+")";
-//				db.executeUpdate(insertCity);
-//				
-//				String strSection = "SELECT sw_id,sw_name FROM ht_section WHERE sw_city_id = '"+sw_city_id+"'";
-//				String[][] sqlSection = db.executeQuery(strSection);
-//				for(int z = 0;sqlSection != null && z < sqlSection.length; z++ ){
-//					String sw_section_name = DataHandle.handleValue(sqlSection[z][1]);
-//					String insertSection = "INSERT com_section (name,city_id) VALUES ('"+sw_section_name+"',"+temCity+")";
-//					db.executeUpdate(insertSection);
-//				}
-//			}
-//		}
-//		//db.executeUpdate(sql);
-//		db.closeConn();
-//		System.out.println("over");
-		
 		DBHandle db = new DBHandle();
 		db.openConnMysql();
-		//String[][] pageTem = db.executeQuery("SELECT ");
-		db.closeConn();
-		
-		String content = FileHandle.readFile("D:/a.txt");
-		Pattern pattern = Pattern.compile("<a(.*?)'(.*?)'(.*?)>(.*?)</a>");
-		Matcher matcher = pattern.matcher(content);
-		HashMap<String,String> sectionMap = new HashMap<String,String>();
-		while(matcher.find()){
-			sectionMap.put(matcher.group(2), matcher.group(4));
-		}
-		
-//		String content1 = FileHandle.readFile("D:/b.txt");
-//		Pattern pattern1 = Pattern.compile("<a(.*?)/(.*?)</a>");
-//		Matcher matcher1 = pattern1.matcher(content1);
-//		HashMap<String,String> sectionMap1 = new HashMap<String,String>();
-//		while(matcher1.find()){
-//			sectionMap1.put(matcher1.group(1), matcher1.group(2));
-//		}
-		
-		File parentFile = new File("D:/file");
-		File[] fileCity = parentFile.listFiles();
-		for(int i = 0;fileCity != null && i < fileCity.length; i++){
-			
-			File cityFile = fileCity[i];
-			String cityName = sectionMap.get(cityFile.getName());
-			String citySch = "SELECT id FROM com_city WHERE name like '%"+cityName+"%'";
-			String cityId = db.singleQuery(citySch);
-			/** 查询城市id */
-			File[] fileType = cityFile.listFiles();
-			for(int j = 0;fileType != null && j < fileType.length; j++){
-				File typeFile = fileType[j];
-				String typeName = typeFile.getName();
-				String typeId = returnTypeId(typeName);
-				File[] fileHtml = typeFile.listFiles();
-				for(int z = 0; fileHtml != null && z < fileHtml.length; z++){
-					
-					//System.out.println(fileHtml[z].getName());
-				}
+		for(int x = 0; x < 1000; x++){
+			String content = "";
+			for(int i = 0; i < 50; i++){
+				content += new Random().nextInt();
 			}
-			
+			String strProvice = "insert into note (content,createDate,bgUserId) values ('"+content+"','"+TimeHandle.currentTime()+"',4)";
+			db.executeUpdate(strProvice);
 		}
-		
-//		ArrayList arrCity = new ArrayList();
-//		String content = FileHandle.readFile("D:/a.txt");
-//		Pattern pattern = Pattern.compile("<a(.*?)'(.*?)'(.*?)>(.*?)</a>");
-//		Matcher matcher = pattern.matcher(content);
-//		HashMap<String,String> sectionMap = new HashMap<String,String>();
-//		while(matcher.find()){
-//			arrCity.add(matcher.group(2));
-//		}
-//		
-//		ArrayList partArr = new ArrayList();
-//		String content1 = FileHandle.readFile("D:/b.txt");
-//		Pattern pattern1 = Pattern.compile("<a(.*?)/(.*?)</a>");
-	}
-	
-	public static String returnTypeId(String typeName){
-		if("xueshengjianzhi".equals(typeName)){
-			return "18";
-		}else if("xiaoshoucuxiao".equals(typeName)){
-			return "5";
-		}else if("fachuandan".equals(typeName)){
-			return "6";
-		}else if("canyinfuwu".equals(typeName)){
-			return "15";
-		}else if("jianzhifwy".equals(typeName)){
-			return "16";
-		}else if("jzjigong".equals(typeName)){
-			return "11";
-		}else if("kefushichang".equals(typeName)){
-			return "7";
-		}else if("jisuanjiwl".equals(typeName)){
-			return "9";
-		}else if("computer".equals(typeName)){
-			return "9";
-		}else if("jianjizhizuo".equals(typeName)){
-			return "3";
-		}else if("jzsoftware".equals(typeName)){
-			return "9";
-		}else if("jzbuxian".equals(typeName)){
-			return "9";
-		}else if("peisongyuan".equals(typeName)){
-			return "4";
-		}else if("jiaoyupeixun".equals(typeName)){
-			return "1";
-		}else if("yuyanwenzi".equals(typeName)){
-			return "13";
-		}else if("jzphoto".equals(typeName)){
-			return "3";
-		}else if("liyiyanyi".equals(typeName)){
-			return "2";
-		}else if("jzwenyi".equals(typeName)){
-			return "15";
-		}else if("partime".equals(typeName)){
-			return "18";
-		}
-		return "";
+		db.closeConn();
 	}
 }
