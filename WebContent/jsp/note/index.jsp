@@ -48,13 +48,13 @@
     }
 </style>
 </head>
-<body>
+<body style="overflow-x:hidden;">
 <%@include file="../../static/headNew.jsp" %>
 <div class="main">
     <div style="position:fixed;width:95%;height:300px;background-color:#5692F5;
         border-radius:5px;text-align:center;padding:15px;
         box-shadow:0 0 10px #06C;top:-268px;z-index:10;" id="noteContentDiv">
-        <textarea style="width:100%;height:100%;margin:0px;padding:0px;" id="noteContent" onkeyup="javascript:return ctrlEnter(event,submitNote);"></textarea>
+        <textarea style="width:100%;height:100%;margin:0px;padding:0px;" id="noteContent" ></textarea>
         <div style="position:absolute;right:20px;bottom:-25px;height:30px;
             background-color:#5692F5;width:100px;border-radius:5px;line-height:30px;">
             <div id="addNoteBtn">新建笔记</div>
@@ -99,6 +99,7 @@
 <script>
 	var startPage = 0;
 	var isLoad = false;
+	var scrollTime;
     $(function(){
     	$("#toolDiv").sticky({ topSpacing: 70, center:true, className:"hey" });
     	$("#timeTree span").live("click",function(event){
@@ -120,7 +121,7 @@
     		$(this).removeClass("divBtn");
     		$("#noteContentDiv").css({"background-color":"#5692F5"});
     	}).click(function(){
-    		submitNote();
+    		toggleEnter();
     	});
     	returnContent();
     	var $noteContent = $("#noteContentDiv");
@@ -135,10 +136,13 @@
     	});
     	
     	$(window).bind("scroll",function() {
-    		if(!isLoad && (parseInt($("#page").html()) != parseInt($("#pageSum").html()))){
+    		clearTimeout(scrollTime);
+    		if(!isLoad && (parseInt($("#page").html()) < parseInt($("#pageSum").html()))){
     			if ($(document).scrollTop() + $(window).height() > $(document).height() - 300) {
-        	    	returnContent('reload');
-        	    }
+		    		scrollTime = setTimeout(function(){
+		                returnContent('reload');
+		    		},100);
+    			}
     		}
     	});
     	var delayReturnData = null;
@@ -165,36 +169,46 @@
     		if(delta < 0){
     			if(recordNumValue > 10){
     				$(this).html(recordNumValue - 10);
+    				$("#page").html(1);
     				clearTimeout(delayReturnData);
 	    			delayReturnData = setTimeout(returnContent,1000);
     			}
     		}else{
     			if(recordNumValue < 50){
     				$(this).html(recordNumValue + 10);
+    				$("#page").html(1);
     				clearTimeout(delayReturnData);
 	    			delayReturnData = setTimeout(returnContent,1000);
     			}
     		}
     		event.preventDefault();
     	});
-    	$("body").keydown(function(){
-    		alert('aaa');
+    	$("body").keydown(function(e){
+    		ctrlEnter(e,toggleEnter);
     	});
     	
     });
 	function returnContent(type){
+		clearTimeout(scrollTime);
 		$("#loading").show();
 		isLoad = true;
-		var page = $("#page").html();
-		var recordNum = $("#recordNum").html();
+		var page = parseInt($("#page").html());
+		var recordNum = parseInt($("#recordNum").html());
+		if(page >= recordNum){
+			return false;
+		}
+		if(type == 'reload'){
+			page++;
+		}
 		$.ajax({
 			url : 'returnNoteContent.action',
 			data : 'startPage='+page+'&recordNum='+recordNum,
 			type : 'post',
 			dataType : 'json',
 			success : function(ajaxData){
-				startPage++;
-				$("#page").html(startPage);
+				if(type == 'reload'){
+					$("#page").html(page);
+				}
 				var data = ajaxData.data;
 				if(data.length == 0){
 					$("#loading").html('未查询到记录');
@@ -270,7 +284,7 @@
 	    }
 	}
 	
-	function submitNote(){
+	function toggleEnter(){
 		var $noteContent = $("#noteContentDiv");
 		if($noteContent.css("top") == '60px'){
 			$.ajax({
@@ -283,17 +297,15 @@
                 	returnContent();
                 }
             });
-			$("#noteContentDiv").animate({"top":"-268px"});
+			$("#noteContentDiv").css({"top":"-268px"});
 			$("#noteContent").val('');
 			$("#noteContent").unfocus();
 		}else{
-    		$("#noteContentDiv").animate({"top":"60px"});
     		$("#noteContent").focus();
+    		$("#noteContentDiv").css({"top":"60px"});
 		}
 	}
-	function showAddBox(){
-		alert('sjdksjdksljds');
-	}
+	
 </script>
 </body>
 </html>

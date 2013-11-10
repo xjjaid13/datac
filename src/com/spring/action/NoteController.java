@@ -74,8 +74,8 @@ public class NoteController {
     	condition += "order by createDate desc";
         Note note = new Note();
         note.setCondition(condition);
-        note.setStartPage(startPage);
         note.setPage(recordNum);
+        note.setStartPage((startPage - 1) * recordNum);
         List<Note> list = noteMapperService.selectList(note);
         int recordSum = noteMapperService.count(note);
         int pageSum = CommonHandle.returnPageCount(recordSum, recordNum);

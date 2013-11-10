@@ -15,9 +15,6 @@ public class BaseEntity {
 	}
 
 	public void setStartPage(int startPage) {
-		if(startPage > 0){
-			startPage = (startPage - 1) * page;
-		}
 		this.startPage = startPage;
 	}
 
