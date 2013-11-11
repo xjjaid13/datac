@@ -141,3 +141,6 @@ a:hover, #site a:active {
 	top:-3px;right:7px;position:absolute;
 	cursor:pointer;
 }
+.xheDialog label{
+	display : inline;
+}

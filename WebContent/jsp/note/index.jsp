@@ -10,7 +10,7 @@
 <link href="${base}/js/xDialog-master/xDialog.css" rel="stylesheet" type="text/css"/>
 <link href="${base}/js/sticky-info/sticky.css" rel="stylesheet" type="text/css"/>
 <style>
-    #noteContent{
+    #content{
         width : 90%;
         height : 150px;
         background-color : #a3b2b5;
@@ -23,7 +23,6 @@
     .flowClass{
         padding : 10px;
         border : 1px solid grey;
-        width : 200px;
         margin : 5px;
         background-color : #5692F5;
         word-break : break-all;
@@ -51,18 +50,18 @@
 <body style="overflow-x:hidden;">
 <%@include file="../../static/headNew.jsp" %>
 <div class="main">
-    <div style="position:fixed;width:95%;height:300px;background-color:#5692F5;
-        border-radius:5px;text-align:center;padding:15px;
-        box-shadow:0 0 10px #06C;top:-268px;z-index:10;" id="noteContentDiv">
-        <textarea style="width:100%;height:100%;margin:0px;padding:0px;" id="noteContent" ></textarea>
+    <div style="position:fixed;width:60%;height:300px;background-color:#8DD1FF;
+        border-radius:5px;text-align:center;padding:5px;
+        box-shadow:0 0 10px #06C;top:-248px;z-index:10;right:10px;" id="noteContentDiv">
+        <textarea style="width:99%;height:265px;margin:0px;padding:0px;" id="content" ></textarea>
         <div style="position:absolute;right:20px;bottom:-25px;height:30px;
             background-color:#5692F5;width:100px;border-radius:5px;line-height:30px;">
             <div id="addNoteBtn">新建笔记</div>
         </div>
     </div>
     <div class="container" style="height:500px;">
-        <div id="container" class="span10" style="margin:0px;padding:0px;box-shadow:0 0 10px #258FF2;">
-	        
+        <div id="container" class="span10" style="margin:0px;padding:0px;">
+        
         </div>
         <div class="span2" style="margin-left : 0px;">
         	<div id="toolDiv" style="width:200px;">
@@ -96,7 +95,11 @@
 <script src="${base}/js/masonry/js/jquery.infinitescroll.min.js"></script>
 <script src="${base}/js/sticky/jquery.sticky.js"></script>
 <script src="${base}/js/mousewheel/jquery.mousewheel.js"></script>
+<script type="text/javascript" src="${base}/js/xheditor-1.2.1/xheditor-1.2.1.min.js"></script>
+<script type="text/javascript" src="${base}/js/xheditor-1.2.1/xheditor_lang/zh-cn.js"></script>
+<script type="text/javascript" src="${base}/js/xheditor-1.2.1/xheditor.js"></script>
 <script>
+	editor.addShortcuts('ctrl+enter',toggleEnter);
 	var startPage = 0;
 	var isLoad = false;
 	var scrollTime;
@@ -127,7 +130,8 @@
     	var $noteContent = $("#noteContentDiv");
     	$(document).click(function(e){
     		if($(e.target).closest("#noteContentDiv").length == 0 && $noteContent.css("top") == '60px'){
-    			$("#noteContentDiv").animate({"top":"-268px"});
+    			editor.setSource('');
+    			$("#noteContentDiv").animate({"top":"-248px"});
     		}
     	});
     	$("#timeTree").levelMenu({
@@ -289,7 +293,7 @@
 		if($noteContent.css("top") == '60px'){
 			$.ajax({
                 url : '${base}/note/my-addNote',
-                data : {'content':$("#noteContent").val()},
+                data : {'content':editor.getSource()},
                 type : 'post',
                 dataType : 'json',
                 success : function(data){
@@ -297,11 +301,11 @@
                 	returnContent();
                 }
             });
-			$("#noteContentDiv").css({"top":"-268px"});
-			$("#noteContent").val('');
-			$("#noteContent").unfocus();
+			$("#noteContentDiv").css({"top":"-248px"});
+			editor.setSource('');
+			editor.blur();
 		}else{
-    		$("#noteContent").focus();
+			editor.focus();
     		$("#noteContentDiv").css({"top":"60px"});
 		}
 	}
