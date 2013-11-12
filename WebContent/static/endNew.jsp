@@ -16,7 +16,7 @@
 		
 	});
 </script>
-<div class="footer">
+<!-- <div class="footer">
     <div class="container">
         <div class="row">
             <script type="text/javascript">
@@ -26,3 +26,4 @@
         </div>
     </div>
 </div>
+ -->

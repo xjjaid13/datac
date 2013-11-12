@@ -9,6 +9,7 @@
 <link href="${base}/css/common.css" rel="stylesheet" type="text/css"/>
 <link href="${base}/js/xDialog-master/xDialog.css" rel="stylesheet" type="text/css"/>
 <link href="${base}/js/sticky-info/sticky.css" rel="stylesheet" type="text/css"/>
+<link href="${base}/js/contextMenu/src/jquery.contextMenu.css" rel="stylesheet" type="text/css"/>
 <style>
     #content{
         width : 90%;
@@ -16,7 +17,7 @@
         background-color : #a3b2b5;
     }
     .divBtn{
-        background-color : #94A5B5;
+        background-color : #8DD1FF;
         border-radius:5px;
         cursor : pointer;
     }
@@ -98,12 +99,26 @@
 <script type="text/javascript" src="${base}/js/xheditor-1.2.1/xheditor-1.2.1.min.js"></script>
 <script type="text/javascript" src="${base}/js/xheditor-1.2.1/xheditor_lang/zh-cn.js"></script>
 <script type="text/javascript" src="${base}/js/xheditor-1.2.1/xheditor.js"></script>
+<script type="text/javascript" src="${base}/js/contextMenu/src/jquery.contextMenu.js"></script>
 <script>
 	editor.addShortcuts('ctrl+enter',toggleEnter);
 	var startPage = 0;
 	var isLoad = false;
 	var scrollTime;
     $(function(){
+    	 $.contextMenu({
+   	        selector: '.flowClass', 
+   	        callback: function(key, options) {
+   	            alert(key);
+   	        },
+   	        items: {
+   	        	"edit": {name: "编辑", rIcon: "edit"},
+   	            "delete": {name: "删除", rIcon: "delete"},
+   	            "sep1": "---------",
+   	            "quit": {name: "退出", icon: "quit"}
+   	        }
+   	    });
+   	    
     	$("#toolDiv").sticky({ topSpacing: 70, center:true, className:"hey" });
     	$("#timeTree span").live("click",function(event){
     		var $ul = $(this).parent().find(">ul");
@@ -119,7 +134,7 @@
     	});
     	$("#addNoteBtn").hover(function(){
     		$(this).addClass("divBtn");
-    		$("#noteContentDiv").css({"background-color":"#94A5B5"});
+    		$("#noteContentDiv").css({"background-color":"#8DD1FF"});
     	},function(){
     		$(this).removeClass("divBtn");
     		$("#noteContentDiv").css({"background-color":"#5692F5"});
@@ -297,6 +312,7 @@
                 type : 'post',
                 dataType : 'json',
                 success : function(data){
+                	$("#page").html(1);
                 	$.stickyInfo(data.message);
                 	returnContent();
                 }
