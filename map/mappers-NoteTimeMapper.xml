@@ -38,8 +38,8 @@
 		update note_time set <if test="noteTimeId != null">noteTimeId = #{noteTimeId},</if><if test="type != null">type = #Integer,</if><if test="value != null">value = #{value},</if><if test="parentId != null">parentId = #{parentId},</if><if test="bgUserId != null">bgUserId = #{bgUserId},</if><if test="displayValue != null">displayValue = #{displayValue},</if>noteTimeId = #{noteTimeId} where noteTimeId = #{noteTimeId}
 	</update>
 	
-	<delete id="deleteIdsNoteTime" parameterType="NoteTime">
-		delete from note_time where noteTimeId} in (#{ids})
+	<delete id="deleteByIdsNoteTime" parameterType="NoteTime">
+		delete from note_time where noteTimeId in (#{ids})
 	</delete>
 
 	<select id="maxIdNoteTime" resultType="java.util.Map" resultMap="noteTime">

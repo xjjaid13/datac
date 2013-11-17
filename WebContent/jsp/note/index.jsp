@@ -23,10 +23,11 @@
     }
     .flowClass{
         padding : 10px;
-        border : 1px solid grey;
         margin : 5px;
         background-color : #5692F5;
         word-break : break-all;
+        border-radius:5px;
+        box-shadow:0px 0px 10px #258ff2;
     }
     #timeTree div{
         //float : left;
@@ -106,10 +107,95 @@
 	var isLoad = false;
 	var scrollTime;
     $(function(){
-    	 $.contextMenu({
+        $.ajax({
+        	url : '${base}/note/returnTreeYear',
+        	dataType : 'json',
+        	success : function(data){
+        		var data = data.data;
+       			var content = '';
+        		for(var i = 0; i < data.length; i++){
+        			jsonSingle = data[i];
+        			content += "<li class='expandYear'>";
+                    content += "<span><a class='year'>"+jsonSingle.yearDate+"</a>(<a>"+jsonSingle.count+"</a>)</span>";
+                    content += "<ul style='background-color:#339cf5'>";
+                    
+                    content += "</ul>";
+                    content += "</li>";
+        		}
+        		$("#timeTree").html(content);
+        	}
+        });
+        $(".expandYear").live("click",function(){
+        	var $this = $(this);
+        	var $ul = $this.find("ul");
+        	if($ul.attr('status') == 'show'){
+        		$ul.slideUp();
+        		$ul.attr('status','off');
+        		return false;
+        	}
+        	var year = $(this).find('.year').html();
+        	$.ajax({
+        		url : '${base}/note/returnTreeMonth',
+        		data : {'year' : year},
+        		dataType : 'json',
+        		success : function(data){
+        			var data = data.data;
+        			var content = '';
+        			for(var i = 0; i < data.length; i++){
+        				jsonSingle = data[i];
+        				content += "<li class='expandMonth'>";
+                        content += "<span><a class='month'>"+jsonSingle.monthDate+"</a>月(<a>"+jsonSingle.count+"</a>)</span>";
+                        content += "<ul style='background-color:#63b3f6'>";
+                        
+                        content += "</ul>";
+                        content += "</li>";
+        			}
+        			$ul.html(content).slideDown();
+        			$ul.attr('status','show');
+        		}
+        	})
+        });
+        $(".expandMonth").live("click",function(event){
+        	var $this = $(this);
+        	var $ul = $this.find("ul");
+        	if($ul.attr('status') == 'show'){
+        		$ul.slideUp();
+        		$ul.attr('status','off');
+        		return false;
+        	}
+        	var year = $(this).closest('.expandYear').find('.year').html();
+        	var month = $(this).find('.month').html();
+        	$.ajax({
+        		url : '${base}/note/returnTreeDay',
+        		data : {'year' : year, 'month' : month},
+        		dataType : 'json',
+        		success : function(data){
+        			var data = data.data;
+        			var content = '';
+        			for(var i = 0; i < data.length; i++){
+        				jsonSingle = data[i];
+        				content += "<li class='expandMonth'>";
+                        content += "<span><a>"+year+'-'+month+'-'+jsonSingle.dayDate+"</a>(<a>"+jsonSingle.count+"</a>)</span>";
+                        content += "</li>";
+        			}
+        			$ul.html(content).slideDown();
+        			$ul.attr('status','show');
+        		}
+        	});
+        	event.stopPropagation();
+        });
+    	$.contextMenu({
    	        selector: '.flowClass', 
    	        callback: function(key, options) {
-   	            alert(key);
+   	        	var noteId = $(this).attr("attr");
+   	            if(key == 'edit'){
+   	            	returnNote(noteId);
+   	            }else if(key == 'delete'){
+   	            	answer=window.confirm('确认删除?');
+   	            	if(answer == true){
+	   	            	deleteNote(noteId);
+   	            	}
+   	            }
    	        },
    	        items: {
    	        	"edit": {name: "编辑", rIcon: "edit"},
@@ -148,10 +234,6 @@
     			editor.setSource('');
     			$("#noteContentDiv").animate({"top":"-248px"});
     		}
-    	});
-    	$("#timeTree").levelMenu({
-    		dataSource : "${base}/note/test?1=1",
-    		embedId : "timeTree"
     	});
     	
     	$(window).bind("scroll",function() {
@@ -240,7 +322,7 @@
 				var htmlContent = '';
 				for(var i = 0; i < data.length; i++){
 					var record = data[i];
-					htmlContent += "<div class='flow flowClass'>"+record.content+"</div>";
+					htmlContent += "<div class='flow flowClass' attr='"+record.noteId+"'>"+record.content+"</div>";
 				}
 				if(type == 'reload'){
 					$("#container").append(htmlContent);
@@ -306,24 +388,87 @@
 	function toggleEnter(){
 		var $noteContent = $("#noteContentDiv");
 		if($noteContent.css("top") == '60px'){
-			$.ajax({
-                url : '${base}/note/my-addNote',
-                data : {'content':editor.getSource()},
-                type : 'post',
-                dataType : 'json',
-                success : function(data){
-                	$("#page").html(1);
-                	$.stickyInfo(data.message);
-                	returnContent();
-                }
-            });
-			$("#noteContentDiv").css({"top":"-248px"});
-			editor.setSource('');
-			editor.blur();
+			var noteId = $("#content").attr("attr");
+			alert(noteId);
+			if(noteId == '' || noteId == undefined){
+				addNoteContentSubmit();
+			}else{
+				updateNoteContentSubmit(noteId);
+			}
+			noteContentDivUp();
 		}else{
-			editor.focus();
-    		$("#noteContentDiv").css({"top":"60px"});
+			noteContentDivDown();
 		}
+	}
+	
+	function noteContentDivUp(){
+		$("#noteContentDiv").css({"top":"-248px"});
+		editor.setSource('');
+		editor.blur();
+	}
+	
+	function noteContentDivDown(){
+		editor.focus();
+		$("#noteContentDiv").css({"top":"60px"});
+	}
+	
+	function addNoteContentSubmit(){
+		$.ajax({
+            url : '${base}/note/my-addNote',
+            data : {'content':editor.getSource()},
+            type : 'post',
+            dataType : 'json',
+            success : function(data){
+            	$("#page").html(1);
+            	tipMessage(data.message);
+            	returnContent();
+            }
+        });
+	}
+	
+	function updateNoteContentSubmit(noteId){
+		$.ajax({
+            url : '${base}/note/my-updateNote',
+            data : {'content':editor.getSource(),'noteId':noteId},
+            type : 'post',
+            dataType : 'json',
+            success : function(data){
+            	$("#page").html(1);
+            	tipMessage(data.message);
+            	returnContent();
+            }
+        });
+	}
+	
+	function returnNote(noteId){
+		$.ajax({
+			url : '${base}/note/returnNote',
+			data : {'noteId' : noteId},
+			type : 'post',
+			dataType : 'json',
+			success : function(data){
+				$("#content").attr("attr",noteId);
+				editor.setSource(data.data.content);
+				noteContentDivDown();
+			}
+		});
+	}
+	
+	function deleteNote(noteId){
+		$.ajax({
+			url : '${base}/note/my-deleteNote',
+			data : {'noteId' : noteId},
+			type : 'post',
+			dataType : 'json',
+			success : function(data){
+				tipMessage(data.message);
+				returnContent();
+			}
+		});
+	}
+	
+	function tipMessage(message){
+		$.stickyInfo(message);
 	}
 	
 </script>

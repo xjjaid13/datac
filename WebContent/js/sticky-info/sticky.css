@@ -1,4 +1,4 @@
-div.sticky-queue{z-index:9999;position:fixed;background:#fff;border:1px solid #999;box-shadow:0 0 5px #bbb;-moz-box-shadow:0 0 5px #bbb;-webkit-box-shadow:0 0 5px #bbb;width:200px}
+div.sticky-queue{z-index:9999;position:fixed;background:#8DD1FF;border:1px solid #999;box-shadow:0 0 5px #bbb;-moz-box-shadow:0 0 5px #bbb;-webkit-box-shadow:0 0 5px #bbb;width:200px}
 div.sticky-note{padding-right:20px}
 div.sticky{font-size:12px;color:#555;display:none;padding:10px;position:relative;}
 img.sticky-close{position:absolute;top:10px;right:10px;height:14px;width:14px;cursor:pointer}
