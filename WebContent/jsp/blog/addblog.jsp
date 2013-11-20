@@ -6,7 +6,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>新增博客</title>
-<link href="${base}/css/common.css" rel="stylesheet" type="text/css"/>
 <style>
 	.main{     
 		margin-left : 40px;
@@ -78,7 +77,6 @@
     		  });
     	  }
       });
-      $(".secondary_navigation").hide();
 	  $("#second_blog").show();
   });
   

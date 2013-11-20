@@ -6,7 +6,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>便签</title>
-<link href="${base}/css/common.css" rel="stylesheet" type="text/css"/>
 <link href="${base}/js/xDialog-master/xDialog.css" rel="stylesheet" type="text/css"/>
 <link href="${base}/js/sticky-info/sticky.css" rel="stylesheet" type="text/css"/>
 <link href="${base}/js/contextMenu/src/jquery.contextMenu.css" rel="stylesheet" type="text/css"/>

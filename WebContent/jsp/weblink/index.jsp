@@ -6,8 +6,8 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>导航</title>
-<link href="${base}/css/common.css" rel="stylesheet" type="text/css"/>
 <link href="${base}/js/xDialog-master/xDialog.css" rel="stylesheet" type="text/css"/>
+<link type="text/css" rel="stylesheet" href="${base}/css/weblink.css" />
 <style>
     .liWeblink{
         background-color : #5692F5;

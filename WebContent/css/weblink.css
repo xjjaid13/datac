@@ -1,0 +1,98 @@
+@CHARSET "UTF-8";
+.style-button {
+	color:#555;
+	text-align:center;
+}
+.style-button .nav{
+	margin:0px;
+}
+.style-button .nav li{
+	float:left;
+	margin:0px 26px;
+}
+.style-button .nav li p{
+	float:none;
+}
+.nav-tabs {
+	border-bottom: 1px solid #1e2024;
+	box-shadow: 0px 1px 0px #45484c;
+}
+.nav-tabs > li > a{
+	border: 1px solid #24262c;
+	background:#2e3136;
+}
+.nav > li > a:hover {
+	text-decoration: none;
+	background-color: #1e2024;
+}
+.nav-tabs > .active > a, .nav-tabs > .active > a:hover {
+	color: #ddd;
+	cursor: default;
+	background-color: #1e2024;
+	border: 1px solid #18191c;
+	border-bottom-color: transparent;
+}
+.nav-tabs > li > a:hover,
+.tabs-below .nav-tabs > li > a:hover,
+.tabs-left .nav-tabs > li > a:hover,
+.tabs-right .nav-tabs > li > a:hover{
+	border:1px solid #18191c;
+	background:#1e2024;
+}
+.tabs-below .nav-tabs{
+	box-shadow: 0px -1px 0px #45484c;
+	border-top: 1px solid #24262c;
+}
+.tabs-below > .nav-tabs > .active > a,
+.tabs-below > .nav-tabs > .active > a:hover,
+.tabs-left > .nav-tabs > .active > a,
+.tabs-left > .nav-tabs > .active > a:hover,
+.tabs-right > .nav-tabs > .active > a,
+.tabs-right > .nav-tabs > .active > a:hover{
+	border: 1px solid #18191c;
+}
+.tabs-left > .nav-tabs {
+	border-right: 1px solid #18191c;
+	box-shadow: none;
+}
+.tabs-right > .nav-tabs {
+	border-left: 1px solid #18191c;
+	box-shadow: none;
+}
+
+
+.nav-tabs.nav-stacked > li > a {
+	border: 1px solid #18191c;
+}
+.nav-tabs.nav-stacked > li > a:hover {
+border: 1px solid #18191c;
+}	
+.nav-list .divider {
+	background-color: #45484c;
+	border-bottom: 1px solid #24262c;
+}
+.nav-list > li > a, .nav-list .nav-header {
+	text-shadow: none;
+}
+.nav-tabs .open .dropdown-toggle, .nav-pills .open .dropdown-toggle, .nav > li.dropdown.open.active > a:hover {
+	color: #ffffff;
+	background-color: #1e2024;
+	border-color: #18191c;
+}
+.liWeblink{
+	padding:10px;margin:10px;border:1px solid grey;float:left;position:relative;
+}
+.liWeblink .deleteWeblink{
+	line-height: 10px;
+    position: absolute;
+    right: 3px;
+    top: 0;
+    cursor : pointer;
+}
+.liWebType{
+	position:relative;
+}
+.deleteWeblinkType{
+	top:-3px;right:7px;position:absolute;
+	cursor:pointer;
+}

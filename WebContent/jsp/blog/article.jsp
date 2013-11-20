@@ -6,7 +6,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
-<link href="${base}/css/common.css" rel="stylesheet" type="text/css"/>
 <link type="text/css" rel="stylesheet" href="${base}/js/syntaxhighlighter_2.1.364/styles/shCore.css"/>
 <link type="text/css" rel="stylesheet" href="${base}/js/syntaxhighlighter_2.1.364/styles/shThemeDefault.css"/>
 <script type="text/javascript" src="${base}/js/syntaxhighlighter_2.1.364/scripts/shCore.js"></script>

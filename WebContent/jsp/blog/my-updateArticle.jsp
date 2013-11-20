@@ -6,7 +6,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>修改博客</title>
-<link href="${base}/css/common.css" rel="stylesheet" type="text/css"/>
 <meta http-equiv="Access-Control-Allow-Origin" content="*" />
 
 <style>
@@ -70,7 +69,6 @@
     		    });
     	    }
         });
-        $(".secondary_navigation").hide();
 	    $("#second_blog").show();
     });
 	editor.setSource('${article.content}');

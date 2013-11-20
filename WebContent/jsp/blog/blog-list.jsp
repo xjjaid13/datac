@@ -6,8 +6,6 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <link rel="stylesheet" type="text/css" href="${base}/js/flexgrid/flexigrid.css">
-<link href="${base}/css/common.css" rel="stylesheet" type="text/css"/>
-
 <style>
 	.main{
 		margin-left : 40px;
