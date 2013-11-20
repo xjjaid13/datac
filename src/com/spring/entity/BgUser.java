@@ -8,6 +8,7 @@ public class BgUser extends BaseEntity{
 	
 	private String password;
 	
+	private String style;
 	
 	public Integer getBgUserId() {
 		return bgUserId;
@@ -36,5 +37,13 @@ public class BgUser extends BaseEntity{
 	
 	public String toString(){
 		return "BgUser";
+	}
+
+	public String getStyle() {
+		return style;
+	}
+
+	public void setStyle(String style) {
+		this.style = style;
 	}
 }

@@ -1,9 +1,11 @@
+<%@page import="com.util.Constant"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <link rel="shortcut icon" type="image/x-icon" href="http://localhost:8080/datac/image/littleCat.ico" media="screen" />
 <link rel="stylesheet" type="text/css" href="${base}/js/bootstrap/css/bootstrap.min.css">
 <link rel="stylesheet" type="text/css" href="${base}/js/bootstrap/css/bootstrap-responsive.min.css">
 <link type="text/css" rel="stylesheet" href="${base}/css/global.css">
+<link type="text/css" rel="stylesheet" href="${base}/css/face/<%=Constant.STYLE%>.css">
 <style>
 	.navbar .nav > li > a{
 		color:#8dd1ff;

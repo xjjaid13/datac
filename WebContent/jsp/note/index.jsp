@@ -389,7 +389,6 @@
 		var $noteContent = $("#noteContentDiv");
 		if($noteContent.css("top") == '60px'){
 			var noteId = $("#content").attr("attr");
-			alert(noteId);
 			if(noteId == '' || noteId == undefined){
 				addNoteContentSubmit();
 			}else{

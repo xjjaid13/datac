@@ -10,6 +10,8 @@
 		
 		<result property="password" column="password" />
 		
+		<result property="style" column="style" />
+		
 	</resultMap>
 
 	<select id="selectBgUser" resultType="java.util.Map" resultMap="bgUser">
@@ -17,19 +19,19 @@
 	</select>
 	
 	<select id="selectListBgUser"  resultType="java.util.List" resultMap="bgUser">
-		select * from bg_user where 1 = 1  <if test="bgUserId != null"> and bgUserId = #{bgUserId}</if>  <if test="username != null"> and username = '#{username}'</if>  <if test="password != null"> and password = '#{password}'</if>  limit #{startPage},#{page}
+		select * from bg_user where 1 = 1 <if test="style != null"> and style = #{style}</if> <if test="bgUserId != null"> and bgUserId = #{bgUserId}</if>  <if test="username != null"> and username = '#{username}'</if>  <if test="password != null"> and password = '#{password}'</if>  limit #{startPage},#{page}
 	</select>
 	
 	<select id="selectCountBgUser"  resultType="java.lang.Integer" >
-		select count(bgUserId) from bg_user where 1 = 1  <if test="bgUserId != null"> and bgUserId = #{bgUserId}</if>  <if test="username != null"> and username = '#{username}'</if>  <if test="password != null"> and password = '#{password}'</if>  
+		select count(bgUserId) from bg_user where 1 = 1 <if test="style != null"> and style = #{style}</if> <if test="bgUserId != null"> and bgUserId = #{bgUserId}</if>  <if test="username != null"> and username = '#{username}'</if>  <if test="password != null"> and password = '#{password}'</if>  
 	</select>
 	
 	<insert id="insertBgUser" parameterType="BgUser">
-		insert into bg_user (bgUserId,username,password) values (#{bgUserId},#{username},#{password})
+		insert into bg_user (bgUserId,username,password,style) values (#{bgUserId},#{username},#{password},#{style})
 	</insert>
 	
 	<update id="updateBgUser" parameterType="BgUser">
-		update bg_user set   <if test="bgUserId != null">bgUserId = #{bgUserId},</if>  <if test="username != null">username = #{username},</if>  <if test="password != null">password = #{password},</if>bgUserId = #{bgUserId} where bgUserId = #{bgUserId}
+		update bg_user set   <if test="style != null">style = #{style},</if> <if test="bgUserId != null">bgUserId = #{bgUserId},</if>  <if test="username != null">username = #{username},</if>  <if test="password != null">password = #{password},</if>bgUserId = #{bgUserId} where bgUserId = #{bgUserId}
 	</update>
 	
 	<delete id="deleteIdsBgUser" parameterType="BgUser">

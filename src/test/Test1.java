@@ -33,4 +33,8 @@ public class Test1 {
 		System.out.println(".........................="+list.size());
 	}
 	
+	public static void main(String[] args) {
+		
+	}
+	
 }
