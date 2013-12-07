@@ -1,0 +1,16 @@
+@CHARSET "UTF-8";
+.toolDiv{
+	width : 200px;
+}
+#timeMenu{
+	border-radius:5px;padding:10px;box-shadow:0px 0px 10px #258ff2;
+}
+#timeTree{
+	background-color:#258ff2;text-align:center;margin:0px;margin-top:6px;
+}
+#recordDiv{
+	padding:10px;box-shadow:0px 0px 10px #258ff2;border-radius:5px;
+}
+#recordDiv > div{
+	background-color:#258FF2;padding:10px;
+}

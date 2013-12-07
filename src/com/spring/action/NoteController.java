@@ -88,7 +88,13 @@ public class NoteController {
     @RequestMapping("returnNoteContent")
     public void returnNoteContent(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException, InterruptedException{
     	int startPage = DataHandle.returnValueInt(request, "startPage");
+    	if(startPage == 0){
+    		startPage = 1;
+    	}
     	int recordNum = DataHandle.returnValueInt(request, "recordNum");
+    	if(recordNum == 0){
+    		recordNum = Constant.BLOGPAGE;
+    	}
     	//String searchKey = DataHandle.returnValue(request, "searchKey");
     	String timeValue = DataHandle.returnValue(request, "timeValue");
     	// 1 年 2月  3日
