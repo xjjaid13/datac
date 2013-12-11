@@ -5,7 +5,7 @@
 <script src="${base}/js/bootstrap/js/bootstrap.min.js"></script>
 <script src="${base}/js/backstretch/jquery.backstretch.min.js"></script>
 <script>
-	$.backstretch("${base}/image/bg.jpg",{duration: 3000, fade: 750});
+	//$.backstretch("${base}/image/bg.jpg",{duration: 3000, fade: 750});
 	$(function(){
 		$(".dropdown-toggle").mouseover(function(){
 			$(this).parent().addClass("open");

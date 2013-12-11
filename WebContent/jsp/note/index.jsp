@@ -10,54 +10,37 @@
 <link href="${base}/js/sticky-info/sticky.css" rel="stylesheet" type="text/css"/>
 <link href="${base}/js/contextMenu/src/jquery.contextMenu.css" rel="stylesheet" type="text/css"/>
 <link href="${base}/js/levelMenu/levelMenu.css" rel="stylesheet" type="text/css"/>
+<link href="${base}/js/recordMenu/recordMenu.css" rel="stylesheet" type="text/css"/>
 <style>
     #content{
         width : 90%;
         height : 150px;
-        background-color : #a3b2b5;
+        background-color : papayawhip;
     }
     .divBtn{
-        background-color : #8DD1FF;
+        background-color : #87CEEB;
         border-radius:5px;
         cursor : pointer;
     }
     .flowClass{
         padding : 10px;
         margin : 5px;
-        background-color : #5692F5;
+        background-color : #87CEEB;
         word-break : break-all;
         border-radius:5px;
         box-shadow:0px 0px 10px #258ff2;
-    }
-    #timeTree div{
-        //float : left;
-    }
-    #timeTree ul {
-        margin : 0px;
-    }
-    #timeTree span {
-        display : block;
-        height : 25px;
-        padding-top : 5px;
-        cursor : pointer;
-    }
-    #timeTree span>a{
-        color : white;
-    }
-    #timeTree span>a:hover{
-        color : grey;
     }
 </style>
 </head>
 <body style="overflow-x:hidden;">
 <%@include file="../../static/headNew.jsp" %>
 <div class="main">
-    <div style="position:fixed;width:60%;height:300px;background-color:#8DD1FF;
+    <div style="position:fixed;width:60%;height:300px;background-color:papayawhip;
         border-radius:5px;text-align:center;padding:5px;
         box-shadow:0 0 10px #06C;top:-248px;z-index:10;right:10px;" id="noteContentDiv">
         <textarea style="width:99%;height:265px;margin:0px;padding:0px;" id="content" ></textarea>
         <div style="position:absolute;right:20px;bottom:-25px;height:30px;
-            background-color:#5692F5;width:100px;border-radius:5px;line-height:30px;">
+            background-color:papayawhip;width:100px;border-radius:5px;line-height:30px;">
             <div id="addNoteBtn">新建笔记</div>
         </div>
     </div>
@@ -65,8 +48,18 @@
         <div id="container" class="span10" style="margin:0px;padding:0px;">
         
         </div>
-        <div class="span2" id="menu" style="margin-left : 0px;">
-        	
+        <div class="span2" id="menu">
+        	<div id="recordWrap">
+				<div id="toolDiv" class="span2" style="margin-left : 0;">
+					<div id="timeMenu">
+				        <ul id="timeTree">
+				        </ul>
+				    </div>
+				    <div id="recordDiv">
+				    	
+				    </div>
+				</div>
+			</div>
         </div>
     </div>
 </div>
@@ -75,6 +68,7 @@
 </div>
 <%@include file="../../static/endNew.jsp" %>
 <script src="${base}/js/levelMenu/levelMenu.js"></script>
+<script src="${base}/js/recordMenu/recordMenu.js"></script>
 <script src="${base}/js/sticky-info/sticky.js"></script>
 <script src="${base}/js/masonry/jquery.masonry.js"></script>
 <script src="${base}/js/masonry/js/jquery.infinitescroll.min.js"></script>
@@ -148,19 +142,21 @@
 					}
 					$("#recordSum").html(ajaxData.recordSum);
 					$("#pageSum").html(ajaxData.pageSum);
+					handleColor();
 					$this.isLoad = false;
 				}
 			});
 		}
 	};
     $(function(){
-    	$("#menu").levelMenu({
+    	$("#timeTree").levelMenu({
     		yearUrl : '${base}/note/returnTreeYear',
             monthUrl : '${base}/note/returnTreeMonth',
             dayUrl : '${base}/note/returnTreeDay'
     	});
+    	$("#recordDiv").recordMenu();
     	$.contextMenu({
-   	        selector: '.flowClass', 
+   	        selector: '.flowClass',
    	        callback: function(key, options) {
    	        	var noteId = $(this).attr("attr");
    	            if(key == 'edit'){
@@ -187,7 +183,7 @@
     		$("#noteContentDiv").css({"background-color":"#8DD1FF"});
     	},function(){
     		$(this).removeClass("divBtn");
-    		$("#noteContentDiv").css({"background-color":"#5692F5"});
+    		$("#noteContentDiv").css({"background-color":"papayawhip"});
     	}).click(function(){
     		toggleEnter();
     	});

@@ -7,6 +7,27 @@
 <title>博客</title>
 <link type="text/css" rel="stylesheet" href="${base}/css/blog.css">
 <link href="${base}/js/levelMenu/levelMenu.css" rel="stylesheet" type="text/css"/>
+<style>
+    #content{
+        width : 90%;
+        height : 150px;
+        background-color : #a3b2b5;
+    }
+    .divBtn{
+        background-color : #8DD1FF;
+        border-radius:5px;
+        cursor : pointer;
+    }
+    .flowClass{
+        padding : 10px;
+        margin : 5px;
+        background-color : wheat;
+        word-break : break-all;
+        border-radius:5px;
+        box-shadow:0px 0px 10px #258ff2;
+    }
+    
+</style>
 </head>     
 <body >
     <div>
@@ -17,7 +38,7 @@
 <!-- end navbar -->
 <div class="main">
 	<div class="container">
-	    <div class="leftContainer">
+	    <div class="span10" style="margin:0px;padding:0px;">
 	    	<div class="row span9">
 				<div class="box-wrapper">
 					<div class="widget">
@@ -45,36 +66,12 @@
 							
 						</div><!-- end title -->
 					</div>
-					<ul class="thumbnails thumbnails-horizontal">
-						<c:forEach items="${blogList}" var="blog" >
+					<ul class="thumbnails thumbnails-horizontal" id="blogContent">
 						
-							<li class="span3 contentMain" style="position:relative;">
-								<div class="thumbnail border-radius-top">
-									<div class="bg-thumbnail-img">
-										<div>${blog.shortContent}</div>
-									</div>
-									<h5><a href="${base}/blog/article/${blog.bgArticleId}">${blog.title}</a></h5>
-								</div>
-								<div class="box border-radius-bottom">
-									<p>
-										<span class="title_torrent pull-left">
-											<c:choose><c:when test="${blog.articleType==0}">原</c:when>
-												 <c:when test="${blog.articleType==1}">转</c:when>
-												 <c:when test="${blog.articleType==2}">译</c:when>
-											</c:choose>
-										</span>
-										<span class="number-view pull-right"><i class="icon-white icon-eye-open"></i>${blog.createDate}</span>
-									</p>
-								</div>
-								<div class="operate box border-radius-bottom">
-									<a style="left:20px;" href="${base}/blog/my-updateArticle/${blog.bgArticleId}">修改</a>
-									<a style="right:20px;" attr="${blog.bgArticleId}" class="delete">删除</a>
-								</div>
-							</li>
-						</c:forEach>
+						
 						
 					</ul>
-					<div class="row span9">
+					<div class="row span9" style="text-align:center;">
 						<div id="pagination" class="navigation pagination">
 							
    						</div>
@@ -83,19 +80,51 @@
 				
 			</div><!-- row -->
 	    </div>
-		<div class="rightContainer">
-			<div id="menu"></div>
-		</div>
+		<div class="span2" id="menu">
+        	<div id="recordWrap">
+				<div id="toolDiv" class="span2" style="margin-left : 0;">
+					<div id="timeMenu">
+				        <ul id="timeTree">
+				        </ul>
+				    </div>
+				    <div id="recordDiv">
+				    	
+				    </div>
+				</div>
+			</div>
+        </div>
 				
 	</div><!-- end container -->
 </div><!-- end main -->
+<ul id="blogWrap" class="hide">
+	<li class="span3 contentMain" style="position:relative;">
+		<div class="thumbnail border-radius-top">
+			<div class="bg-thumbnail-img">
+				<div>#shortContent#</div>
+			</div>
+			<h5><a href="${base}/blog/article/#bgArticleId#">#blogTitle#</a></h5>
+		</div>
+		<div class="box border-radius-bottom">
+			<p>
+				<span class="title_torrent pull-left">
+					#articleType#
+				</span>
+				<span class="number-view pull-right"><i class="icon-white icon-eye-open"></i>#createDate#</span>
+			</p>
+		</div>
+		<div class="operate box border-radius-bottom">
+			<a style="left:20px;" href="${base}/blog/my-updateArticle/#bgArticleId#">修改</a>
+			<a style="right:20px;" attr="#bgArticleId#" class="delete">删除</a>
+		</div>
+	</li>
+</ul>
 <%@include file="../../static/endNew.jsp" %>
 </body>
 <!-- js Boots_from -->
 <script src="${base}/js/pagination/jquery.pagination.js"></script>
+<script src="${base}/js/levelMenu/levelMenu.js"></script>
 <script>
 $(function(){
-	 $("#menu").levelMenu();
 	 $("#pagination").pagination(${countArticle},{current_page:${page},callback : function(){
 		 var page = 0;
 		 $(".active").each(function(){
@@ -106,17 +135,14 @@ $(function(){
 		 })
 		 location.href = "${base}/blog/${userid}?page="+page;
 	 }});
-	 <c:if test="${user != null}">
-	 $(".contentMain").mouseenter(function(event){
-		 $(this).closest("li").find(".operate").fadeIn();
-		 event.preventDefault();
-	 }).mouseleave(function(event){
-		 $(this).closest("li").find(".operate").fadeOut();
-		 event.preventDefault();
-	 });
-	 </c:if>
 	 
-	 $(".delete").click(function(){
+	 $("#recordDiv").levelMenu({
+		 yearUrl : '${base}/blog/returnTreeYear',
+         monthUrl : '${base}/blog/returnTreeMonth',
+         dayUrl : '${base}/blog/returnTreeDay'
+	 });
+	 
+	 $(".delete").live("click",function(){
 		 $.ajax({
 			 url : '${base}/blog/del-article?ids='+$(this).attr("attr"),
 			 success : function(data){
@@ -124,7 +150,53 @@ $(function(){
 			 }
 		 });
 	 });
+	 
+	 returnBlogList();
 });
+function returnBlogList(){
+	$.ajax({
+		url : '${base}/blog/returnBlogList',
+		data : {page : 1 , recordNum : 10},
+		dataType : 'json',
+		success : function(data){
+			var dataList = data.dataList;
+			var content = "";
+			var blogWrap = $("#blogWrap").html();
+			for(var i = 0; i < dataList.length; i++){
+				var tempWrap = blogWrap;
+				var blog = dataList[i];
+				var shortContent = blog.shortContent;
+				var bgArticleId = blog.bgArticleId;
+				var title = blog.title;
+				var articleType = blog.articleType == 0;
+				if(articleType == 0){
+					articleType = '原';
+				}else if(articleType == 1){
+					articleType = '转';
+				}else if(articleType == 2){
+					articleType = '译';
+				}
+				var createDate = blog.createDate;
+				tempWrap = tempWrap.replace(/#shortContent#/,shortContent);
+				tempWrap = tempWrap.replace(/#bgArticleId#/g,bgArticleId);
+				tempWrap = tempWrap.replace(/#blogTitle#/,title);
+				tempWrap = tempWrap.replace(/#articleType#/,articleType);
+				tempWrap = tempWrap.replace(/#createDate#/,createDate);
+				content += tempWrap;
+			}
+			$("#blogContent").html(content);
+			<c:if test="${user != null}">
+			$(".contentMain").mouseenter(function(event){
+			    $(this).closest("li").find(".operate").fadeIn();
+			    event.preventDefault();
+			}).mouseleave(function(event){
+			    $(this).closest("li").find(".operate").fadeOut();
+			    event.preventDefault();
+			});
+			</c:if>
+		}
+	});
+}
 </script>
 <!-- end Boots_from -->
 </html>

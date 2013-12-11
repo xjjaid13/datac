@@ -313,8 +313,73 @@ public class BlogController {
 
 	}
 
-	public static void main(String[] args) {
-		
+	@RequestMapping("returnBlogList")
+	public void returnBlogList(HttpSession session,HttpServletResponse response,HttpServletRequest request) throws IOException{
+		BgUser bgUser = (BgUser) session.getAttribute(Constant.USER);
+		int page = DataHandle.returnValueInt(request, "page");
+		int recordNum = DataHandle.returnValueInt(request, "recordNum");
+		BgArticle bgArticle = new BgArticle();
+		bgArticle.setBgUserId(bgUser.getBgUserId());
+		bgArticle.setPage(recordNum);
+		bgArticle.setStartPage(page);
+		List<BgArticle> blogList = bgArticleMapperService.returnTitleEntity(bgArticle);
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("result", "success");
+		jsonObject.put("dataList", blogList);
+		response.getWriter().write(jsonObject.toString());
 	}
+	
+	/**
+     * 获得时间树的年份
+     * */
+    @RequestMapping("returnTreeYear")
+    public void returnTreeYear(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
+    	BgUser bgUser = (BgUser) session.getAttribute(Constant.USER);
+    	BgArticle bgArticle = new BgArticle();
+    	bgArticle.setBgUserId(bgUser.getBgUserId());
+    	List<Map<String, Object>> noteList = bgArticleMapperService.selectYear(bgArticle);
+    	JSONObject jsonObject = new JSONObject();
+    	jsonObject.put("result", "success");
+    	jsonObject.put("data", noteList);
+    	response.getWriter().write(jsonObject.toString());
+    }
+    
+    /**
+     * 获得时间树的月份
+     * */
+    @RequestMapping("returnTreeMonth")
+    public void returnTreeMonth(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
+    	BgUser bgUser = (BgUser) session.getAttribute(Constant.USER);
+    	String year = request.getParameter("year");
+    	String condition = "createDate >= '" + year + "-01-01 00:00:00' and createDate <= '" + year + "-12-31 23:59:59'";
+    	BgArticle bgArticle = new BgArticle();
+    	bgArticle.setCondition(condition);
+    	bgArticle.setBgUserId(bgUser.getBgUserId());
+    	List<Map<String, Object>> noteList = bgArticleMapperService.selectMonth(bgArticle);
+    	JSONObject jsonObject = new JSONObject();
+    	jsonObject.put("result", "success");
+    	jsonObject.put("data", noteList);
+    	response.getWriter().write(jsonObject.toString());
+    }
+    
+    /**
+     * 获得时间树的天数
+     * */
+    @RequestMapping("returnTreeDay")
+    public void returnTreeDay(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
+    	BgUser bgUser = (BgUser) session.getAttribute(Constant.USER);
+    	String year = request.getParameter("year");
+    	String month = request.getParameter("month");
+    	String condition = "createDate >= '" + year + "-" + month + "-01 00:00:00' and createDate <= '" + year + "-" + month + "-31 23:59:59'";
+    	BgArticle bgArticle = new BgArticle();
+    	bgArticle.setBgUserId(bgUser.getBgUserId());
+    	bgArticle.setCondition(condition);
+    	List<Map<String, Object>> noteList = bgArticleMapperService.selectDay(bgArticle);
+    	JSONObject jsonObject = new JSONObject();
+    	jsonObject.put("result", "success");
+    	jsonObject.put("data", noteList);
+    	response.getWriter().write(jsonObject.toString());
+    }
+	
 
 }
