@@ -69,6 +69,7 @@
 <script src="${base}/js/levelMenu/levelMenu.js"></script>
 <script src="${base}/js/recordMenu/recordMenu.js"></script>
 <script src="${base}/js/sticky-info/sticky.js"></script>
+<script src="${base}/js/imageLoad/imagesloaded.pkgd.js"></script>
 <script src="${base}/js/masonry/jquery.masonry.js"></script>
 <script src="${base}/js/masonry/js/jquery.infinitescroll.min.js"></script>
 <script src="${base}/js/sticky/jquery.sticky.js"></script>
@@ -134,10 +135,14 @@
 				            itemSelector: '.flow',
 				            columnWidth: 15
 				        });
-						$this.$container.masonry('reload');
+						$this.$container.imagesLoaded(function(){ 
+				            $(this).masonry('reload');
+				        }); 
 					}else if(type == $this.reloadValue || type == $this.scrollValue){
 						$this.$container.append(htmlContent);
-						$this.$container.masonry('reload');
+						$this.$container.imagesLoaded(function(){ 
+				            $(this).masonry('reload');
+				        }); 
 					}
 					$("#recordSum").html(ajaxData.recordSum);
 					$("#pageSum").html(ajaxData.pageSum);
