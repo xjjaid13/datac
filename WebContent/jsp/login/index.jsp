@@ -9,38 +9,17 @@
 <meta name="description" content="Responsive HTML template for Your company">
 <link rel="shortcut icon" type="image/x-icon" href="http://localhost:8080/datac/image/littleCat.ico" media="screen" />
 <!-- Le styles -->
-<link href="${base}/css/bootstrap.css" rel="stylesheet">
-<link href="${base}/js/bootstrap/css/bootstrap-responsive.css" rel="stylesheet">
-
 <link rel="stylesheet" href="${base}/css/typica-login.css">
-
 <!-- Le HTML5 shim, for IE6-8 support of HTML5 elements -->
 <!--[if lt IE 9]>
   <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
 <![endif]-->
-
 <!-- Le favicon -->
 <link rel="shortcut icon" href="http://wbpreview.com/previews/WB0F56883/favicon.ico">
-
 </head>
-
   <body>
-
-    <div class="navbar navbar-fixed-top">
-      <div class="navbar-inner" style="background-color: #1d1f23;height:60px;" >
-        <div class="container">
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-          <a href="#"><img src="${base}/image/angryCat.png" style="height:50px;margin-top:5px;margin-left:165px;" alt="Typica - Bootstrap Awesome Template!"></a>
-        </div>
-      </div>
-    </div>
-
+    <%@include file="../../static/headNew.jsp" %>
     <div class="container">
-
         <div id="login-wraper">
             <form class="form login-form">
             	
@@ -65,24 +44,19 @@
 
     </div>
 
-    <footer class="white navbar-fixed-bottom" style="background-color: #1d1f23;">
+    <footer class="white navbar-fixed-bottom" style="background-color: #FFEFD5;">
     <div style="display:none;">
 	    <script type="text/javascript">
 			var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");
 			document.write(unescape("%3Cscript src='" + _bdhmProtocol + "hm.baidu.com/h.js%3F7fdfa1251091dd89d11ed424596e2a32' type='text/javascript'%3E%3C/script%3E"));
 		</script>
 	</div>
-      没有账号? 联系<a style="color:white;">xjjaid13@163.com</a>
+      没有账号? 联系<a>xjjaid13@163.com</a>
     </footer>
 </body>
-<script src="${base}/js/jquery-1.8.3.js"></script>
-<script src="${base}/js/bootstrap/js/bootstrap.js"></script>
-<script src="${base}/js/backstretch/jquery.backstretch.min.js"></script>
-
+<%@include file="../../static/endNew.jsp" %>
 <script>
-$("body").backstretch("${base}/image/bg.jpg");
  	$(function(){
- 		
 		$("#login").click(function(){
 			$.ajax({
 				url : '${base}/login/login-post',

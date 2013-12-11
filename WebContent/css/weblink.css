@@ -13,13 +13,12 @@
 .style-button .nav li p{
 	float:none;
 }
-.nav-tabs {
-	border-bottom: 1px solid #1e2024;
-	box-shadow: 0px 1px 0px #45484c;
+.container>.nav-tabs {
+	border: none;
 }
 .nav-tabs > li > a{
 	border: 1px solid #24262c;
-	background:#2e3136;
+	background:#FFEFD5;
 }
 .nav > li > a:hover {
 	text-decoration: none;
