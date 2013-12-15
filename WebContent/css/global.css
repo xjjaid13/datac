@@ -68,3 +68,6 @@ h5{
 .dropdown-menu .divider{
 	background-color : grey;
 }
+.pointer{
+	cursor : pointer;
+}

@@ -6,26 +6,21 @@
 <title>博客</title>
 <link type="text/css" rel="stylesheet" href="${base}/css/blog.css">
 <link href="${base}/js/levelMenu/levelMenu.css" rel="stylesheet" type="text/css"/>
+<link href="${base}/js/xDialog-master/xDialog.css" rel="stylesheet" type="text/css"/>
 <style>
-    #content{
-        width : 90%;
-        height : 150px;
-        background-color : #a3b2b5;
-    }
-    .divBtn{
-        background-color : #8DD1FF;
-        border-radius:5px;
-        cursor : pointer;
-    }
-    .flowClass{
-        padding : 10px;
-        margin : 5px;
-        background-color : wheat;
-        word-break : break-all;
-        border-radius:5px;
-        box-shadow:0px 0px 10px #258ff2;
-    }
-    
+	.menu_ul{      
+		padding-left : 0px;
+	}
+	.title_div{
+		padding-bottom : 15px;
+	}
+	.menu_ul .addBlog{
+		background-color : grey;
+	}
+	.btnCode {
+		background:transparent url(${base}/image/code.gif) no-repeat 16px 16px;
+		background-position:2px 2px;
+	}
 </style>
 </head>     
 <body >
@@ -38,7 +33,7 @@
 <div class="main">
 	<div class="container">
 	    <div class="span10" style="margin:0px;padding:0px;">
-	    	<div class="row span9">
+	    	<div class="row span9 hide">
 				<div class="box-wrapper">
 					<div class="widget">
 						<div class="wrapper-search">
@@ -50,24 +45,20 @@
 						</div>
 					</div>
 				</div><!-- end box-wrapper -->
-				
 			</div>
 			<div class="row span9">
 				<div class="box-wrapper">
-					
-					<div class="row">
+					<div class="row" style="padding:20px;">
 						<div class="title span12">
 							<c:if test="${isOperator}">
 								<div>
-									<a href="${base}/blog/my-addblog">新增博客</a>
+									<a id="addBlog" class="pointer">新增博客</a>
 								</div>
 							</c:if>
 							
 						</div><!-- end title -->
 					</div>
 					<ul class="thumbnails thumbnails-horizontal" id="blogContent">
-						
-						
 						
 					</ul>
 					<div class="row span9" style="text-align:center;">
@@ -112,90 +103,184 @@
 			</p>
 		</div>
 		<div class="operate box border-radius-bottom">
-			<a style="left:20px;" href="${base}/blog/my-updateArticle/#bgArticleId#">修改</a>
-			<a style="right:20px;" attr="#bgArticleId#" class="delete">删除</a>
+			<a style="left:20px;" attr="#bgArticleId#" class="modifyBlog">修改</a>
+			<a style="right:20px;" attr="#bgArticleId#" class="deleteBlog">删除</a>
 		</div>
 	</li>
 </ul>
+<div id="blogContentWrap" class="hide">
+	<div>
+		<div class="row-fluid" style="padding-top:20px;height:430px;overflow:auto;">
+			<div class="span1"></div>
+			<div class="span10">
+				<div>
+					<select id="article_type" style="width:70px;">
+						<option value="0">原创</option>
+						<option value="1">转载</option>
+						<option value="2">翻译</option>
+					</select>
+					<input type="text" id="title" class="input_class">
+				</div>
+				<div class="title_div">
+					<textarea id="content" name="content" rows="22" cols="80" style="width: 100%; height : 300px;"></textarea>
+				</div>
+				<div><label class="pull-left" style="padding:4px 6px;">关键字： </label><input type="text" class="input_class" name="keyword" id="keyword"></div>
+			</div>
+		</div>
+	</div>
+</div>
 <%@include file="../../static/endNew.jsp" %>
 </body>
 <!-- js Boots_from -->
 <script src="${base}/js/pagination/jquery.pagination.js"></script>
 <script src="${base}/js/levelMenu/levelMenu.js"></script>
+<script src="${base}/js/xDialog-master/xDialog.js"></script>
+<script type="text/javascript" src="${base}/js/xheditor-1.2.1/xheditor-1.2.1.min.js"></script>
+<script type="text/javascript" src="${base}/js/xheditor-1.2.1/xheditor_lang/zh-cn.js"></script>
+<script type="text/javascript" src="${base}/js/xheditor-1.2.1/xheditor.js"></script>
+<script src="${base}/js/sticky/jquery.sticky.js"></script>
 <script>
-$(function(){
-	 $("#pagination").pagination(${countArticle},{current_page:${page},callback : function(){
-		 var page = 0;
-		 $(".active").each(function(){
-			 var $thisPage = $(this);
-			 if($thisPage.attr("class") == "active"){
-				 page = $thisPage.children().html();
-			 }
-		 })
-		 location.href = "${base}/blog/${userid}?page="+page;
-	 }});
-	 
-	 $("#recordDiv").levelMenu({
-		 yearUrl : '${base}/blog/returnTreeYear',
-         monthUrl : '${base}/blog/returnTreeMonth',
-         dayUrl : '${base}/blog/returnTreeDay'
-	 });
-	 
-	 $(".delete").live("click",function(){
-		 $.ajax({
-			 url : '${base}/blog/del-article?ids='+$(this).attr("attr"),
-			 success : function(data){
-				 location.href = location.href;
-			 }
-		 });
-	 });
-	 
-	 returnBlogList();
-});
-function returnBlogList(){
-	$.ajax({
-		url : '${base}/blog/returnBlogList',
-		data : {page : 1 , recordNum : 10},
-		dataType : 'json',
-		success : function(data){
-			var dataList = data.dataList;
-			var content = "";
-			var blogWrap = $("#blogWrap").html();
-			for(var i = 0; i < dataList.length; i++){
-				var tempWrap = blogWrap;
-				var blog = dataList[i];
-				var shortContent = blog.shortContent;
-				var bgArticleId = blog.bgArticleId;
-				var title = blog.title;
-				var articleType = blog.articleType == 0;
-				if(articleType == 0){
-					articleType = '原';
-				}else if(articleType == 1){
-					articleType = '转';
-				}else if(articleType == 2){
-					articleType = '译';
-				}
-				var createDate = blog.createDate;
-				tempWrap = tempWrap.replace(/#shortContent#/,shortContent);
-				tempWrap = tempWrap.replace(/#bgArticleId#/g,bgArticleId);
-				tempWrap = tempWrap.replace(/#blogTitle#/,title);
-				tempWrap = tempWrap.replace(/#articleType#/,articleType);
-				tempWrap = tempWrap.replace(/#createDate#/,createDate);
-				content += tempWrap;
-			}
-			$("#blogContent").html(content);
-			<c:if test="${user != null}">
-			$(".contentMain").mouseenter(function(event){
-			    $(this).closest("li").find(".operate").fadeIn();
-			    event.preventDefault();
-			}).mouseleave(function(event){
-			    $(this).closest("li").find(".operate").fadeOut();
-			    event.preventDefault();
+	$(function(){
+	    $("#toolDiv").sticky({ topSpacing: 70, center:true, className:"hey" });
+		 
+		$("#recordDiv").levelMenu({
+		    yearUrl : '${base}/blog/returnTreeYear',
+	        monthUrl : '${base}/blog/returnTreeMonth',
+	        dayUrl : '${base}/blog/returnTreeDay'
+		});
+		
+		var editor;
+		$("#addBlog").click(function(){
+		    $.xDialog({
+			    title:'新增博客',
+			    content:$("#blogContentWrap").html(),
+			    width : 900,
+			    popCallBack : function(){
+			        editor = $('.xDialog #content').xheditor({plugins:plugins,tools:'Source,|,Fontface,FontSize,Bold,Italic,Underline,Strikethrough,FontColor,BackColor,|,Removeformat,Align,List,|,Link,Unlink,Img,Flash,Media,|,Hr,Emot,Table,Code,|,Preview,Fullscreen,About',skin:'o2007silver',showBlocktag:false,forcePtag:false,emotMark:true});
+			    },
+			    ok : function(){
+			        var title = $(".xDialog #title").val();
+			    	var content = editor.getSource();
+			    	var article_type = $(".xDialog #article_type").html();
+			    	var keyword = $(".xDialog #keyword").val();
+			    	if(title == "" || $.trim(content) == "<br>"){
+			    	    alert("请输入标题或者内容");
+			    	}else{
+				        $.post('${base}/blog/my-addblog-post',{ title: title,keyword : keyword, content: content,article_type : article_type }, function(data) {
+				    	    closeDialog();
+						    returnBlogList();
+				    	});
+			    	}
+			    	return false;
+			    }
 			});
-			</c:if>
-		}
+		})
+		 
+		$(".deleteBlog").live("click",function(){
+			 $.ajax({
+				 url : '${base}/blog/del-article?ids='+$(this).attr("attr"),
+				 success : function(data){
+					 location.href = location.href;
+				 }
+			 });
+		});
+		 
+		$(".modifyBlog").live("click",function(){
+			 var bgArticleId = $(this).attr("attr");
+			 $.ajax({
+				 url : '${base}/blog/returnSingleArticle.action',
+				 data : 'bgArticleId='+bgArticleId,
+				 type : 'post',
+				 dataType : 'json',
+				 success : function(ajaxData){
+					 var data = ajaxData.data;
+					 $.xDialog({
+					     title:'修改博客',
+					     content:$("#blogContentWrap").html(),
+					     width : 900,
+					     popCallBack : function(){
+					    	 editor = $('.xDialog #content').xheditor({plugins:plugins,tools:'Source,|,Fontface,FontSize,Bold,Italic,Underline,Strikethrough,FontColor,BackColor,|,Removeformat,Align,List,|,Link,Unlink,Img,Flash,Media,|,Hr,Emot,Table,Code,|,Preview,Fullscreen,About',skin:'o2007silver',showBlocktag:false,forcePtag:false,emotMark:true});
+					    	 $(".xDialog #title").val(data.title);
+							 $(".xDialog #article_type").val(data.article_type);
+							 $(".xDialog #keyword").val(data.keyword);
+					    	 editor.setSource(data.content);
+					     },
+					     ok : function(){
+					    	 var title = $(".xDialog #title").val();
+					    	 var content = editor.getSource();
+					    	 var article_type = $(".xDialog #article_type").html();
+					    	 var keyword = $(".xDialog #keyword").val();
+					    	 if(title == "" || $.trim(content) == "<br>"){
+					    	 	alert("请输入标题或者内容");
+					    	 }else{
+						    	 $.post('${base}/blog/my-addblog-post',{ title: title,keyword : keyword, content: content,article_type : article_type }, function(data) {
+						    		 closeDialog();
+								     returnBlogList();
+						    	 });
+					    	 }
+					    	 return false;
+					     }
+					 });
+				 }
+			 });
+		});
+		returnBlogList(1);
+		
 	});
-}
+	
+	var init = false;
+	function returnBlogList(startPage){
+		$.ajax({
+			url : '${base}/blog/returnBlogList',
+			data : {startPage : startPage , recordNum : 10},
+			dataType : 'json',
+			success : function(ajaxData){
+				$("#pagination").pagination(ajaxData.recordSum,{
+				    current_page : startPage - 1,
+				    callback : function(startPage){
+				    	startPage++;
+				    	returnBlogList(startPage);
+					}
+				});
+				var dataList = ajaxData.dataList;
+				var content = "";
+				var blogWrap = $("#blogWrap").html();
+				for(var i = 0; i < dataList.length; i++){
+					var tempWrap = blogWrap;
+					var blog = dataList[i];
+					var shortContent = blog.shortContent;
+					var bgArticleId = blog.bgArticleId;
+					var title = blog.title;
+					var articleType = blog.articleType == 0;
+					if(articleType == 0){
+						articleType = '原';
+					}else if(articleType == 1){
+						articleType = '转';
+					}else if(articleType == 2){
+						articleType = '译';
+					}
+					var createDate = blog.createDate;
+					tempWrap = tempWrap.replace(/#shortContent#/,shortContent);
+					tempWrap = tempWrap.replace(/#bgArticleId#/g,bgArticleId);
+					tempWrap = tempWrap.replace(/#blogTitle#/,title);
+					tempWrap = tempWrap.replace(/#articleType#/,articleType);
+					tempWrap = tempWrap.replace(/#createDate#/,createDate);
+					content += tempWrap;
+				}
+				$("#blogContent").html(content);
+				<c:if test="${user != null}">
+				$(".contentMain").mouseenter(function(event){
+				    $(this).closest("li").find(".operate").fadeIn();
+				    event.preventDefault();
+				}).mouseleave(function(event){
+				    $(this).closest("li").find(".operate").fadeOut();
+				    event.preventDefault();
+				});
+				</c:if>
+			}
+		});
+	}
+
 </script>
 <!-- end Boots_from -->
 </html>

@@ -6,11 +6,9 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>新增博客</title>
+<link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/2.2.2/css/bootstrap.min.css">
 <style>
 	.main{     
-		margin-left : 40px;
-		margin-right : 40px;
-		border : 1px solid grey;
 		border-radius : 3px 3px 3px 3px;
 		color : black;
 	}
@@ -18,7 +16,7 @@
 		padding-left : 0px;
 	}
 	.title_div{
-		padding-bottom : 20px;
+		padding-bottom : 15px;
 	}
 	.menu_ul .addBlog{
 		background-color : grey;
@@ -30,8 +28,6 @@
 </style>
 </head>
 <body>
-        
-	<%@include file="../../static/headNew.jsp" %>
 	       
 	<div class="main">
 		
@@ -39,18 +35,18 @@
 				<div class="span1"></div>
 				<div class="span10">
 				
-				<div class="title_div">
+				<div>
 					<select id="article_type" style="width:70px;">
 						<option value="0">原创</option>
 						<option value="1">转载</option>
 						<option value="2">翻译</option>
 					</select>
-					标题  ：<input type="text" id="title" class="input_class">
+					<input type="text" id="title" class="input_class">
 				</div>
 				<div class="title_div">
 					<textarea id="content" name="content" rows="22" cols="80" style="width: 100%"></textarea>
 				</div>
-				<div>添加文章关键字： <input type="text" class="input_class" name="keyword" id="keyword"></div>
+				<div>关键字： <input type="text" class="input_class" name="keyword" id="keyword"></div>
 				<div><input type="button" id="blog_post" style="margin-top:10px;" class="btn" value="发布" ></div>
 				</div>
 			</div>
@@ -77,8 +73,22 @@
     		  });
     	  }
       });
-	  $("#second_blog").show();
   });
+    function addBlog(){
+    	var title = $("#title").val();
+	  	var content = editor.getSource();
+	  	var article_type = $("#article_type").html();
+	  	var keyword = $("#keyword").val();
+	  	if(title == "" || $.trim(content) == "<br>"){
+	  	    alert("请输入标题或者内容");
+	  	    return false;
+	  	}else{
+	  	    $.post('${base}/blog/my-addblog-post',{ title: title,keyword : keyword, content: content,article_type : article_type }, function(data) {
+		  	    top.closeDialog();
+		  	    top.returnBlogList();
+		  	});
+	  	}
+    }
   
 </script>
 </html>

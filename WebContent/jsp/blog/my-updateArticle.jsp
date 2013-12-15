@@ -34,7 +34,7 @@
 			<div class="span1"></div>
 			<div class="span10">
 			
-			<div class="title_div">
+			<div>
 					<select id="article_type" style="width:70px;">
 						<option value="0">原创</option>
 						<option value="1">转载</option>

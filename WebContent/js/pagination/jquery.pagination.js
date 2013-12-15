@@ -13,7 +13,7 @@ jQuery.fn.pagination = function(maxentries, opts){
 		num_display_entries:10,
 		current_page:0,
 		num_edge_entries:0,
-		link_to:"#",
+		link_to:"",
 		prev_text:"上一页",
 		next_text:"下一页",
 		ellipse_text:"...",
@@ -22,6 +22,8 @@ jQuery.fn.pagination = function(maxentries, opts){
 		callback:function(){return false;}
 	},opts||{});
 	
+	var $this = $(this);
+	$this.html("");
 	return this.each(function() {
 		/**
 		 * Calculate the maximum number of pages
@@ -79,11 +81,11 @@ jQuery.fn.pagination = function(maxentries, opts){
 				page_id = page_id<0?0:(page_id<np?page_id:np-1); // Normalize page id to sane value
 				appendopts = jQuery.extend({text:page_id+1, classes:""}, appendopts||{});
 				if(page_id == current_page){
-					var lnk = jQuery("<li class='active'><a href='#'>"+(appendopts.text)+"</a></li>");
+					var lnk = jQuery("<li class='active'><a class='pointer'>"+(appendopts.text)+"</a></li>");
 				}
 				else
 				{
-					var lnk = jQuery("<li><a href='#'>"+(appendopts.text)+"</a></li>")
+					var lnk = jQuery("<li><a class='pointer'>"+(appendopts.text)+"</a></li>")
 						.bind("click", getClickHandler(page_id))
 						.attr('href', opts.link_to.replace(/__id__/,page_id));
 						

@@ -79,6 +79,7 @@
 <script type="text/javascript" src="${base}/js/xheditor-1.2.1/xheditor.js"></script>
 <script type="text/javascript" src="${base}/js/contextMenu/src/jquery.contextMenu.js"></script>
 <script>
+	editor = $('#content').xheditor({plugins:plugins,tools:'Source,|,Fontface,FontSize,Bold,Italic,Underline,Strikethrough,FontColor,BackColor,|,Removeformat,Align,List,|,Link,Unlink,Img,Flash,Media,|,Hr,Emot,Table,Code,|,Preview,Fullscreen,About',skin:'o2007silver',showBlocktag:false,forcePtag:false,emotMark:true});
 	editor.addShortcuts('ctrl+enter',toggleEnter);
 	var startPage = 0;
 	var onContent = {

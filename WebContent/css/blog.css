@@ -25,7 +25,6 @@
 	right:5px;
 	top:6px;
 }
-
 /*---------- start thumbnail -----------*/
 .thumbnail {
 	padding: 4px;
@@ -40,7 +39,6 @@
 	height:160px;
 	text-align:left;
 	margin:5px 0px 10px 26px;
-	float:left;
 	position:relative;
 }
 .bg-thumbnail-img div{
@@ -79,7 +77,7 @@
 	padding-left:10px;
 }
 .thumbnails .operate{
-	position:absolute;bottom:0;width:100%;padding:0;display:none;height:40px;
+	position:absolute;bottom:0;width:100%;padding:0;display:none;height:35px;
 }
 .thumbnails .operate a{
 	top:10px;position:absolute;cursor:pointer;
@@ -131,4 +129,22 @@
 }
 .bg-title,.thumbnails .box {
 	background:peru;
+}
+#content{
+    width : 90%;
+    height : 150px;
+    background-color : #a3b2b5;
+}
+.divBtn{
+    background-color : #8DD1FF;
+    border-radius:5px;
+    cursor : pointer;
+}
+.flowClass{
+    padding : 10px;
+    margin : 5px;
+    background-color : wheat;
+    word-break : break-all;
+    border-radius:5px;
+    box-shadow:0px 0px 10px #258ff2;
 }

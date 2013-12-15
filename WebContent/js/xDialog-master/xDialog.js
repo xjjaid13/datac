@@ -14,7 +14,7 @@
             height:'auto',           //高度
             title:"",                //标题
             content:"",              //内容
-            opacity:0.2,             //遮罩层透明度
+            opacity:0.5,             //遮罩层透明度
             show:true,               //是否立即显示弹出层
             ok:null,                 //确定按钮回调函数，函数如果返回false将阻止弹出层关闭
             cancel:true,             //取消按钮回调函数，如果为true，调用默认关闭事件，函数如果返回false将阻止弹出层关闭
@@ -22,8 +22,9 @@
             overlayColor:'#FFFFFF',  //遮罩层颜色
             type:null,               //消息类型：tips，配合time参数使用
             time:1.5,                //多少秒后关闭弹出层，配合type参数使用
-            closeBtn:true            //是否显示右上角关闭按钮
-
+            closeBtn:true,            //是否显示右上角关闭按钮
+            iframe : '',
+            popCallBack : function(){}
         };
 
         var plugin = this,//避免this混乱
@@ -63,7 +64,7 @@
                    
                     //加入右上角关闭按钮
                     if(this.settings.closeBtn){
-                        $('<span>',{'class':'x-close'}).html('╳').appendTo(this.header);
+                        $('<span>',{'class':'x-close'}).html('X').appendTo(this.header);
                     }
                 }
                
@@ -75,10 +76,16 @@
                     $('<div>',{'class':'x-buttons clearfix'}).html('<a class=\"x-ok g-button blue\" href=\"javascript:;\">确定<\/a><a href=\"javascript:;\" class=\"x-cancel g-button\">取消<\/a>').appendTo(this.dialog);
                 }
             }
-
-            this.setContent(this.settings.content);//设置内容
+            if(this.settings.iframe != ''){
+            	this.setContent('<iframe name="popIframe" style="border:0px none;" width="'+this.settings.width+'px" height="'
+            			+(this.settings.height-3)+'px" src="'+this.settings.iframe+'"></iframe>');//设置内容
+            }else{
+            	this.setContent(this.settings.content);//设置内容
+            }
             this.dialog.appendTo('body');
-
+            if(plugin.settings.popCallBack){
+            	plugin.settings.popCallBack();
+            }
             //初始化遮罩层
             if (plugin.settings.opacity){
                 if(!plugin.overlay){
@@ -93,7 +100,7 @@
                         'left':     0,                                     
                         'top':      0,                               
                         'opacity':  plugin.settings.opacity,      
-                        'z-index':  1000,
+                        'z-index':  9000,
                         'cursor': 'pointer'                            
                     });
 
@@ -128,14 +135,12 @@
         //设置位置
         plugin.setPos = function(){
             var width = (this.settings.width == 'auto') ? this.dialog.outerWidth() : this.settings.width,
-            height = (this.settings.height == 'auto') ? this.dialog.outerHeight() : this.settings.height,
+            height = (this.settings.height == 'auto') ? this.dialog.outerHeight() : this.settings.height + 80,
             left = -(width / 2), top = -(height / 2);
-
             plugin.dialog.css({
                 'margin-top': top,
                 'margin-left': left,
-                'width': width,
-                'height': height
+                'width': width
             });
         };
 
@@ -202,6 +207,10 @@
             }
             return {width:this.width,height:this.height};
         };
+        window.closeDialog = function(){
+        	plugin.close();
+        }
         return plugin.init();
     };
+    
 })(jQuery);

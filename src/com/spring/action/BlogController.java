@@ -310,22 +310,45 @@ public class BlogController {
 		bgArticle.setKeywords(keywordIds);
 		bgArticleMapperService.update(bgArticle);
 		response.getWriter().write("success");
-
+	}
+	
+	/**
+	 * 根据文章id范围文章entity
+	 * @param request
+	 * @param response
+	 * @param session
+	 * @throws IOException 
+	 */
+	@RequestMapping("returnSingleArticle")
+	public void returnSingleArticle(HttpServletRequest request,
+			HttpServletResponse response, HttpSession session) throws IOException{
+		int bgArticleId = DataHandle.returnValueInt(request, "bgArticleId");
+		BgArticle bgArticle = new BgArticle();
+		bgArticle.setBgArticleId(bgArticleId);
+		bgArticle = bgArticleMapperService.select(bgArticle);
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("result", "success");
+		jsonObject.put("data", bgArticle);
+		response.getWriter().write(jsonObject.toString());
 	}
 
 	@RequestMapping("returnBlogList")
 	public void returnBlogList(HttpSession session,HttpServletResponse response,HttpServletRequest request) throws IOException{
 		BgUser bgUser = (BgUser) session.getAttribute(Constant.USER);
-		int page = DataHandle.returnValueInt(request, "page");
+		int startPage = DataHandle.returnValueInt(request, "startPage");
 		int recordNum = DataHandle.returnValueInt(request, "recordNum");
+		
 		BgArticle bgArticle = new BgArticle();
 		bgArticle.setBgUserId(bgUser.getBgUserId());
 		bgArticle.setPage(recordNum);
-		bgArticle.setStartPage(page);
+		bgArticle.setStartPage((startPage - 1) * recordNum);
+		bgArticle.setCondition(" order by createDate desc ");
 		List<BgArticle> blogList = bgArticleMapperService.returnTitleEntity(bgArticle);
+		int recordSum = bgArticleMapperService.count(bgArticle);
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("result", "success");
 		jsonObject.put("dataList", blogList);
+		jsonObject.put("recordSum", recordSum);
 		response.getWriter().write(jsonObject.toString());
 	}
 	
