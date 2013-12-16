@@ -6,13 +6,9 @@
 
     <typeAliases>
 		
-        <typeAlias alias="BgArticle" type="com.spring.entity.BgArticle" /> 
+        <typeAlias alias="Blog" type="com.spring.entity.Blog" /> 
 		
-        <typeAlias alias="BgComment" type="com.spring.entity.BgComment" /> 
-		
-        <typeAlias alias="BgKeyword" type="com.spring.entity.BgKeyword" /> 
-		
-        <typeAlias alias="BgUser" type="com.spring.entity.BgUser" /> 
+        <typeAlias alias="User" type="com.spring.entity.User" /> 
 		
         <typeAlias alias="WebLink" type="com.spring.entity.WebLink" /> 
         
@@ -23,6 +19,10 @@
 		<typeAlias alias="NoteType" type="com.spring.entity.NoteType" /> 
 		
 		<typeAlias alias="NoteTime" type="com.spring.entity.NoteTime" /> 
+		
+		<typeAlias alias="Type" type="com.spring.entity.Type" /> 
+		
+		<typeAlias alias="Tag" type="com.spring.entity.Tag" /> 
 		
     </typeAliases>    
     

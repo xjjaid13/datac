@@ -13,8 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.spring.entity.BgUser;
-import com.spring.service.BgUserMapperService;
+import com.spring.entity.User;
+import com.spring.service.UserMapperService;
 import com.util.Constant;
 import com.util.DataHandle;
 
@@ -23,7 +23,7 @@ import com.util.DataHandle;
 public class LoginController {
 
 	@Autowired
-	private BgUserMapperService bgUserMapperService; 
+	private UserMapperService userMapperService; 
 	
 	/**
 	 * 跳转到登陆界面
@@ -40,14 +40,14 @@ public class LoginController {
 	public void doLoginPost(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
 		String userName = DataHandle.returnValue(request, "username");
 		String passWord = DataHandle.returnValue(request, "password");
-		BgUser bgUser = new BgUser();
-		bgUser.setBgUserId(1);
-		bgUser.setUsername(userName);
-		bgUser.setPassword(passWord);
-		bgUser = bgUserMapperService.returnEntityByUserName(bgUser);
-		if(bgUser != null){
-			session.setAttribute(Constant.USER, bgUser);
-			response.getWriter().print(bgUser.getBgUserId());
+		User user = new User();
+		user.setUserId(1);
+		user.setUsername(userName);
+		user.setPassword(passWord);
+		user = userMapperService.returnEntityByUserName(user);
+		if(user != null){
+			session.setAttribute(Constant.USER, user);
+			response.getWriter().print(user.getUserId());
 		}else{
 			response.getWriter().print("error");
 		}
@@ -55,11 +55,11 @@ public class LoginController {
 	
 	@RequestMapping("login-info")
 	public void doLoginInfo(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
-		BgUser bgUser = (BgUser)session.getAttribute(Constant.USER);
-		if(bgUser == null){
+		User user = (User)session.getAttribute(Constant.USER);
+		if(user == null){
 			response.getWriter().print("nolog");
 		}else{
-			response.getWriter().print(bgUser.getUsername());
+			response.getWriter().print(user.getUsername());
 		}
 	}
 	

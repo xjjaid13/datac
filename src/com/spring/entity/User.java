@@ -1,8 +1,7 @@
 package com.spring.entity;
 
-public class BgUser extends BaseEntity{
+public class User extends BaseEntity{
 	
-	private Integer bgUserId;
 	
 	private String username;
 	
@@ -10,10 +9,8 @@ public class BgUser extends BaseEntity{
 	
 	private String style;
 	
-	public Integer getBgUserId() {
-		return bgUserId;
-	}
-	
+	private Integer userId;
+
 	public String getUsername() {
 		return username;
 	}
@@ -22,10 +19,7 @@ public class BgUser extends BaseEntity{
 		return password;
 	}
 	
-	
-	public void setBgUserId(Integer bgUserId) {
-		this.bgUserId = bgUserId;
-	}
+
 	
 	public void setUsername(String username) {
 		this.username = username;
@@ -36,7 +30,7 @@ public class BgUser extends BaseEntity{
 	}
 	
 	public String toString(){
-		return "BgUser";
+		return "User";
 	}
 
 	public String getStyle() {
@@ -45,5 +39,13 @@ public class BgUser extends BaseEntity{
 
 	public void setStyle(String style) {
 		this.style = style;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 }

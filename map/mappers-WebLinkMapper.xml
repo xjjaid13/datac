@@ -12,7 +12,7 @@
 		
 		<result property="webLinktypeId" column="webLinktypeId" />
 		
-		<result property="bgUserId" column="bgUserId" />
+		<result property="userId" column="userId" />
 		
 		<result property="hit" column="hit" />
 		
@@ -23,19 +23,19 @@
 	</select>
 	
 	<select id="selectListWebLink"  resultType="java.util.List" resultMap="webLink">
-		select * from web_link where 1 = 1<if test="webLinkId != null"> and webLinkId = #{webLinkId}</if><if test="name != null"> and name = '#{name}'</if><if test="link != null"> and link = '#{link}'</if><if test="webLinktypeId != null"> and webLinktypeId = #{webLinktypeId}</if><if test="bgUserId != null"> and bgUserId = #{bgUserId}</if><if test="hit != null"> and hit = #{hit}</if> limit #{startPage},#{page}
+		select * from web_link where 1 = 1<if test="webLinkId != null"> and webLinkId = #{webLinkId}</if><if test="name != null"> and name = '#{name}'</if><if test="link != null"> and link = '#{link}'</if><if test="webLinktypeId != null"> and webLinktypeId = #{webLinktypeId}</if><if test="userId != null"> and userId = #{userId}</if><if test="hit != null"> and hit = #{hit}</if> limit #{startPage},#{page}
 	</select>
 	
 	<select id="selectCountWebLink"  resultType="java.lang.Integer" >
-		select count(webLinkId) from web_link where 1 = 1 <if test="webLinkId != null"> and webLinkId = #{webLinkId}</if><if test="name != null"> and name = '#{name}'</if><if test="link != null"> and link = '#{link}'</if><if test="webLinktypeId != null"> and webLinktypeId = #{webLinktypeId}</if><if test="bgUserId != null"> and bgUserId = #{bgUserId}</if><if test="hit != null"> and hit = #{hit}</if> 
+		select count(webLinkId) from web_link where 1 = 1 <if test="webLinkId != null"> and webLinkId = #{webLinkId}</if><if test="name != null"> and name = '#{name}'</if><if test="link != null"> and link = '#{link}'</if><if test="webLinktypeId != null"> and webLinktypeId = #{webLinktypeId}</if><if test="userId != null"> and userId = #{userId}</if><if test="hit != null"> and hit = #{hit}</if> 
 	</select>
 	
 	<insert id="insertWebLink" parameterType="WebLink">
-		insert into web_link (webLinkId,name,link,webLinktypeId,bgUserId,hit) values (#{webLinkId},#{name},#{link},#{webLinktypeId},#{bgUserId},#{hit})
+		insert into web_link (webLinkId,name,link,webLinktypeId,userId,hit) values (#{webLinkId},#{name},#{link},#{webLinktypeId},#{userId},#{hit})
 	</insert>
 	
 	<update id="updateWebLink" parameterType="WebLink">
-		update web_link set <if test="webLinkId != null">webLinkId = #{webLinkId},</if><if test="name != null">name = #{name},</if><if test="link != null">link = #{link},</if><if test="webLinktypeId != null">webLinktypeId = #{webLinktypeId},</if><if test="bgUserId != null">bgUserId = #{bgUserId},</if><if test="hit != null">hit = #{hit},</if>webLinkId = #{webLinkId} where webLinkId = #{webLinkId}
+		update web_link set <if test="webLinkId != null">webLinkId = #{webLinkId},</if><if test="name != null">name = #{name},</if><if test="link != null">link = #{link},</if><if test="webLinktypeId != null">webLinktypeId = #{webLinktypeId},</if><if test="userId != null">userId = #{userId},</if><if test="hit != null">hit = #{hit},</if>webLinkId = #{webLinkId} where webLinkId = #{webLinkId}
 	</update>
 	
 	<delete id="deleteByIdsWebLink" parameterType="WebLink">

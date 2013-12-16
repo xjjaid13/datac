@@ -16,7 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.spring.entity.BgUser;
+import com.spring.entity.User;
 import com.spring.entity.Note;
 import com.spring.service.NoteMapperService;
 import com.util.CommonHandle;
@@ -31,10 +31,10 @@ public class NoteController {
     @Autowired
     NoteMapperService noteMapperService;
     
-    @RequestMapping("{bgUserId}")
-    public String toIndex(@PathVariable int bgUserId,Model model){
+    @RequestMapping("{userId}")
+    public String toIndex(@PathVariable int userId,Model model){
         Note note = new Note();
-        note.setBgUserId(bgUserId);
+        note.setUserId(userId);
         List<Note> noteList = noteMapperService.selectList(note);
         model.addAttribute("noteList", noteList);
         return "note/index";
@@ -42,12 +42,12 @@ public class NoteController {
     
     @RequestMapping("my-addNote")
     public void addNote(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
-        BgUser bgUser = (BgUser) session.getAttribute(Constant.USER);
+        User user = (User) session.getAttribute(Constant.USER);
         String content = DataHandle.returnValue(request, "content");
         Note note = new Note();
         note.setContent(content);
         note.setCreateDate(TimeHandle.currentTime());
-        note.setBgUserId(bgUser.getBgUserId());
+        note.setUserId(user.getUserId());
         noteMapperService.insert(note);
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("result", "success");
@@ -57,13 +57,13 @@ public class NoteController {
     
     @RequestMapping("my-updateNote")
     public void updateNote(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
-    	BgUser bgUser = (BgUser) session.getAttribute(Constant.USER);
+    	User user = (User) session.getAttribute(Constant.USER);
     	int noteId = DataHandle.returnValueInt(request, "noteId");
     	String content = DataHandle.returnValue(request, "content");
     	Note note = new Note();
     	note.setNoteId(noteId);
     	note = noteMapperService.select(note);
-    	if(note.getBgUserId() == bgUser.getBgUserId()){
+    	if(note.getUserId() == user.getUserId()){
     		note.setContent(content);
     		noteMapperService.update(note);
     		JSONObject jsonObject = new JSONObject();
@@ -139,9 +139,9 @@ public class NoteController {
      * */
     @RequestMapping("returnTreeYear")
     public void returnTreeYear(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
-    	BgUser bgUser = (BgUser) session.getAttribute(Constant.USER);
+    	User user = (User) session.getAttribute(Constant.USER);
     	Note note = new Note();
-    	note.setBgUserId(bgUser.getBgUserId());
+    	note.setUserId(user.getUserId());
     	List<Map<String, Object>> noteList = noteMapperService.selectYear(note);
     	JSONObject jsonObject = new JSONObject();
     	jsonObject.put("result", "success");
@@ -154,12 +154,12 @@ public class NoteController {
      * */
     @RequestMapping("returnTreeMonth")
     public void returnTreeMonth(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
-    	BgUser bgUser = (BgUser) session.getAttribute(Constant.USER);
+    	User user = (User) session.getAttribute(Constant.USER);
     	String year = request.getParameter("year");
     	String condition = "createDate >= '" + year + "-01-01 00:00:00' and createDate <= '" + year + "-12-31 23:59:59'";
     	Note note = new Note();
     	note.setCondition(condition);
-    	note.setBgUserId(bgUser.getBgUserId());
+    	note.setUserId(user.getUserId());
     	List<Map<String, Object>> noteList = noteMapperService.selectMonth(note);
     	JSONObject jsonObject = new JSONObject();
     	jsonObject.put("result", "success");
@@ -172,12 +172,12 @@ public class NoteController {
      * */
     @RequestMapping("returnTreeDay")
     public void returnTreeDay(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
-    	BgUser bgUser = (BgUser) session.getAttribute(Constant.USER);
+    	User user = (User) session.getAttribute(Constant.USER);
     	String year = request.getParameter("year");
     	String month = request.getParameter("month");
     	String condition = "createDate >= '" + year + "-" + month + "-01 00:00:00' and createDate <= '" + year + "-" + month + "-31 23:59:59'";
     	Note note =  new Note();
-    	note.setBgUserId(bgUser.getBgUserId());
+    	note.setUserId(user.getUserId());
     	note.setCondition(condition);
     	List<Map<String, Object>> noteList = noteMapperService.selectDay(note);
     	JSONObject jsonObject = new JSONObject();

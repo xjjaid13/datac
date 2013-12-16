@@ -1,8 +1,8 @@
 package com.spring.entity;
 
-public class BgArticle extends BaseEntity{
+public class Blog extends BaseEntity{
 	
-	private Integer bgArticleId;
+	private Integer blogId;
 	
 	private String title;
 	
@@ -12,25 +12,19 @@ public class BgArticle extends BaseEntity{
 	
 	private Integer hit;
 	
-	private Integer bgUserId;
+	private Integer userId;
 	
 	private String shortContent;
 	
 	private Integer commentnum;
 	
-	private Integer articleType;
+	private Integer blogType;
 	
 	private String keywords;
-	
-	
-	public Integer getBgArticleId() {
-		return bgArticleId;
-	}
 	
 	public String getTitle() {
 		return title;
 	}
-	
 	
 	public String getCreateDate() {
 		return createDate;
@@ -38,10 +32,6 @@ public class BgArticle extends BaseEntity{
 	
 	public Integer getHit() {
 		return hit;
-	}
-	
-	public Integer getBgUserId() {
-		return bgUserId;
 	}
 	
 	public String getShortContent() {
@@ -52,23 +42,13 @@ public class BgArticle extends BaseEntity{
 		return commentnum;
 	}
 	
-	public Integer getArticleType() {
-		return articleType;
-	}
-	
 	public String getKeywords() {
 		return keywords;
-	}
-	
-	
-	public void setBgArticleId(Integer bgArticleId) {
-		this.bgArticleId = bgArticleId;
 	}
 	
 	public void setTitle(String title) {
 		this.title = title;
 	}
-	
 	
 	public void setCreateDate(String createDate) {
 		this.createDate = createDate;
@@ -76,10 +56,6 @@ public class BgArticle extends BaseEntity{
 	
 	public void setHit(Integer hit) {
 		this.hit = hit;
-	}
-	
-	public void setBgUserId(Integer bgUserId) {
-		this.bgUserId = bgUserId;
 	}
 	
 	public void setShortContent(String shortContent) {
@@ -90,16 +66,12 @@ public class BgArticle extends BaseEntity{
 		this.commentnum = commentnum;
 	}
 	
-	public void setArticleType(Integer articleType) {
-		this.articleType = articleType;
-	}
-	
 	public void setKeywords(String keywords) {
 		this.keywords = keywords;
 	}
 	
 	public String toString(){
-		return "BgArticle";
+		return "Blog";
 	}
 
 	public String getContent() {
@@ -108,5 +80,35 @@ public class BgArticle extends BaseEntity{
 
 	public void setContent(String content) {
 		this.content = content;
+	}
+
+
+	public Integer getBlogId() {
+		return blogId;
+	}
+
+
+	public void setBlogId(Integer blogId) {
+		this.blogId = blogId;
+	}
+
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+
+
+	public Integer getBlogType() {
+		return blogType;
+	}
+
+
+	public void setBlogType(Integer blogType) {
+		this.blogType = blogType;
 	}
 }

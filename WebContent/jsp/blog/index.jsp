@@ -61,10 +61,12 @@
 					<ul class="thumbnails thumbnails-horizontal" id="blogContent">
 						
 					</ul>
-					<div class="row span9" style="text-align:center;">
-						<div id="pagination" class="navigation pagination">
-							
-   						</div>
+					<div id="bottomClass" style="position:fixed;bottom:0;">
+						<div class="row span9" style="text-align:right;">
+							<div id="pagination" class="navigation pagination" style="margin:0 30px;">
+								
+	   						</div>
+						</div>
 					</div>
 				</div><!-- end  -->
 				
@@ -97,7 +99,7 @@
 		<div class="box border-radius-bottom">
 			<p>
 				<span class="title_torrent pull-left">
-					#articleType#
+					#blogType#
 				</span>
 				<span class="number-view pull-right"><i class="icon-white icon-eye-open"></i>#createDate#</span>
 			</p>
@@ -251,19 +253,19 @@
 					var shortContent = blog.shortContent;
 					var bgArticleId = blog.bgArticleId;
 					var title = blog.title;
-					var articleType = blog.articleType == 0;
-					if(articleType == 0){
-						articleType = '原';
-					}else if(articleType == 1){
-						articleType = '转';
-					}else if(articleType == 2){
-						articleType = '译';
+					var blogType = blog.blogType == 0;
+					if(blogType == 0){
+						blogType = '原';
+					}else if(blogType == 1){
+						blogType = '转';
+					}else if(blogType == 2){
+						blogType = '译';
 					}
 					var createDate = blog.createDate;
 					tempWrap = tempWrap.replace(/#shortContent#/,shortContent);
 					tempWrap = tempWrap.replace(/#bgArticleId#/g,bgArticleId);
 					tempWrap = tempWrap.replace(/#blogTitle#/,title);
-					tempWrap = tempWrap.replace(/#articleType#/,articleType);
+					tempWrap = tempWrap.replace(/#blogType#/,blogType);
 					tempWrap = tempWrap.replace(/#createDate#/,createDate);
 					content += tempWrap;
 				}

@@ -12,7 +12,7 @@
 		
 		<result property="parentId" column="parentId" />
 		
-		<result property="bgUserId" column="bgUserId" />
+		<result property="userId" column="userId" />
 		
 		<result property="displayValue" column="displayValue" />
 		
@@ -23,19 +23,19 @@
 	</select>
 	
 	<select id="selectListNoteTime"  resultType="java.util.List" resultMap="noteTime">
-		select * from note_time where 1 = 1<if test="noteTimeId != null"> and noteTimeId = #{noteTimeId}</if><if test="type != null"> and type = #Integer</if><if test="value != null"> and value = '#{value}'</if><if test="parentId != null"> and parentId = #{parentId}</if><if test="bgUserId != null"> and bgUserId = #{bgUserId}</if><if test="displayValue != null"> and displayValue = '#{displayValue}'</if> limit #{startPage},#{page}
+		select * from note_time where 1 = 1<if test="noteTimeId != null"> and noteTimeId = #{noteTimeId}</if><if test="type != null"> and type = #Integer</if><if test="value != null"> and value = '#{value}'</if><if test="parentId != null"> and parentId = #{parentId}</if><if test="userId != null"> and userId = #{userId}</if><if test="displayValue != null"> and displayValue = '#{displayValue}'</if> limit #{startPage},#{page}
 	</select>
 	
 	<select id="selectCountNoteTime"  resultType="java.lang.Integer" >
-		select count(noteTimeId) from note_time where 1 = 1 <if test="noteTimeId != null"> and noteTimeId = #{noteTimeId}</if><if test="type != null"> and type = #Integer</if><if test="value != null"> and value = '#{value}'</if><if test="parentId != null"> and parentId = #{parentId}</if><if test="bgUserId != null"> and bgUserId = #{bgUserId}</if><if test="displayValue != null"> and displayValue = '#{displayValue}'</if> 
+		select count(noteTimeId) from note_time where 1 = 1 <if test="noteTimeId != null"> and noteTimeId = #{noteTimeId}</if><if test="type != null"> and type = #Integer</if><if test="value != null"> and value = '#{value}'</if><if test="parentId != null"> and parentId = #{parentId}</if><if test="userId != null"> and userId = #{userId}</if><if test="displayValue != null"> and displayValue = '#{displayValue}'</if> 
 	</select>
 	
 	<insert id="insertNoteTime" parameterType="NoteTime">
-		insert into note_time (noteTimeId,type,value,parentId,bgUserId,displayValue) values (#{noteTimeId},#Integer,#{value},#{parentId},#{bgUserId},#{displayValue})
+		insert into note_time (noteTimeId,type,value,parentId,userId,displayValue) values (#{noteTimeId},#Integer,#{value},#{parentId},#{userId},#{displayValue})
 	</insert>
 	
 	<update id="updateNoteTime" parameterType="NoteTime">
-		update note_time set <if test="noteTimeId != null">noteTimeId = #{noteTimeId},</if><if test="type != null">type = #Integer,</if><if test="value != null">value = #{value},</if><if test="parentId != null">parentId = #{parentId},</if><if test="bgUserId != null">bgUserId = #{bgUserId},</if><if test="displayValue != null">displayValue = #{displayValue},</if>noteTimeId = #{noteTimeId} where noteTimeId = #{noteTimeId}
+		update note_time set <if test="noteTimeId != null">noteTimeId = #{noteTimeId},</if><if test="type != null">type = #Integer,</if><if test="value != null">value = #{value},</if><if test="parentId != null">parentId = #{parentId},</if><if test="userId != null">userId = #{userId},</if><if test="displayValue != null">displayValue = #{displayValue},</if>noteTimeId = #{noteTimeId} where noteTimeId = #{noteTimeId}
 	</update>
 	
 	<delete id="deleteByIdsNoteTime" parameterType="NoteTime">

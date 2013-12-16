@@ -6,7 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.spring.entity.BgUser;
+import com.spring.entity.User;
 import com.util.Constant;
 
 public class InterceptorController implements HandlerInterceptor{
@@ -27,10 +27,10 @@ public class InterceptorController implements HandlerInterceptor{
 		request.getSession().setAttribute(Constant.BASE, request.getContextPath());
 		response.setCharacterEncoding("UTF-8");
 		response.setHeader("content-type","text/html;charset=UTF-8");
-		BgUser bgUser = new BgUser();
-		bgUser.setBgUserId(4);
-		bgUser.setUsername("xjj");
-		request.getSession().setAttribute(Constant.USER, bgUser);
+		User user = new User();
+		user.setUserId(4);
+		user.setUsername("xjj");
+		request.getSession().setAttribute(Constant.USER, user);
 		return true;
 	}
 	

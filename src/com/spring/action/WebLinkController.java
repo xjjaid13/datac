@@ -13,7 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.spring.entity.BgUser;
+import com.spring.entity.User;
 import com.spring.entity.WebLink;
 import com.spring.entity.WebLinktype;
 import com.spring.service.WebLinkMapperService;
@@ -30,10 +30,10 @@ public class WebLinkController {
 	@Autowired
 	WebLinkMapperService webLinkMapperService;
 	
-	@RequestMapping("/{bgUserId}")
-	public String returnWebLink(Model model,@PathVariable int bgUserId){
+	@RequestMapping("/{userId}")
+	public String returnWebLink(Model model,@PathVariable int userId){
 		WebLinktype webLinktype = new WebLinktype();
-		webLinktype.setBgUserId(bgUserId);
+		webLinktype.setUserId(userId);
 		List<WebLinktype> webLinkTypeList = webLinktypeMapperService.returnEntityList(webLinktype);
 		
 		model.addAttribute("webLinkTypeList", webLinkTypeList);
@@ -42,14 +42,14 @@ public class WebLinkController {
 	
 	@RequestMapping("addNewLink")
 	public void doAddNewLink(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
-		BgUser bgUser = (BgUser) session.getAttribute(Constant.USER);
+		User user = (User) session.getAttribute(Constant.USER);
 		String linkName = request.getParameter("linkName");
 		String link = request.getParameter("link");
 		String type = request.getParameter("type");
 		WebLink webLink = new WebLink();
 		webLink.setName(linkName);
 		webLink.setLink(link);
-		webLink.setBgUserId(bgUser.getBgUserId());
+		webLink.setUserId(user.getUserId());
 		webLink.setWebLinktypeId(Integer.parseInt(type));
 		webLinkMapperService.insert(webLink);
 		int maxID = webLinkMapperService.maxId(webLink);
@@ -58,11 +58,11 @@ public class WebLinkController {
 	
 	@RequestMapping("addNewLinkType")
 	public void doAddNewLinkType(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
-		BgUser bgUser = (BgUser) session.getAttribute(Constant.USER);
+		User user = (User) session.getAttribute(Constant.USER);
 		String linkType = request.getParameter("linkType");
 		WebLinktype webLinktype = new WebLinktype();
 		webLinktype.setName(linkType);
-		webLinktype.setBgUserId(bgUser.getBgUserId());
+		webLinktype.setUserId(user.getUserId());
 		webLinktypeMapperService.insert(webLinktype);
 		int maxId = webLinktypeMapperService.maxId(webLinktype);
 		response.getWriter().write(maxId);

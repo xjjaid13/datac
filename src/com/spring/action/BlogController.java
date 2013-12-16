@@ -18,11 +18,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.spring.entity.BgArticle;
-import com.spring.entity.BgKeyword;
-import com.spring.entity.BgUser;
-import com.spring.service.BgArticleMapperService;
-import com.spring.service.BgKeywordMapperService;
+import com.spring.entity.Blog;
+import com.spring.entity.User;
+import com.spring.service.BlogMapperService;
 import com.util.Constant;
 import com.util.DataHandle;
 import com.util.HtmlHandle;
@@ -34,10 +32,7 @@ import com.util.TimeHandle;
 public class BlogController {
 
 	@Autowired
-	private BgArticleMapperService bgArticleMapperService;
-
-	@Autowired
-	private BgKeywordMapperService bgKeywordMapperService;
+	private BlogMapperService blogMapperService;
 
 	/**
 	 * 博客首页
@@ -45,7 +40,7 @@ public class BlogController {
 //	@RequestMapping("index")
 //	public String doIndex(Model model, HttpServletRequest request,
 //			HttpSession session) {
-//		BgArticle bgArticle = new BgArticle();
+//		Blog blog = new Blog();
 //		int page = DataHandle.returnValueInt(request, "page");
 //		if (page == 0) {
 //			page = 0;
@@ -53,10 +48,10 @@ public class BlogController {
 //			page = page - 1;
 //		}
 //		String keyword = DataHandle.returnValue(request, "keyword");
-//		bgArticle.setStartpage(page * Constant.BLOGPAGE);
-//		bgArticle.setPage(Constant.BLOGPAGE);
-//		List<BgArticle> blogList = bgArticleMapperService.selectList(bgArticle);
-//		int countArticle = bgArticleMapperService.count(bgArticle);
+//		blog.setStartpage(page * Constant.BLOGPAGE);
+//		blog.setPage(Constant.BLOGPAGE);
+//		List<Blog> blogList = blogMapperService.selectList(blog);
+//		int countArticle = blogMapperService.count(blog);
 //		model.addAttribute("blogList", blogList);
 //		model.addAttribute("page", page);
 //		model.addAttribute("keyword", keyword);
@@ -68,10 +63,10 @@ public class BlogController {
 //	 * 我的博客
 //	 * */
 //	@RequestMapping("my-blog")
-//	public String doMyBlog(HttpSession session, Model model,
+//	public String doMy(HttpSession session, Model model,
 //			HttpServletRequest request) {
-//		BgUser bgUser = (BgUser) session.getAttribute(Constant.USER);
-//		BgArticle bgArticle = new BgArticle();
+//		User user = (User) session.getAttribute(Constant.USER);
+//		Blog blog = new Blog();
 //		int page = DataHandle.returnValueInt(request, "page");
 //		if (page == 0) {
 //			page = 0;
@@ -80,14 +75,14 @@ public class BlogController {
 //		}
 //		String keyword = DataHandle.returnValue(request, "keyword");
 //		if (!"".equals(keyword)) {
-//			Integer KeywordId = Init.keywordHm.get(bgUser.getBgUserId() + "").get(keyword);
-//			bgArticle.setKeywords("," + KeywordId + ",");
+//			Integer KeywordId = Init.keywordHm.get(user.getUserId() + "").get(keyword);
+//			blog.setKeywords("," + KeywordId + ",");
 //		}
-//		bgArticle.setBgUserId(bgUser.getBgUserId());
-//		bgArticle.setStartPage(page * Constant.BLOGPAGE);
-//		bgArticle.setPage(Constant.BLOGPAGE);
-//		List<BgArticle> blogList = bgArticleMapperService.selectList(bgArticle);
-//		int countArticle = bgArticleMapperService.count(bgArticle);
+//		blog.setUserId(user.getUserId());
+//		blog.setStartPage(page * Constant.BLOGPAGE);
+//		blog.setPage(Constant.BLOGPAGE);
+//		List<Blog> blogList = blogMapperService.selectList(blog);
+//		int countArticle = blogMapperService.count(blog);
 //		model.addAttribute("blogList", blogList);
 //		model.addAttribute("page", page);
 //		model.addAttribute("keyword", keyword);
@@ -99,15 +94,15 @@ public class BlogController {
 	 * 我的博客(new)
 	 * */
 	@RequestMapping("{userid}")
-	public String doMyBlogNew(HttpSession session, Model model,
+	public String doMyNew(HttpSession session, Model model,
 			HttpServletRequest request,@PathVariable int userid) {
-		BgUser bgUser = (BgUser) session.getAttribute(Constant.USER);
+		User user = (User) session.getAttribute(Constant.USER);
 		boolean isOperator = false;
 		/** 只有该博客的用户才能操作该博客 */
-		if(bgUser != null && bgUser.getBgUserId() == userid){
+		if(user != null && user.getUserId() == userid){
 			isOperator = true;
 		}
-		BgArticle bgArticle = new BgArticle();
+		Blog blog = new Blog();
 		int page = DataHandle.returnValueInt(request, "page");
 		if (page == 0) {
 			page = 0;
@@ -117,13 +112,13 @@ public class BlogController {
 		String keyword = DataHandle.returnValue(request, "keyword");
 		if (!"".equals(keyword)) {
 			Integer KeywordId = Init.keywordHm.get(userid).get(keyword);
-			bgArticle.setKeywords("," + KeywordId + ",");
+			blog.setKeywords("," + KeywordId + ",");
 		}
-		bgArticle.setBgUserId(userid);
-		bgArticle.setStartPage(page * Constant.BLOGPAGE);
-		bgArticle.setPage(Constant.BLOGPAGE);
-		List<BgArticle> blogList = bgArticleMapperService.selectList(bgArticle);
-		int countArticle = bgArticleMapperService.count(bgArticle);
+		blog.setUserId(userid);
+		blog.setStartPage(page * Constant.BLOGPAGE);
+		blog.setPage(Constant.BLOGPAGE);
+		List<Blog> blogList = blogMapperService.selectList(blog);
+		int countArticle = blogMapperService.count(blog);
 		model.addAttribute("blogList", blogList);
 		model.addAttribute("userid", userid);
 		model.addAttribute("page", page);
@@ -137,37 +132,37 @@ public class BlogController {
 	 * 增加博客
 	 * */
 	@RequestMapping("my-addblog")
-	public String doAddBlog() {
+	public String doAdd() {
 		return "blog/addblog";
 	}
 
 	@RequestMapping("my-blogList")
-	public String doBlogList() {
+	public String doList() {
 		return "blog/blog-list";
 	}
 
 	@RequestMapping("my-blogListist")
-	public void doBlogListAjax(HttpServletRequest request,
+	public void doListAjax(HttpServletRequest request,
 			HttpServletResponse response, HttpSession session)
 			throws IOException {
-		BgUser htUser = (BgUser) session.getAttribute(Constant.USER);
+		User htUser = (User) session.getAttribute(Constant.USER);
 		int page = DataHandle.returnValueInt(request, "page");
 		int rp = DataHandle.returnValueInt(request, "rp");
-		BgArticle bgArticle = new BgArticle();
-		bgArticle.setBgUserId(htUser.getBgUserId());
-		bgArticle.setPage(rp);
-		bgArticle.setStartPage(page);
-		List<BgArticle> blogList = bgArticleMapperService
-				.returnTitleEntity(bgArticle);
-		List<BgArticle> blogListNew = new ArrayList<BgArticle>();
-		for (BgArticle bgArticle1 : blogList) {
+		Blog blog = new Blog();
+		blog.setUserId(htUser.getUserId());
+		blog.setPage(rp);
+		blog.setStartPage(page);
+		List<Blog> blogList = blogMapperService
+				.returnTitleEntity(blog);
+		List<Blog> blogListNew = new ArrayList<Blog>();
+		for (Blog blog1 : blogList) {
 			String opearator = "<span attr="
-					+ bgArticle1.getBgArticleId()
+					+ blog1.getBlogId()
 					+ "><a class='alterArticle' href=\"#\">修改</a><a class='delArticle' href=\"#\">删除</a></span>";
-			bgArticle1.setIds(opearator);
-			blogListNew.add(bgArticle1);
+			blog1.setIds(opearator);
+			blogListNew.add(blog1);
 		}
-		int count = bgArticleMapperService.count(bgArticle);
+		int count = blogMapperService.count(blog);
 		Map<Object, Object> map = new HashMap<Object, Object>();
 		map.put("rows", blogList);
 		map.put("total", count);
@@ -178,7 +173,7 @@ public class BlogController {
 	}
 
 	/**
-	 * 提交博客内容
+	 * 提交博客内容 
 	 * */
 	@RequestMapping("my-addblog-post")
 	public void doAddblogPost(HttpServletRequest request,
@@ -186,26 +181,26 @@ public class BlogController {
 			throws IOException {
 		String title = DataHandle.returnValue(request, "title");
 		String content = DataHandle.handleValue(request.getParameter("content"));
-		int articleType = DataHandle.returnValueInt(request, "article_type");
+		int blogType = DataHandle.returnValueInt(request, "article_type");
 		String keyword = DataHandle.returnValue(request, "keyword");
-		BgUser bgUser = new BgUser();
-		bgUser = (BgUser) httpSession.getAttribute(Constant.USER);
+		User user = new User();
+		user = (User) httpSession.getAttribute(Constant.USER);
 		String short_content = "";
 		short_content = HtmlHandle.filterTextToHTML(content);
 		short_content = HtmlHandle.Html2Text(short_content);
 		if (short_content.length() > 150) {
 			short_content = short_content.substring(0, 150) + "...";
 		}
-		String keywordIds = insertKeywords(bgUser.getBgUserId(), keyword);
-		BgArticle bgArticle = new BgArticle();
-		bgArticle.setContent(content);
-		bgArticle.setCreateDate(TimeHandle.currentTime());
-		bgArticle.setShortContent(short_content);
-		bgArticle.setTitle(title);
-		bgArticle.setArticleType(articleType);
-		bgArticle.setBgUserId(bgUser.getBgUserId());
-		bgArticle.setKeywords(keywordIds);
-		bgArticleMapperService.insert(bgArticle);
+		String keywordIds = insertKeywords(user.getUserId(), keyword);
+		Blog blog = new Blog();
+		blog.setContent(content);
+		blog.setCreateDate(TimeHandle.currentTime());
+		blog.setShortContent(short_content);
+		blog.setTitle(title);
+		blog.setBlogType(blogType);
+		blog.setUserId(user.getUserId());
+		blog.setKeywords(keywordIds);
+		blogMapperService.insert(blog);
 		response.getWriter().print("success");
 	}
 
@@ -221,18 +216,18 @@ public class BlogController {
 				if (keywordSingle == "") {
 					continue;
 				} else {
-					BgKeyword bgKeyword = new BgKeyword();
-					bgKeyword.setName(keywordSingle);
-					bgKeyword.setBgUserId(userId);
-					Integer isExistId = bgKeywordMapperService
-							.selectByKeyword(bgKeyword);
-					/** 如果已经 存在关键字,则将关键字id加入，否则插入关键字记录后插入 */
-					if (isExistId == null) {
-						bgKeywordMapperService.insert(bgKeyword);
-						keywordIds.append(bgKeywordMapperService.maxId(bgKeyword) + ",");
-					} else {
-						keywordIds.append(isExistId + ",");
-					}
+//					BgKeyword bgKeyword = new BgKeyword();
+//					bgKeyword.setName(keywordSingle);
+//					bgKeyword.setUserId(userId);
+//					Integer isExistId = bgKeywordMapperService
+//							.selectByKeyword(bgKeyword);
+//					/** 如果已经 存在关键字,则将关键字id加入，否则插入关键字记录后插入 */
+//					if (isExistId == null) {
+//						bgKeywordMapperService.insert(bgKeyword);
+//						keywordIds.append(bgKeywordMapperService.maxId(bgKeyword) + ",");
+//					} else {
+//						keywordIds.append(isExistId + ",");
+//					}
 				}
 			}
 		}
@@ -244,12 +239,12 @@ public class BlogController {
 	 * */
 	@RequestMapping("article/{article_id}")
 	public String doArticle(@PathVariable int article_id, Model model) {
-		BgArticle bgArticle = new BgArticle();
-		bgArticle.setBgArticleId(article_id);
-		bgArticle = bgArticleMapperService.select(bgArticle);
-//		bgArticle
-//				.setContent(HtmlHandle.filterTextToHTML(bgArticle.getContent().toString()));
-		model.addAttribute("article", bgArticle);
+		Blog blog = new Blog();
+		blog.setBlogId(article_id);
+		blog = blogMapperService.select(blog);
+//		blog
+//				.setContent(HtmlHandle.filterTextToHTML(blog.getContent().toString()));
+		model.addAttribute("article", blog);
 		return "blog/article";
 	}
 
@@ -260,9 +255,9 @@ public class BlogController {
 	public void doDelArticle(HttpServletRequest request,
 			HttpServletResponse response) throws IOException {
 		String ids = DataHandle.returnValue(request, "ids");
-		BgArticle bgArticle = new BgArticle();
-		bgArticle.setIds(ids);
-		bgArticleMapperService.deleteByIds(bgArticle);
+		Blog blog = new Blog();
+		blog.setIds(ids);
+		blogMapperService.deleteByIds(blog);
 		response.getWriter().write("success");
 	}
 
@@ -271,24 +266,24 @@ public class BlogController {
 	 * */
 	@RequestMapping("my-updateArticle/{article_id}")
 	public String doMyArticle(@PathVariable int article_id, Model model) {
-		BgArticle bgArticle = new BgArticle();
-		bgArticle.setBgArticleId(article_id);
-		bgArticle = bgArticleMapperService.select(bgArticle);
-		String keywords = bgArticle.getKeywords();
+		Blog blog = new Blog();
+		blog.setBlogId(article_id);
+		blog = blogMapperService.select(blog);
+		String keywords = blog.getKeywords();
 		if(!keywords.isEmpty()){
 			if(",".equals(keywords)){
 				keywords = "";
 			}else{
-				keywords = bgArticle.getKeywords().substring(1,
-						bgArticle.getKeywords().length() - 1);
-				BgKeyword bgKeyword = new BgKeyword();
-				bgKeyword.setIds(keywords);
-				keywords = bgKeywordMapperService.selectGroupKeywords(bgKeyword);
-				keywords = keywords.replaceAll(",", " ");
-				bgArticle.setKeywords(keywords);
+//				keywords = blog.getKeywords().substring(1,
+//						blog.getKeywords().length() - 1);
+//				BgKeyword bgKeyword = new BgKeyword();
+//				bgKeyword.setIds(keywords);
+//				keywords = bgKeywordMapperService.selectGroupKeywords(bgKeyword);
+//				keywords = keywords.replaceAll(",", " ");
+//				blog.setKeywords(keywords);
 			}
 		}
-		model.addAttribute("article", bgArticle);
+		model.addAttribute("article", blog);
 		return "blog/my-updateArticle";
 	}
 
@@ -296,19 +291,19 @@ public class BlogController {
 	public void doMyUpdateblogPost(HttpServletRequest request,
 			HttpServletResponse response, HttpSession session)
 			throws IOException {
-		int article_id = DataHandle.returnValueInt(request, "bgArticleId");
+		int article_id = DataHandle.returnValueInt(request, "blogId");
 		String title = DataHandle.returnValue(request, "title");
 		String content = DataHandle.returnValue(request, "content");
 		String keyword = DataHandle.returnValue(request, "keyword");
-		BgUser htUser = (BgUser) session.getAttribute(Constant.USER);
-		String keywordIds = insertKeywords(htUser.getBgUserId(), keyword);
-		BgArticle bgArticle = new BgArticle();
-		bgArticle.setBgArticleId(article_id);
-		bgArticle.setTitle(title);
-		bgArticle.setBgUserId(htUser.getBgUserId());
-		bgArticle.setContent(content);
-		bgArticle.setKeywords(keywordIds);
-		bgArticleMapperService.update(bgArticle);
+		User htUser = (User) session.getAttribute(Constant.USER);
+		String keywordIds = insertKeywords(htUser.getUserId(), keyword);
+		Blog blog = new Blog();
+		blog.setBlogId(article_id);
+		blog.setTitle(title);
+		blog.setUserId(htUser.getUserId());
+		blog.setContent(content);
+		blog.setKeywords(keywordIds);
+		blogMapperService.update(blog);
 		response.getWriter().write("success");
 	}
 	
@@ -322,29 +317,29 @@ public class BlogController {
 	@RequestMapping("returnSingleArticle")
 	public void returnSingleArticle(HttpServletRequest request,
 			HttpServletResponse response, HttpSession session) throws IOException{
-		int bgArticleId = DataHandle.returnValueInt(request, "bgArticleId");
-		BgArticle bgArticle = new BgArticle();
-		bgArticle.setBgArticleId(bgArticleId);
-		bgArticle = bgArticleMapperService.select(bgArticle);
+		int blogId = DataHandle.returnValueInt(request, "blogId");
+		Blog blog = new Blog();
+		blog.setBlogId(blogId);
+		blog = blogMapperService.select(blog);
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("result", "success");
-		jsonObject.put("data", bgArticle);
+		jsonObject.put("data", blog);
 		response.getWriter().write(jsonObject.toString());
 	}
 
 	@RequestMapping("returnBlogList")
 	public void returnBlogList(HttpSession session,HttpServletResponse response,HttpServletRequest request) throws IOException{
-		BgUser bgUser = (BgUser) session.getAttribute(Constant.USER);
+		User user = (User) session.getAttribute(Constant.USER);
 		int startPage = DataHandle.returnValueInt(request, "startPage");
 		int recordNum = DataHandle.returnValueInt(request, "recordNum");
 		
-		BgArticle bgArticle = new BgArticle();
-		bgArticle.setBgUserId(bgUser.getBgUserId());
-		bgArticle.setPage(recordNum);
-		bgArticle.setStartPage((startPage - 1) * recordNum);
-		bgArticle.setCondition(" order by createDate desc ");
-		List<BgArticle> blogList = bgArticleMapperService.returnTitleEntity(bgArticle);
-		int recordSum = bgArticleMapperService.count(bgArticle);
+		Blog blog = new Blog();
+		blog.setUserId(user.getUserId());
+		blog.setPage(recordNum);
+		blog.setStartPage((startPage - 1) * recordNum);
+		blog.setCondition(" order by createDate desc ");
+		List<Blog> blogList = blogMapperService.returnTitleEntity(blog);
+		int recordSum = blogMapperService.count(blog);
 		JSONObject jsonObject = new JSONObject();
 		jsonObject.put("result", "success");
 		jsonObject.put("dataList", blogList);
@@ -357,10 +352,10 @@ public class BlogController {
      * */
     @RequestMapping("returnTreeYear")
     public void returnTreeYear(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
-    	BgUser bgUser = (BgUser) session.getAttribute(Constant.USER);
-    	BgArticle bgArticle = new BgArticle();
-    	bgArticle.setBgUserId(bgUser.getBgUserId());
-    	List<Map<String, Object>> noteList = bgArticleMapperService.selectYear(bgArticle);
+    	User user = (User) session.getAttribute(Constant.USER);
+    	Blog blog = new Blog();
+    	blog.setUserId(user.getUserId());
+    	List<Map<String, Object>> noteList = blogMapperService.selectYear(blog);
     	JSONObject jsonObject = new JSONObject();
     	jsonObject.put("result", "success");
     	jsonObject.put("data", noteList);
@@ -372,13 +367,13 @@ public class BlogController {
      * */
     @RequestMapping("returnTreeMonth")
     public void returnTreeMonth(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
-    	BgUser bgUser = (BgUser) session.getAttribute(Constant.USER);
+    	User user = (User) session.getAttribute(Constant.USER);
     	String year = request.getParameter("year");
     	String condition = "createDate >= '" + year + "-01-01 00:00:00' and createDate <= '" + year + "-12-31 23:59:59'";
-    	BgArticle bgArticle = new BgArticle();
-    	bgArticle.setCondition(condition);
-    	bgArticle.setBgUserId(bgUser.getBgUserId());
-    	List<Map<String, Object>> noteList = bgArticleMapperService.selectMonth(bgArticle);
+    	Blog blog = new Blog();
+    	blog.setCondition(condition);
+    	blog.setUserId(user.getUserId());
+    	List<Map<String, Object>> noteList = blogMapperService.selectMonth(blog);
     	JSONObject jsonObject = new JSONObject();
     	jsonObject.put("result", "success");
     	jsonObject.put("data", noteList);
@@ -390,14 +385,14 @@ public class BlogController {
      * */
     @RequestMapping("returnTreeDay")
     public void returnTreeDay(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
-    	BgUser bgUser = (BgUser) session.getAttribute(Constant.USER);
+    	User user = (User) session.getAttribute(Constant.USER);
     	String year = request.getParameter("year");
     	String month = request.getParameter("month");
     	String condition = "createDate >= '" + year + "-" + month + "-01 00:00:00' and createDate <= '" + year + "-" + month + "-31 23:59:59'";
-    	BgArticle bgArticle = new BgArticle();
-    	bgArticle.setBgUserId(bgUser.getBgUserId());
-    	bgArticle.setCondition(condition);
-    	List<Map<String, Object>> noteList = bgArticleMapperService.selectDay(bgArticle);
+    	Blog blog = new Blog();
+    	blog.setUserId(user.getUserId());
+    	blog.setCondition(condition);
+    	List<Map<String, Object>> noteList = blogMapperService.selectDay(blog);
     	JSONObject jsonObject = new JSONObject();
     	jsonObject.put("result", "success");
     	jsonObject.put("data", noteList);

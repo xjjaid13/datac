@@ -10,8 +10,7 @@ public class Note extends BaseEntity{
 	
 	private String createDate;
 	
-	private Integer bgUserId;
-	
+	private Integer userId;
 	
 	public Integer getNoteId() {
 		return noteId;
@@ -29,11 +28,6 @@ public class Note extends BaseEntity{
 		return createDate;
 	}
 	
-	public Integer getBgUserId() {
-		return bgUserId;
-	}
-	
-	
 	public void setNoteId(Integer noteId) {
 		this.noteId = noteId;
 	}
@@ -50,11 +44,15 @@ public class Note extends BaseEntity{
 		this.createDate = createDate;
 	}
 	
-	public void setBgUserId(Integer bgUserId) {
-		this.bgUserId = bgUserId;
-	}
-	
 	public String toString(){
 		return "Note";
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 }

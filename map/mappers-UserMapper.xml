@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.dao.UserMapperDao">
+
+	<resultMap id="user" type="User">
+		
+		<result property="userId" column="userId" />
+		
+		<result property="username" column="username" />
+		
+		<result property="password" column="password" />
+		
+		<result property="style" column="style" />
+		
+	</resultMap>
+
+	<select id="selectUser" resultType="java.util.Map" resultMap="user">
+		select * from bg_article where userId = #{userId}
+	</select>
+	
+	<select id="selectListUser"  resultType="java.util.List" resultMap="user">
+		select * from user where 1 = 1 <if test="style != null"> and style = #{style}</if> <if test="userId != null"> and userId = #{userId}</if>  <if test="username != null"> and username = '#{username}'</if>  <if test="password != null"> and password = '#{password}'</if>  limit #{startPage},#{page}
+	</select>
+	
+	<select id="selectCountUser"  resultType="java.lang.Integer" >
+		select count(userId) from user where 1 = 1 <if test="style != null"> and style = #{style}</if> <if test="userId != null"> and userId = #{userId}</if>  <if test="username != null"> and username = '#{username}'</if>  <if test="password != null"> and password = '#{password}'</if>  
+	</select>
+	
+	<insert id="insertUser" parameterType="User">
+		insert into user (userId,username,password,style) values (#{userId},#{username},#{password},#{style})
+	</insert>
+	
+	<update id="updateUser" parameterType="User">
+		update user set   <if test="style != null">style = #{style},</if> <if test="userId != null">userId = #{userId},</if>  <if test="username != null">username = #{username},</if>  <if test="password != null">password = #{password},</if>userId = #{userId} where userId = #{userId}
+	</update>
+	
+	<delete id="deleteIdsUser" parameterType="User">
+		delete from user where userId} in (#{ids})
+	</delete>
+
+	<select id="maxIdUser" resultType="java.lang.Integer">
+		select max(userId) from user		
+	</select>
+	
+	<select id="returnUserEntityByUserName" resultType="java.util.Map" resultMap="user">
+		select * from user where username = #{username} and password = #{password}
+	</select>
+	
+</mapper>

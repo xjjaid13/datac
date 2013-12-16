@@ -8,7 +8,7 @@ public class WebLinktype extends BaseEntity{
 	
 	private String name;
 	
-	private Integer bgUserId;
+	private Integer userId;
 	
 	private List<WebLink> webLinkList;
 	
@@ -20,21 +20,12 @@ public class WebLinktype extends BaseEntity{
 		return name;
 	}
 	
-	public Integer getBgUserId() {
-		return bgUserId;
-	}
-	
-	
 	public void setWebLinktypeId(Integer webLinktypeId) {
 		this.webLinktypeId = webLinktypeId;
 	}
 	
 	public void setName(String name) {
 		this.name = name;
-	}
-	
-	public void setBgUserId(Integer bgUserId) {
-		this.bgUserId = bgUserId;
 	}
 	
 	public String toString(){
@@ -47,6 +38,14 @@ public class WebLinktype extends BaseEntity{
 
 	public void setWebLinkList(List<WebLink> webLinkList) {
 		this.webLinkList = webLinkList;
+	}
+
+	public Integer getUserId() {
+		return userId;
+	}
+
+	public void setUserId(Integer userId) {
+		this.userId = userId;
 	}
 	
 }
