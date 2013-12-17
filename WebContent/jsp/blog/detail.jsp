@@ -9,21 +9,6 @@
 <link href="${base}/js/xDialog-master/xDialog.css" rel="stylesheet" type="text/css"/>
 <link type="text/css" rel="stylesheet" href="${base}/js/syntaxhighlighter_2.1.364/styles/shCore.css"/>
 <link type="text/css" rel="stylesheet" href="${base}/js/syntaxhighlighter_2.1.364/styles/shThemeDefault.css"/>
-<style>
-	.menu_ul{      
-		padding-left : 0px;
-	}
-	.title_div{
-		padding-bottom : 15px;
-	}
-	.menu_ul .addBlog{
-		background-color : grey;
-	}
-	.btnCode {
-		background:transparent url(${base}/image/code.gif) no-repeat 16px 16px;
-		background-position:2px 2px;
-	}
-</style>
 </head>     
 <body >
     <div>

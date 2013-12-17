@@ -7,24 +7,16 @@
 <title>导航</title>
 <link href="${base}/js/xDialog-master/xDialog.css" rel="stylesheet" type="text/css"/>
 <link type="text/css" rel="stylesheet" href="${base}/css/weblink.css" />
-<style>
-    .liWeblink{
-        background-color : #87CEEB;
-    }
-    .tabContent a{
-        color : white;
-    }
-</style>
 </head>
 <body>
 <%@include file="../../static/headNew.jsp" %>
 <div class="main">
 	<div class="container" style="height:500px;">
 		  	<ul class="nav nav-tabs">
-		  		<li class="active"><a class="typeTab" attr="0">常用</a></li>
+		  		<li class="liWebType" attr="-1"><a class="typeTab pointer" attr="0">常用</a></li>
 		    	<c:forEach items="${webLinkTypeList}" var="webLinktype" >
 		       		 <li class="liWebType" attr="${webLinktype.webLinktypeId}">
-		       		 	<a class="typeTab" attr="${webLinktype.webLinktypeId}">${webLinktype.name}</a>
+		       		 	<a class="typeTab pointer" attr="${webLinktype.webLinktypeId}">${webLinktype.name}</a>
 		       		 </li>
 		        </c:forEach>
 	            <li id="lastType" class="dropdown">
@@ -37,7 +29,7 @@
 	            </li>
             </ul>
 		    
-		    <ul style="list-style:none;" id="type0" class="tabContent">
+		    <ul style="list-style:none;" id="type0" class="tabContent hide">
 				 <li class="liWeblink">
 					<a href="http://www.sina.com.cn">新浪 </a>
 				 </li>
@@ -50,7 +42,7 @@
 			 </ul>
 		    
 			<c:forEach items="${webLinkTypeList}" var="webLinktype" >
-				 <ul style="display:none;list-style:none;" id="type${webLinktype.webLinktypeId}" class="tabContent">
+				 <ul style="list-style:none;" id="type${webLinktype.webLinktypeId}" class="tabContent hide">
 					 <c:forEach items="${webLinktype.webLinkList}" var="webLink" >
 						 <li class="liWeblink" attr="${webLink.webLinkId}">
 								<a target="_blank" href="${webLink.link}">${webLink.name}</a>
@@ -70,14 +62,25 @@
 </div>
 <%@include file="../../static/endNew.jsp" %>
 <script src="${base}/js/xDialog-master/xDialog.js"></script>
+<script src="${base}/js/cookie/jquery.cookie.js"></script>
 <script>
 	$(function(){
+		var tabIndex = $.cookie('tabIndex');
+		if(tabIndex == undefined){
+			tabIndex = "0";
+		}
+		$(".typeTab[attr="+tabIndex+"]").parent().addClass("active");
+		$("#type"+tabIndex).show();
 		$(".typeTab").click(function(){
 			$(".nav-tabs li").removeClass("active");
 			$(this).parent().addClass("active");
 			$(".tabContent").hide();
-			$("#type"+$(this).attr("attr")).show();
-		}).css("cursor","pointer");
+			var tabIndex = $(this).attr("attr");
+			$("#type"+tabIndex).show();
+			$.cookie('tabIndex',tabIndex,{
+				expires : 7
+			});
+		});
 		
 		$(".addNewLink").click(function(){
 			var $this = $(this);

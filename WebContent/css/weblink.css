@@ -95,3 +95,9 @@ border: 1px solid #18191c;
 	top:-3px;right:7px;position:absolute;
 	cursor:pointer;
 }
+.liWeblink{
+    background-color : #87CEEB;
+}
+.tabContent a{
+    color : white;
+}
