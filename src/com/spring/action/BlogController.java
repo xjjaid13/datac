@@ -127,6 +127,11 @@ public class BlogController {
 		model.addAttribute("isOperator",isOperator);
 		return "blog/index";
 	}
+	
+	@RequestMapping("list/{userId}")
+	public String doBlogList(@PathVariable int userId){
+		return "blog/list";
+	}
 
 	/**
 	 * 增加博客
@@ -237,15 +242,15 @@ public class BlogController {
 	/**
 	 * 单个博客文章页面
 	 * */
-	@RequestMapping("article/{article_id}")
-	public String doArticle(@PathVariable int article_id, Model model) {
+	@RequestMapping("detail/{blogId}")
+	public String doArticle(@PathVariable int blogId, Model model) {
 		Blog blog = new Blog();
-		blog.setBlogId(article_id);
+		blog.setBlogId(blogId);
 		blog = blogMapperService.select(blog);
 //		blog
 //				.setContent(HtmlHandle.filterTextToHTML(blog.getContent().toString()));
-		model.addAttribute("article", blog);
-		return "blog/article";
+		model.addAttribute("blog", blog);
+		return "blog/detail";
 	}
 
 	/**

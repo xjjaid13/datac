@@ -140,6 +140,13 @@
     border-radius:5px;
     cursor : pointer;
 }
+#blogContent{
+	padding : 20px 0;
+}
+#blogContent li{
+	list-style:none;
+	margin : 20px;
+}
 .flowClass{
     padding : 10px;
     margin : 5px;

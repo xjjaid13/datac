@@ -1,4 +1,5 @@
-var recordWrap = '<div>' + 
+var recordWrap = 
+			'<div>' + 
 			'<div><a id="lastPage">上一页</a> <a id="nextPage">下一页</a>  页数<a id="page">1</a>/<a id="pageSum">1</a>.</div>' +
 			'<div>每页显示<a id="recordNum">20</a>条.</div>' +
 			'<div>总记录<a id="recordSum">0</a>条.</div>' +

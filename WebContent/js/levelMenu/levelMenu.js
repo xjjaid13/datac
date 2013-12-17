@@ -6,6 +6,8 @@ $(function($) {
                 monthUrl : '',
                 dayUrl : ''
             };
+            var $this = $(this);
+            $this.before("<div class='levelTitle'>时间菜单</div>");
             var options =  $.extend(defaults, options);
             $.ajax({
             	url : options.yearUrl,
@@ -21,7 +23,7 @@ $(function($) {
                         content += "</ul>";
                         content += "</li>";
             		}
-            		$("#timeTree").html(content);
+            		$this.html(content);
             	}
             });
             
@@ -33,7 +35,7 @@ $(function($) {
             		$ul.attr('status','off');
             		return false;
             	}
-            	var year = $(this).find('.year').html();
+            	var year = $this.find('.year').html();
             	$.ajax({
             		url : options.monthUrl,
             		data : {'year' : year},

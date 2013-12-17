@@ -3,14 +3,21 @@
 	width : 200px;
 }
 #timeMenu{
-	border-radius:5px;box-shadow:0px 0px 10px #258ff2;
+	border-radius:5px;
 	color : white;
 }
 #timeTree{
-	background-color:#87CEEB;text-align:center;margin:0px;margin-top:6px;
+	background-color:#87CEEB;text-align:center;margin:0px;max-height:200px;overflow:auto;
 }
 #timeTree ul {
     margin : 0px;
+}
+.levelTitle {
+    height : 25px;
+    background-color : #FFEFD5;
+    color : #00CEEB;
+    padding-top : 7px;
+    text-align : center;
 }
 #timeTree li{
     list-style : none;
@@ -26,4 +33,7 @@
 }
 #timeTree span>a:hover{
     color : grey;
+}
+#menu{
+	margin-top : -5px;
 }

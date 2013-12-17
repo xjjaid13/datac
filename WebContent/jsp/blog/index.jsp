@@ -32,49 +32,36 @@
 <!-- end navbar -->
 <div class="main">
 	<div class="container">
-	    <div class="span10" style="margin:0px;padding:0px;">
-	    	<div class="row span9 hide">
-				<div class="box-wrapper">
-					<div class="widget">
-						<div class="wrapper-search">
-							<form class="form-inline form-search border-rd4" action="${base}/blog/index/${userid}" method="post">
-								<input type="hidden" name="page" value="${page+1}" >
-								<input type="text" class="box-text" name="keyword" id="keyword" value="${keyword}" placeholder="请输入查询内容">
-								<a class="btn-search" href="#"></a>
-							</form>
-						</div>
-					</div>
-				</div><!-- end box-wrapper -->
-			</div>
+	    <div class="span10" style="margin:-25px 0 0 0;padding:0px;">
 			<div class="row span9">
 				<div class="box-wrapper">
-					<div class="row" style="padding:20px;">
+					<div class="row" style="padding:0 0 0 30px;">
 						<div class="title span12">
 							<c:if test="${isOperator}">
 								<div>
 									<a id="addBlog" class="pointer">新增博客</a>
+									<a href="${base}/blog/list/${user.userId}">博客预览</a>
 								</div>
 							</c:if>
 							
 						</div><!-- end title -->
 					</div>
-					<ul class="thumbnails thumbnails-horizontal" id="blogContent">
+					<ul class="" id="blogContent" style="border:5px solid #F3F3F3;border-radius:5px;display:table;">
 						
 					</ul>
 					<div id="bottomClass" style="position:fixed;bottom:0;">
-						<div class="row span9" style="text-align:right;">
+						<div class="row span9" style="text-align:center;">
 							<div id="pagination" class="navigation pagination" style="margin:0 30px;">
 								
 	   						</div>
 						</div>
 					</div>
 				</div><!-- end  -->
-				
 			</div><!-- row -->
 	    </div>
 		<div class="span2" id="menu">
         	<div id="recordWrap">
-				<div id="toolDiv" class="span2" style="margin-left : 0;">
+				<div id="toolDiv" class="span2" style="margin-left:0;">
 					<div id="timeMenu">
 				        <ul id="timeTree">
 				        </ul>
@@ -85,29 +72,22 @@
 				</div>
 			</div>
         </div>
-				
 	</div><!-- end container -->
 </div><!-- end main -->
 <ul id="blogWrap" class="hide">
-	<li class="span3 contentMain" style="position:relative;">
-		<div class="thumbnail border-radius-top">
-			<div class="bg-thumbnail-img">
-				<div>#shortContent#</div>
+	<li class="span9 contentMain" style="position:relative;border-bottom:1px solid #F3F3F3;padding-bottom:20px;">
+		<div class="span6">
+			[#blogType#]<a target="_blank" href="${base}/blog/detail/#blogId#">#title#(#createDate#)</a>
+		</div>
+		<div class="span2">
+			类别:技术
+		</div>
+		<c:if test="${isOperator}">
+			<div>
+				<span><a attr="#blogId#" class="modifyBlog pointer">编辑</a></span>
+				<span><a attr="#blogId#" class="deleteBlog pointer">删除</a></span>
 			</div>
-			<h5><a href="${base}/blog/article/#bgArticleId#">#blogTitle#</a></h5>
-		</div>
-		<div class="box border-radius-bottom">
-			<p>
-				<span class="title_torrent pull-left">
-					#blogType#
-				</span>
-				<span class="number-view pull-right"><i class="icon-white icon-eye-open"></i>#createDate#</span>
-			</p>
-		</div>
-		<div class="operate box border-radius-bottom">
-			<a style="left:20px;" attr="#bgArticleId#" class="modifyBlog">修改</a>
-			<a style="right:20px;" attr="#bgArticleId#" class="deleteBlog">删除</a>
-		</div>
+		</c:if>
 	</li>
 </ul>
 <div id="blogContentWrap" class="hide">
@@ -143,9 +123,9 @@
 <script src="${base}/js/sticky/jquery.sticky.js"></script>
 <script>
 	$(function(){
-	    $("#toolDiv").sticky({ topSpacing: 70, center:true, className:"hey" });
+	    $("#toolDiv").sticky({ topSpacing: 65, center:true, className:"hey" });
 		 
-		$("#recordDiv").levelMenu({
+		$("#timeTree").levelMenu({
 		    yearUrl : '${base}/blog/returnTreeYear',
 	        monthUrl : '${base}/blog/returnTreeMonth',
 	        dayUrl : '${base}/blog/returnTreeDay'
@@ -170,7 +150,7 @@
 			    	}else{
 				        $.post('${base}/blog/my-addblog-post',{ title: title,keyword : keyword, content: content,article_type : article_type }, function(data) {
 				    	    closeDialog();
-						    returnBlogList();
+						    returnBlogList(1);
 				    	});
 			    	}
 			    	return false;
@@ -188,10 +168,10 @@
 		});
 		 
 		$(".modifyBlog").live("click",function(){
-			 var bgArticleId = $(this).attr("attr");
+			 var blogId = $(this).attr("attr");
 			 $.ajax({
 				 url : '${base}/blog/returnSingleArticle.action',
-				 data : 'bgArticleId='+bgArticleId,
+				 data : 'blogId='+blogId,
 				 type : 'post',
 				 dataType : 'json',
 				 success : function(ajaxData){
@@ -217,7 +197,7 @@
 					    	 }else{
 						    	 $.post('${base}/blog/my-addblog-post',{ title: title,keyword : keyword, content: content,article_type : article_type }, function(data) {
 						    		 closeDialog();
-								     returnBlogList();
+								     returnBlogList(1);
 						    	 });
 					    	 }
 					    	 return false;
@@ -230,14 +210,14 @@
 		
 	});
 	
-	var init = false;
 	function returnBlogList(startPage){
 		$.ajax({
 			url : '${base}/blog/returnBlogList',
-			data : {startPage : startPage , recordNum : 10},
+			data : {startPage : startPage , recordNum : 15},
 			dataType : 'json',
 			success : function(ajaxData){
 				$("#pagination").pagination(ajaxData.recordSum,{
+					items_per_page:15,
 				    current_page : startPage - 1,
 				    callback : function(startPage){
 				    	startPage++;
@@ -251,7 +231,7 @@
 					var tempWrap = blogWrap;
 					var blog = dataList[i];
 					var shortContent = blog.shortContent;
-					var bgArticleId = blog.bgArticleId;
+					var blogId = blog.blogId;
 					var title = blog.title;
 					var blogType = blog.blogType == 0;
 					if(blogType == 0){
@@ -263,8 +243,8 @@
 					}
 					var createDate = blog.createDate;
 					tempWrap = tempWrap.replace(/#shortContent#/,shortContent);
-					tempWrap = tempWrap.replace(/#bgArticleId#/g,bgArticleId);
-					tempWrap = tempWrap.replace(/#blogTitle#/,title);
+					tempWrap = tempWrap.replace(/#blogId#/g,blogId);
+					tempWrap = tempWrap.replace(/#title#/,title);
 					tempWrap = tempWrap.replace(/#blogType#/,blogType);
 					tempWrap = tempWrap.replace(/#createDate#/,createDate);
 					content += tempWrap;
