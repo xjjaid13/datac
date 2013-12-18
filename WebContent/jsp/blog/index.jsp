@@ -9,7 +9,7 @@
 <link href="${base}/js/xDialog-master/xDialog.css" rel="stylesheet" type="text/css"/>
 
 </head>     
-<body >
+<body>
     <div>
     
     </div>

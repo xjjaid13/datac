@@ -8,10 +8,7 @@
 <link href="${base}/js/levelMenu/levelMenu.css" rel="stylesheet" type="text/css"/>
 <link href="${base}/js/xDialog-master/xDialog.css" rel="stylesheet" type="text/css"/>
 </head>     
-<body >
-    <div>
-    
-    </div>
+<body>
 <input type="hidden" name="page" value="${page+1}" >
 <%@include file="../../static/headNew.jsp" %>
 <!-- end navbar -->
