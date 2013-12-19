@@ -20,7 +20,7 @@
 					<ul class="" id="blogContent" >
 						
 					</ul>
-					<div id="bottomClass" style="">
+					<div id="bottomClass" style="position:fixed;bottom:0;">
 						<div class="row span9" style="text-align:center;">
 							<div id="pagination" class="navigation pagination" style="margin:0 30px;">
 								
@@ -51,7 +51,7 @@
 	    <div class="blogContent" style="padding:15px;background-color:white;border-top:1px solid #EEEEEE;border-bottom:1px solid #EEEEEE;">
 	    	#shortContent# 
 	    </div>
-	    <div class="blogBottom" style="padding:15px;background-color:#EEEEEE;border-radius:0 0 5px 5px;"></div>
+	    <div class="blogBottom" style="padding:15px;background-color:#EEEEEE;border-radius:0 0 5px 5px;">#createDate#</div>
 	</li>
 </ul>
 <%@include file="../../static/endNew.jsp" %>
@@ -108,7 +108,7 @@
 					}else if(blogType == 2){
 						blogType = '译';
 					}
-					var createDate = blog.createDate;
+					var createDate = blog.createDate.substring(0,10);;
 					tempWrap = tempWrap.replace(/#shortContent#/,shortContent);
 					tempWrap = tempWrap.replace(/#blogId#/g,blogId);
 					tempWrap = tempWrap.replace(/#title#/,title);

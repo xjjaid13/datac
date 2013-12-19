@@ -193,8 +193,8 @@ public class BlogController {
 		String short_content = "";
 		short_content = HtmlHandle.filterTextToHTML(content);
 		short_content = HtmlHandle.Html2Text(short_content);
-		if (short_content.length() > 150) {
-			short_content = short_content.substring(0, 150) + "...";
+		if (short_content.length() > 500) {
+			short_content = short_content.substring(0, 500) + "...";
 		}
 		String keywordIds = insertKeywords(user.getUserId(), keyword);
 		Blog blog = new Blog();

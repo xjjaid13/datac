@@ -51,29 +51,23 @@
                 $('<div>',{'class':'x-content clearfix'}).appendTo(this.dialog);
                 this.settings.opacity = false;
             }else{
-                this.header = $('<div>',{'class':'x-header clearfix'});
+            	
+                this.header = $('<div>',{'class':'modal-header'});
 
                 //加入头部
                 if(this.settings.title || this.settings.closeBtn){
-                    this.header.appendTo(this.dialog);
-
-                    //加入标题
-                    if(this.settings.title){
-                        $('<span>',{'class':'x-title'}).html(this.settings.title).appendTo(this.header);
-                    }
-                   
-                    //加入右上角关闭按钮
-                    if(this.settings.closeBtn){
-                        $('<span>',{'class':'x-close'}).html('X').appendTo(this.header);
-                    }
+                	this.dialog.append('<div class="modal-header">'+
+                			'<button type="button" class="x-close close" data-dismiss="modal" aria-hidden="true">×</button>'+
+                			'<h3 id="myModalLabel">'+this.settings.title+'</h3></div>');
                 }
                
                 //加入内容
-                $('<div>',{'class':'x-content'}).appendTo(this.dialog);
-                
+                $('<div>',{'class':'x-content modal-body'}).appendTo(this.dialog);
                 //加入确定取消按钮
                 if(this.settings.ok && typeof this.settings.ok == 'function'){
-                    $('<div>',{'class':'x-buttons clearfix'}).html('<a class=\"x-ok g-button blue\" href=\"javascript:;\">确定<\/a><a href=\"javascript:;\" class=\"x-cancel g-button\">取消<\/a>').appendTo(this.dialog);
+                this.dialog.append('<div class="modal-footer">'+
+                		'<button class="x-ok btn btn-primary" data-dismiss="modal" aria-hidden="true">保存</button>'+
+                		'<button class="x-cancel btn">关闭</button></div>');
                 }
             }
             if(this.settings.iframe != ''){

@@ -101,3 +101,8 @@ border: 1px solid #18191c;
 .tabContent a{
     color : white;
 }
+.main .container{
+	height:500px;
+	background-color:#EEEEEE;
+	border-radius:5px;
+}

@@ -11,8 +11,8 @@
 <body>
 <%@include file="../../static/headNew.jsp" %>
 <div class="main">
-	<div class="container" style="height:500px;">
-		  	<ul class="nav nav-tabs">
+	<div class="container">
+		  	<ul class="">
 		  		<li class="liWebType" attr="-1"><a class="typeTab pointer" attr="0">常用</a></li>
 		    	<c:forEach items="${webLinkTypeList}" var="webLinktype" >
 		       		 <li class="liWebType" attr="${webLinktype.webLinktypeId}">

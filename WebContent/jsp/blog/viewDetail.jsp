@@ -22,7 +22,7 @@
 			<div class="row span9">
 				<div class="box-wrapper">
 					<div class="span9" id="blogContent" >
-						<a href="${base}/blog/list/${user.userId}">返回</a>
+						<a href="${base}/blog/view/${user.userId}">返回</a>
 						<h4 align="center">${blog.title}</h4><br/>
 						<div>${blog.content}</div>
 					</div>

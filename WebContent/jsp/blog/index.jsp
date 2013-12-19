@@ -7,12 +7,8 @@
 <link type="text/css" rel="stylesheet" href="${base}/css/blog.css">
 <link href="${base}/js/levelMenu/levelMenu.css" rel="stylesheet" type="text/css"/>
 <link href="${base}/js/xDialog-master/xDialog.css" rel="stylesheet" type="text/css"/>
-
 </head>     
 <body>
-    <div>
-    
-    </div>
 <input type="hidden" name="page" value="${page+1}" >
 <%@include file="../../static/headNew.jsp" %>
 <!-- end navbar -->
@@ -21,7 +17,7 @@
 	    <div class="span10" style="margin:-25px 0 0 0;padding:0px;">
 			<div class="row span9">
 				<div class="box-wrapper">
-					<div class="row" style="padding:10px 0 10px 70px;">
+					<div class="row" style="padding:10px 0 10px 30px;">
 						<div class="title span12">
 							<div>
 							    <button id="addBlog" class="btn" type="button">新增博客</button>
@@ -74,24 +70,19 @@
 	</li>
 </ul>
 <div id="blogContentWrap" class="hide">
-	<div>
-		<div class="row-fluid" style="padding-top:20px;height:430px;overflow:auto;">
-			<div class="span1"></div>
-			<div class="span10">
-				<div>
-					<select id="article_type" style="width:70px;">
-						<option value="0">原创</option>
-						<option value="1">转载</option>
-						<option value="2">翻译</option>
-					</select>
-					<input type="text" id="title" class="input_class">
-				</div>
-				<div class="title_div">
-					<textarea id="content" name="content" rows="22" cols="80" style="width: 100%; height : 300px;"></textarea>
-				</div>
-				<div><label class="pull-left" style="padding:4px 6px;">关键字： </label><input type="text" class="input_class" name="keyword" id="keyword"></div>
-			</div>
+	<div class="row-fluid">
+		<div>
+			<select id="article_type" style="width:80px;">
+				<option value="0">原创</option>
+				<option value="1">转载</option>
+				<option value="2">翻译</option>
+			</select>
+			<input type="text" id="title" class="input_class">
 		</div>
+		<div class="title_div">
+			<textarea id="content" name="content" rows="22" cols="80" style="width: 100%; height : 300px;"></textarea>
+		</div>
+		<div><label class="pull-left" style="padding:4px 6px;">关键字： </label><input type="text" class="input_class" name="keyword" id="keyword"></div>
 	</div>
 </div>
 <%@include file="../../static/endNew.jsp" %>
