@@ -19,7 +19,7 @@ $(function($) {
             			jsonSingle = data[i];
             			content += "<li class='expandYear'>";
                         content += "<span><a class='year'>"+jsonSingle.yearDate+"</a>(<a>"+jsonSingle.count+"</a>)</span>";
-                        content += "<ul style='background-color:#00CEEB'>";
+                        content += "<ul class='monthTree'>";
                         content += "</ul>";
                         content += "</li>";
             		}
@@ -47,7 +47,7 @@ $(function($) {
             				jsonSingle = data[i];
             				content += "<li class='expandMonth'>";
                             content += "<span><a class='month'>"+jsonSingle.monthDate+"</a>月(<a>"+jsonSingle.count+"</a>)</span>";
-                            content += "<ul style='background-color:#00C4EB'>";
+                            content += "<ul class='dayTree'>";
                             
                             content += "</ul>";
                             content += "</li>";

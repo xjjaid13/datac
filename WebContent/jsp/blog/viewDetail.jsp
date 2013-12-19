@@ -18,10 +18,10 @@
 <!-- end navbar -->
 <div class="main">
 	<div class="container">
-	    <div class="span10" style="margin:-25px 0 0 0;padding:0px;">
+	    <div class="span10" style="background-color:#EEEEEE;margin:0;border-radius:5px;">
 			<div class="row span9">
 				<div class="box-wrapper">
-					<div class="span9" id="blogContent" style="border:5px solid #F3F3F3;border-radius:5px;display:table;padding:10px;">
+					<div class="span9" id="blogContent" >
 						<a href="${base}/blog/list/${user.userId}">返回</a>
 						<h4 align="center">${blog.title}</h4><br/>
 						<div>${blog.content}</div>

@@ -17,7 +17,7 @@
 	    <div class="span10" style="margin:-25px 0 0 0;padding:0px;">
 			<div class="row span9">
 				<div class="box-wrapper">
-					<ul class="" id="blogContent" style="border:5px solid #F3F3F3;border-radius:5px;display:table;">
+					<ul class="" id="blogContent" >
 						
 					</ul>
 					<div id="bottomClass" style="">
@@ -46,12 +46,12 @@
 	</div><!-- end container -->
 </div><!-- end main -->
 <ul id="blogListWrap" class="hide">
-	<li class="span9 contentMain" style="position:relative;border-bottom:1px solid #F3F3F3;padding-bottom:20px;">
-		<h4><a target="_blank" href="${base}/blog/detail/#blogId#">#title#</a></h4>
-		<div class="blogContent">
-			#shortContent# 
-			<a class="pointer" class="viewAll" attr="#blogId#">查看全部</a>
-		</div>
+	<li class="span9 contentMain" style="position:relative;margin-bottom:20px;margin-right:30px;">
+	    <div class="blogTitle" style="padding:15px;background-color:white;border-radius:5px 5px 0 0;"><a style="color:grey;font-size:14px;" target="_blank" href="${base}/blog/viewDetail/#blogId#">#title#</a></div>
+	    <div class="blogContent" style="padding:15px;background-color:white;border-top:1px solid #EEEEEE;border-bottom:1px solid #EEEEEE;">
+	    	#shortContent# 
+	    </div>
+	    <div class="blogBottom" style="padding:15px;background-color:#EEEEEE;border-radius:0 0 5px 5px;"></div>
 	</li>
 </ul>
 <%@include file="../../static/endNew.jsp" %>

@@ -21,17 +21,14 @@
 	    <div class="span10" style="margin:-25px 0 0 0;padding:0px;">
 			<div class="row span9">
 				<div class="box-wrapper">
-					<div class="row" style="padding:0 0 0 30px;">
+					<div class="row" style="padding:10px 0 10px 70px;">
 						<div class="title span12">
-							<c:if test="${isOperator}">
-								<div>
-									<a id="addBlog" class="pointer">新增博客</a>
-									<a href="${base}/blog/list/${user.userId}">博客预览</a>
-								</div>
-							</c:if>
+							<div>
+							    <button id="addBlog" class="btn" type="button">新增博客</button>
+							</div>
 						</div><!-- end title -->
 					</div>
-					<ul class="" id="blogContent" style="border:5px solid #F3F3F3;border-radius:5px;display:table;">
+					<ul class="fixed span9" id="blogContent" style="margin-right:30px;background-color:#EEEEEE;border-radius:5px;">
 						
 					</ul>
 					<div id="bottomClass" style="position:fixed;bottom:0;">
@@ -60,19 +57,20 @@
 	</div><!-- end container -->
 </div><!-- end main -->
 <ul id="blogWrap" class="hide">
-	<li class="span9 contentMain" style="position:relative;border-bottom:1px solid #F3F3F3;padding-bottom:20px;">
-		<div class="span6">
-			[#blogType#]<a target="_blank" href="${base}/blog/detail/#blogId#">#title#(#createDate#)</a>
+	<li class="contentMain" style="position:relative;padding:15px;height:20px;">
+		<div class="span5">
+			<a target="_blank" href="${base}/blog/viewDetail/#blogId#">#title#</a>
 		</div>
-		<div class="span2">
-			类别:技术
+		<div class="span1">
+		           类别:技术
 		</div>
-		<c:if test="${isOperator}">
-			<div>
-				<span><a attr="#blogId#" class="modifyBlog pointer">编辑</a></span>
-				<span><a attr="#blogId#" class="deleteBlog pointer">删除</a></span>
-			</div>
-		</c:if>
+		<div class="span1">
+			#createDate#
+		</div>
+		<div class="span1">
+			<span><a attr="#blogId#" class="modifyBlog pointer">编辑</a></span>
+			<span><a attr="#blogId#" class="deleteBlog pointer">删除</a></span>
+		</div>
 	</li>
 </ul>
 <div id="blogContentWrap" class="hide">
@@ -226,7 +224,7 @@
 					}else if(blogType == 2){
 						blogType = '译';
 					}
-					var createDate = blog.createDate;
+					var createDate = blog.createDate.substring(0,10);
 					tempWrap = tempWrap.replace(/#shortContent#/,shortContent);
 					tempWrap = tempWrap.replace(/#blogId#/g,blogId);
 					tempWrap = tempWrap.replace(/#title#/,title);
@@ -244,6 +242,12 @@
 				    event.preventDefault();
 				});
 				</c:if>
+
+				$(".contentMain").hover(function(){
+					$(this).css("background-color","#D8DDE0");
+				},function(){
+					$(this).css("background-color","#EEEEEE");
+				});
 			}
 		});
 	}

@@ -128,9 +128,9 @@ public class BlogController {
 		return "blog/index";
 	}
 	
-	@RequestMapping("list/{userId}")
+	@RequestMapping("view/{userId}")
 	public String doBlogList(@PathVariable int userId){
-		return "blog/list";
+		return "blog/view";
 	}
 
 	/**
@@ -242,7 +242,7 @@ public class BlogController {
 	/**
 	 * 单个博客文章页面
 	 * */
-	@RequestMapping("detail/{blogId}")
+	@RequestMapping("viewDetail/{blogId}")
 	public String doArticle(@PathVariable int blogId, Model model) {
 		Blog blog = new Blog();
 		blog.setBlogId(blogId);
@@ -250,7 +250,7 @@ public class BlogController {
 //		blog
 //				.setContent(HtmlHandle.filterTextToHTML(blog.getContent().toString()));
 		model.addAttribute("blog", blog);
-		return "blog/detail";
+		return "blog/viewDetail";
 	}
 
 	/**

@@ -2,17 +2,7 @@
     pageEncoding="UTF-8"%>
 <script>var base = '${base}';</script>
 <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
-<script src="${base}/js/bootstrap/js/bootstrap.min.js"></script>
-<script>
-	$(function(){
-		$(".dropdown-toggle").mouseover(function(){
-			$(this).parent().addClass("open");
-		});
-		$("#userInfo").mouseleave(function(){
-			$(this).parent().removeClass("open");
-		});
-	});
-</script>
+<script src="//netdna.bootstrapcdn.com/bootstrap/2.2.2/js/bootstrap.min.js"></script>
 <!-- <div class="footer">
     <div class="container">
         <div class="row">

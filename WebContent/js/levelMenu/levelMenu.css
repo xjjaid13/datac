@@ -7,18 +7,23 @@
 	color : white;
 }
 #timeTree{
-	background-color:#87CEEB;text-align:center;margin:0px;max-height:200px;overflow:auto;
+	background-color:#D8DDE0;text-align:center;margin:0px;max-height:200px;overflow:auto;border-radius:0 0 5px 5px;
 }
-#timeTree ul {
-    margin : 0px;
+.monthTree{
+	background-color :  #B6B6B6;
+}
+.dayTree{
+	background-color :  #929292;
 }
 .levelTitle {
     height : 25px;
-    background-color : #FFEFD5;
-    color : #00CEEB;
+    border-radius:5px 5px 0 0;
+	background-image : linear-gradient(to bottom, #FFFFFF, #F2F2F2);
     padding-top : 7px;
+    color : grey;
     text-align : center;
 }
+
 #timeTree li{
     list-style : none;
 }

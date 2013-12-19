@@ -8,10 +8,10 @@
 
 #blogContent{
 	padding : 20px 0;
+	color : grey;
 }
 #blogContent li{
 	list-style:none;
-	margin : 20px;
 }
 .title_div{
 	padding-bottom : 15px;
