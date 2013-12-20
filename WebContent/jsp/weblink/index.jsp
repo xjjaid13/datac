@@ -6,13 +6,13 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>导航</title>
 <link href="${base}/js/xDialog-master/xDialog.css" rel="stylesheet" type="text/css"/>
-<link type="text/css" rel="stylesheet" href="${base}/css/weblink.css" />
 </head>
 <body>
 <%@include file="../../static/headNew.jsp" %>
+<link type="text/css" rel="stylesheet" href="${base}/css/weblink.css" />
 <div class="main">
 	<div class="container">
-		  	<ul class="">
+		  	<ul class="nav nav-tabs chat-tabs">
 		  		<li class="liWebType" attr="-1"><a class="typeTab pointer" attr="0">常用</a></li>
 		    	<c:forEach items="${webLinkTypeList}" var="webLinktype" >
 		       		 <li class="liWebType" attr="${webLinktype.webLinktypeId}">
@@ -20,24 +20,15 @@
 		       		 </li>
 		        </c:forEach>
 	            <li id="lastType" class="dropdown">
-		            <a href="#" data-toggle="dropdown" class="dropdown-toggle">选项 <b class="caret"></b></a>
-		            <ul class="dropdown-menu" style="background-color:grey;">
-			            <li><a id="addType" href="#">新增类型</a></li>
-			            <li><a href="#">个人设置</a></li>
-			            <li><a href="#">about</a></li>
-		            </ul>
+		            <a href="#" >+</a>
 	            </li>
             </ul>
 		    
 		    <ul style="list-style:none;" id="type0" class="tabContent hide">
 				 <li class="liWeblink">
-					<a href="http://www.sina.com.cn">新浪 </a>
-				 </li>
-				 <li class="liWeblink">
-					<a href="http://www.baidu.com">百度</a>
-				 </li>
-				 <li class="liWeblink">
-					<a href="http://www.google.com">谷歌</a>
+				    <div class="linkTitle">baidu</div>
+				    <div class="linkContent"><a href="www.baidu.com">baidu</a></div>
+				    <div class="linkBottom"></div>
 				 </li>
 			 </ul>
 		    
@@ -45,7 +36,9 @@
 				 <ul style="list-style:none;" id="type${webLinktype.webLinktypeId}" class="tabContent hide">
 					 <c:forEach items="${webLinktype.webLinkList}" var="webLink" >
 						 <li class="liWeblink" attr="${webLink.webLinkId}">
-								<a target="_blank" href="${webLink.link}">${webLink.name}</a>
+						    <div class="linkTitle">${webLink.name}</div>
+						    <div class="linkContent"><a style="color:black;" href="${webLink.link}">${webLink.name}</a></div>
+						    <div class="linkBottom"></div>
 						 </li>
 					 </c:forEach>
 					 <li class="liWeblink" id="lastLink"><a class="addNewLink" style="cursor:pointer;">添加</a></li>

@@ -46,12 +46,12 @@
 	</div><!-- end container -->
 </div><!-- end main -->
 <ul id="blogListWrap" class="hide">
-	<li class="span9 contentMain" style="position:relative;margin-bottom:20px;margin-right:30px;">
-	    <div class="blogTitle" style="padding:15px;background-color:white;border-radius:5px 5px 0 0;"><a style="color:grey;font-size:14px;" target="_blank" href="${base}/blog/viewDetail/#blogId#">#title#</a></div>
-	    <div class="blogContent" style="padding:15px;background-color:white;border-top:1px solid #EEEEEE;border-bottom:1px solid #EEEEEE;">
+	<li class="span9 contentMain" >
+	    <div class="blogTitle"><a target="_blank" href="${base}/blog/viewDetail/#blogId#">#title#</a></div>
+	    <div class="blogContent">
 	    	#shortContent# 
 	    </div>
-	    <div class="blogBottom" style="padding:15px;background-color:#EEEEEE;border-radius:0 0 5px 5px;">#createDate#</div>
+	    <div class="blogBottom">#createDate#</div>
 	</li>
 </ul>
 <%@include file="../../static/endNew.jsp" %>
