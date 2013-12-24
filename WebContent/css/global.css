@@ -19,6 +19,5 @@ a:focus{outline: none;}
 .navbar-fixed-top .nav .avatar_small a{height:20px;width:10px;margin-right:-15px;}
 .main{padding:90px 0 30px;}
 
-.xheDialog label{
-	display : inline;
-}
+.xheDialog label{display : inline;}
+.modal-header{background-image:-moz-linear-gradient(center bottom , #EEEEEE 0%, #FFFFFF 50%)}

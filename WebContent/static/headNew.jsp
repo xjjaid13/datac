@@ -7,8 +7,8 @@
 <link rel="stylesheet" type="text/css" href="http://netdna.bootstrapcdn.com/bootstrap/2.2.2/css/bootstrap-responsive.css">
 <link type="text/css" rel="stylesheet" href="${base}/css/global.css">
 <link type="text/css" rel="stylesheet" href="${base}/css/face/<%=Constant.STYLE%>.css">
-<div class="navbar navbar-fixed-top"> 
-	<div class="navbar-inner" style="height:60px;"> 
+<div class="navbar navbar-fixed-top">
+	<div class="navbar-inner" style="height:60px;">
 		<div class="container">
 			<div class="nav-collapse">
 				 

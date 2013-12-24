@@ -22,6 +22,12 @@
 		
 			<result property="hit" column="hit" />
 			
+			<result property="host" column="host" />
+		
+			<result property="description" column="description" />
+			
+			<result property="icon" column="icon" />
+			
 		</collection>
 		
 	</resultMap>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -35,36 +36,87 @@
 			<c:forEach items="${webLinkTypeList}" var="webLinktype" >
 				 <ul style="list-style:none;" id="type${webLinktype.webLinktypeId}" class="tabContent hide">
 					 <c:forEach items="${webLinktype.webLinkList}" var="webLink" >
-						 <li class="liWeblink" attr="${webLink.webLinkId}">
-						    <div class="linkTitle">${webLink.name}</div>
-						    <div class="linkContent"><a style="color:black;" href="${webLink.link}">${webLink.name}</a></div>
-						    <div class="linkBottom"></div>
+						 <li class="liWeblink" attr="${webLink.webLinkId}" id="webLink${webLink.webLinkId}">
+						    <div class="linkTitle"><img class="iconClass" width="16" height="16" style="padding-top:3px;margin-right:5px;" src="${webLink.icon}" />
+						    	<span title="${webLink.name}" class="webLinkName">
+							    	<c:choose>
+									   <c:when test="${fn:length(webLink.name) > 16}">
+									   	   <c:out value="${fn:substring(webLink.name, 0, 16)}..." /> 
+									   </c:when>
+									   <c:otherwise>
+									       ${webLink.name}
+									   </c:otherwise>
+									</c:choose>
+						    	</span>
+						    </div>
+						    <div class="linkContent" style="padding-left:15px;padding-right:15px;">
+						    	<a style="color:black;" title="${webLink.description}" class="webLinkDescription" href="${webLink.link}">
+						    		<c:choose>
+									   <c:when test="${fn:length(webLink.description) > 64}">
+									   	   <c:out value="${fn:substring(webLink.description, 0, 64)}..." /> 
+									   </c:when>
+									   <c:otherwise>
+									       ${webLink.description}
+									   </c:otherwise>
+									</c:choose>
+						        </a>
+						    </div>
+						    <div class="linkBottom"><span><a class="pointer weblinkConfig">设置</a></span></div>
 						 </li>
 					 </c:forEach>
-					 <li class="liWeblink" id="lastLink"><a class="addNewLink" style="cursor:pointer;">添加</a></li>
+					 <li class="liWeblink" id="lastLink"><a class="addNewLink pointer">添加</a></li>
 				 </ul>
 			</c:forEach>
 	</div>
 </div>
-<div id="addNewLinkContent" style="display:none;">
-	<div>名称: <input type="text" name="linkName" id="linkName"></div>
-	<div>链接: <input type="text" name="link" id="link"></div>
-</div>
-<div id="addNewLinkType" style="display:none;">
-	<div>名称: <input type="text" name="linkType" id="linkType"></div>
+<div id="webListWrap" class="hide">
+	<div><input type="text" placeHolder="请输入网址" style="width:95%;margin:0px;" name="webLinkContent" id="webLinkContent" /></div>
 </div>
 <%@include file="../../static/endNew.jsp" %>
 <script src="${base}/js/xDialog-master/xDialog.js"></script>
 <script src="${base}/js/cookie/jquery.cookie.js"></script>
 <script>
+		
 	$(function(){
+		resetHeight();
+		$(window).resize(function(){
+			resetHeight();
+		});
 		var tabIndex = $.cookie('tabIndex');
 		if(tabIndex == undefined){
 			tabIndex = "0";
 		}
+		$("#lastType").click(function(){
+			var $this = $(this);
+			$.ajax({
+				url : '${base}/weblink/my-addWebLinktype',
+				dataType : 'json',
+				success : function(ajaxData){
+					var content = "<li class='liWebType' attr='"+ajaxData.webLinktype.webLinktypeId+"'><input class='tempInput' type='text' value='自定义' /></li>";
+					$this.before(content);
+					$(".tempInput").select();
+				}
+			});
+		});
+		$(".tempInput").live("blur",function(){
+			var $this = $(this);
+			var name = $this.val();
+			var webLinktypeId = $this.parent().attr("attr");
+			$.ajax({
+				url : '${base}/weblink/my-updateWebLinktype',
+				data : {name:name,webLinktypeId:webLinktypeId},
+				dataType : 'json',
+				success : function(ajaxData){
+					if(ajaxData.result == 'success'){
+						$this.parent().html('<a class="typeTab pointer" attr="'+webLinktypeId+'">'+name+'</a>');
+					}
+				}
+			});
+			
+		});
 		$(".typeTab[attr="+tabIndex+"]").parent().addClass("active");
 		$("#type"+tabIndex).show();
-		$(".typeTab").click(function(){
+		$(".typeTab").live("click",function(){
 			$(".nav-tabs li").removeClass("active");
 			$(this).parent().addClass("active");
 			$(".tabContent").hide();
@@ -75,95 +127,55 @@
 			});
 		});
 		
-		$(".addNewLink").click(function(){
+		$(".weblinkConfig").live("click",function(){
 			var $this = $(this);
-			var dialog = $.xDialog({
-				title:'温馨提示',
-				content:$("#addNewLinkContent"),
-				ok:function(){
-					var linkName = $(".xDialog #linkName").val();
-					var link = $(".xDialog #link").val();
-					var type = $(".active .typeTab").attr("attr");
-					$.ajax({
-						url : "${base}/weblink/addNewLink",
-						data : "linkName="+linkName+"&link="+link+"&type="+type,
-						type : 'post',
-						dataType : 'html',
-						success : function(data){
-							$this.closest(".tabContent").find("#lastLink").before('<li class="liWeblink">'+
-									'<a href="'+link+'">'+linkName+'</a>'+
-									 '</li>');
-							dialog.close();
-						}
-					});
-					return false;
-				},
-				cancel:function(){
-					return true;
-				}
-			});
-		});
-		$(".liWeblink").live("mouseenter",function(){
-            $(this).prepend("<a class='deleteWeblink'>x</a>");
-        }).live("mouseleave",function(){
-            $(this).find(".deleteWeblink").remove();
-        });
-		$(".liWebType").hover(function(){
-			$(this).prepend("<span class='deleteWeblinkType'>x</span>");
-		},function(){
-			$(this).find(".deleteWeblinkType").remove();
-		});
-		$(".deleteWeblink").live("click",function(){
-			var $this = $(this);
-            var webLinkId = $this.parent().attr("attr");
-            $.ajax({
-                url : '${base}/weblink/deleteLink?webLinkId='+webLinkId,
-                success : function(data){
-                    top.location.reload();
-                }
-            });
-		});
-		$(".deleteWeblinkType").live("click",function(){
-			var $this = $(this);
-			var webLinktypeId = $this.parent().attr("attr");
 			$.xDialog({
-		        title:'提示',
-		        content:'删除该类型会删除其所有子链接，确认删除该类型？',
-		        ok:function(){
-		        	$.ajax({
-		                url : '${base}/weblink/deleteLinkType?webLinktypeId='+webLinktypeId,
-		                success : function(data){
-		                    top.location.reload();
-		                }
-		            });
-		        },
-		        cancel:function(){
-		           // alert('cancel');
-		        }
-		    });
-		});
-		$("#addType").click(function(){
-			var dialog = $.xDialog({
-				title:'温馨提示',
-				content:$("#addNewLinkType"),
-				ok:function(){
-					var linkType = $(".xDialog #linkType").val();
-					$.ajax({
-						url : "${base}/weblink/addNewLinkType",
-						data : "linkType="+linkType,
-						type : 'post',
-						success : function(data){
-							top.location.reload();
-						}
-					});
-					return false;
-				},
-				cancel:function(){
-					return true;
-				}
+			    title:'设置链接',
+			    content:$("#webListWrap").html(),
+			    popCallBack : function(){
+			    	$(".xDialog #webLinkContent").focus();
+			    },
+			    width : 300,
+			    ok : function(){
+			    	var webLinkId = $this.closest(".liWeblink").attr("attr");
+			        var webLinkContent = $(".xDialog #webLinkContent").val();
+			        var webLinkTypeId = $(".container .nav .active").attr("attr");
+			    	if(webLink == ""){
+			    	    alert("请输入内容");
+			    	}else{
+				        $.ajax({
+				        	url : '${base}/weblink/my-updateWebLink',
+				        	data : 'webLinkContent='+webLinkContent+"&webLinkId="+webLinkId,
+				        	type : 'post',
+				        	dataType : 'json',
+				        	success : function(ajaxData){
+				        		if(ajaxData.name.length > 15){
+					        		$("#webLink" + webLinkId).find(".webLinkName").html(ajaxData.name.substring(0,15) + "...");
+				        		}else{
+					        		$("#webLink" + webLinkId).find(".webLinkName").html(ajaxData.name);
+				        		}
+				        		$("#webLink" + webLinkId).find(".webLinkName").attr("title",ajaxData.name);
+				        		$("#webLink" + webLinkId).find(".iconClass").attr("src",ajaxData.icon);
+				        		if(ajaxData.description.length > 64){
+					        		$("#webLink" + webLinkId).find(".webLinkDescription").html(ajaxData.description.substring(0,64) + "...");
+				        		}else{
+				        			$("#webLink" + webLinkId).find(".webLinkDescription").html(ajaxData.description);
+				        		}
+				        		$("#webLink" + webLinkId).find(".webLinkDescription").attr("title",ajaxData.description);
+				        		$("#webLink" + webLinkId).find(".webLinkDescription").attr("href", ajaxData.link);
+				        		
+				        		closeDialog();
+				        	}
+				        });
+			    	}
+			    	return false;
+			    }
 			});
 		});
 	});
+	function resetHeight(){
+		$(".tabContent").css("height",$(window).height()-60-37);	
+	}
 </script>
 </body>
 </html>

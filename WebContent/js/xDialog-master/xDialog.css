@@ -12,5 +12,5 @@ body{_background-image: url(about:blank);/*用浏览器空白页面作为背景*
 .xDialog .x-buttons .x-ok{margin-right: 10px;}
 .xDialog .x-buttons .x-cancel{margin-right: 15px;}
 .xDialog.border{box-shadow: 0 4px 16px rgba(0,0,0,.2);background: #F1F1F1;outline: 0;}
-.xDialog.fixed{position:fixed;_position:absolute;_right:16px;top:50%;left:50%;_top:expression(document.documentElement.scrollTop + Math.round(document.documentElement.offsetHeight / 2) + 'px');/*IE6 动态设置top位置*/}
+.xDialog.fixed{border:1px solid #AAAAAA;position:fixed;_position:absolute;_right:16px;top:50%;left:50%;_top:expression(document.documentElement.scrollTop + Math.round(document.documentElement.offsetHeight / 2) + 'px');/*IE6 动态设置top位置*/}
 

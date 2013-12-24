@@ -16,14 +16,14 @@
 .container>.nav-tabs {
 	border: none;
 }
+.container{
+	height:100%;
+}
 .main .container .nav{
 	margin-bottom : 0;
 	background-color:#EEEEEE;
 	border:0 none;
 	border-radius:5px 5px 0 0;
-}
-.tabContent a{
-    color : white;
 }
 .tabContent{
 	background-image:#BEBEBE;
@@ -32,6 +32,7 @@
 	border:1px solid #EEEEEE;
 	border-top:0 none;
 	border-radius:0 0 5px 5px;
+	height:100%;
 }
 .main .container{
 	background-color:#BEBEBE;
@@ -52,7 +53,7 @@
 	cursor:pointer;
 }
 .linkTitle{
-	padding:5px;background-image:-moz-linear-gradient(center bottom , #EEEEEE 0%, #FFFFFF 50%);
+	padding:5px;background-image:linear-gradient(to bottom, #FFFFFF, #F2F2F2);
 	border-radius:5px 5px 0 0;
 }
 .linkTitle a{
@@ -62,17 +63,31 @@
 	height:85px;background-color:white;border-top:1px solid #EEEEEE;border-bottom:1px solid #EEEEEE;
 }
 .linkBottom{
-	padding:15px;background-color:#EEEEEE;border-radius:0 0 5px 5px;
+	background-color:#EEEEEE;border-radius:0 0 5px 5px;text-align:center;height:30px;
+}
+.linkBottom span{
+	display:block;height:30px;width:33%;padding-top:5px;
 }
 .nav-tabs > li > a{
 	border-radius:0;
 }
 body{
 	overflow:hidden;
+	height:100%;
+}
+html{
+	height:100%;
 }
 .main{
 	padding:60px 0 0 0;
+	height:100%;
 }
 .container{
 	width:100%;
+}
+.liWebType .tempInput{
+	margin-top:5px;
+	width : 50px;
+	font-size:12px;
+	margin-bottom:0px;
 }

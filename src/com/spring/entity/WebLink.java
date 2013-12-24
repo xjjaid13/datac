@@ -14,6 +14,11 @@ public class WebLink extends BaseEntity{
 	
 	private Integer hit;
 	
+	private String host;
+	
+	private String description;
+	
+	private String icon;
 	
 	public Integer getWebLinkId() {
 		return webLinkId;
@@ -66,5 +71,29 @@ public class WebLink extends BaseEntity{
 
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+
+	public String getHost() {
+		return host;
+	}
+
+	public void setHost(String host) {
+		this.host = host;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public String getIcon() {
+		return icon;
+	}
+
+	public void setIcon(String icon) {
+		this.icon = icon;
 	}
 }
