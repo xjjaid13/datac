@@ -31,13 +31,23 @@ public class NoteController {
     @Autowired
     NoteMapperService noteMapperService;
     
-    @RequestMapping("{userId}")
+    @RequestMapping("view/{userId}")
     public String toIndex(@PathVariable int userId,Model model){
         Note note = new Note();
         note.setUserId(userId);
         List<Note> noteList = noteMapperService.selectList(note);
         model.addAttribute("noteList", noteList);
-        return "note/index";
+        return "note/view";
+    }
+    
+
+    @RequestMapping("my/{userId}")
+    public String toMyIndex(@PathVariable int userId,Model model){
+        Note note = new Note();
+        note.setUserId(userId);
+        List<Note> noteList = noteMapperService.selectList(note);
+        model.addAttribute("noteList", noteList);
+        return "note/myIndex";
     }
     
     @RequestMapping("my-addNote")

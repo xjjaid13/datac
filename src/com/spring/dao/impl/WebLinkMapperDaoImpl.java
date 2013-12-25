@@ -7,4 +7,9 @@ import com.spring.entity.WebLink;
 @Repository
 public class WebLinkMapperDaoImpl extends BaseDaoImpl<WebLink> implements WebLinkMapperDao {
 
+	@Override
+	public void deleteByWebLinktype(WebLink webLink) {
+		sqlSessionTemplate.delete("deleteByWebLinktype",webLink);
+	}
+
 }

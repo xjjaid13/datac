@@ -44,12 +44,20 @@
 		update web_link set <if test="host != null"> host = #{host},</if><if test="icon != null"> icon = #{icon},</if><if test="description != null"> description = #{description},</if><if test="webLinkId != null">webLinkId = #{webLinkId},</if><if test="name != null">name = #{name},</if><if test="link != null">link = #{link},</if><if test="webLinktypeId != null">webLinktypeId = #{webLinktypeId},</if><if test="userId != null">userId = #{userId},</if><if test="hit != null">hit = #{hit},</if>webLinkId = #{webLinkId} where webLinkId = #{webLinkId}
 	</update>
 	
+	<delete id="deleteWebLink" parameterType="WebLink">
+		delete from web_link where webLinkId = #{webLinkId}
+	</delete>
+	
 	<delete id="deleteByIdsWebLink" parameterType="WebLink">
 		delete from web_link where webLinkId in (#{ids})
 	</delete>
-
+	
 	<select id="maxIdWebLink" resultType="java.lang.Integer">
 		select max(webLinkId) from web_link		
 	</select>
+	
+	<delete id="deleteByWebLinktype" parameterType="WebLink">
+		delete from web_link where webLinktypeId = (#{webLinktypeId})
+	</delete>
 	
 </mapper>

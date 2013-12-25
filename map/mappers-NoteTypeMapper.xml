@@ -34,6 +34,10 @@
 		delete from note_type where noteTypeId in (#{ids})
 	</delete>
 
+	<delete id="deleteNoteType" parameterType="NoteType">
+		delete from note_type where noteTypeId = #{ids}
+	</delete>
+
 	<select id="maxIdNoteType" resultType="java.util.Map" resultMap="noteType">
 		select max(noteTypeId) from note_type		
 	</select>

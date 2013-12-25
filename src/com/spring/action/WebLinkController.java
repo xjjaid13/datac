@@ -1,10 +1,6 @@
 package com.spring.action;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLConnection;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -48,14 +44,24 @@ public class WebLinkController {
 	@Autowired
 	WebLinkMapperService webLinkMapperService;
 	
-	@RequestMapping("/{userId}")
+	@RequestMapping("my/{userId}")
+	public String returnMyWebLink(Model model,@PathVariable int userId){
+		WebLinktype webLinktype = new WebLinktype();
+		webLinktype.setUserId(userId);
+		List<WebLinktype> webLinkTypeList = webLinktypeMapperService.returnEntityList(webLinktype);
+		
+		model.addAttribute("webLinkTypeList", webLinkTypeList);
+		return "weblink/myIndex";
+	}
+	
+	@RequestMapping("view/{userId}")
 	public String returnWebLink(Model model,@PathVariable int userId){
 		WebLinktype webLinktype = new WebLinktype();
 		webLinktype.setUserId(userId);
 		List<WebLinktype> webLinkTypeList = webLinktypeMapperService.returnEntityList(webLinktype);
 		
 		model.addAttribute("webLinkTypeList", webLinkTypeList);
-		return "weblink/index";
+		return "weblink/view";
 	}
 	
 	@RequestMapping("my-updateWebLink")
@@ -64,6 +70,38 @@ public class WebLinkController {
 		String webLinkContent = request.getParameter("webLinkContent");
 		int webLinkId = DataHandle.returnValueInt(request, "webLinkId");
 		
+		WebLink webLink = fetchFromRemote(webLinkContent);
+		webLink.setWebLinkId(webLinkId);
+		webLink.setUserId(user.getUserId());
+		webLinkMapperService.update(webLink);
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("webLink", webLink);
+		response.getWriter().write(jsonObject.toString());
+	}
+	
+	@RequestMapping("my-addWebLink")
+	public void doAddWebLink(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
+		User user = (User) session.getAttribute(Constant.USER);
+		String webLinkContent = DataHandle.returnValue(request, "webLinkContent");
+		int webLinktypeId = DataHandle.returnValueInt(request, "webLinktypeId");
+		WebLink webLink = fetchFromRemote(webLinkContent);
+		webLink.setUserId(user.getUserId());
+		webLink.setWebLinktypeId(webLinktypeId);
+		webLinkMapperService.insert(webLink);
+		int webLinkId = webLinkMapperService.maxId(webLink);
+		webLink.setWebLinkId(webLinkId);
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("webLink", webLink);
+		response.getWriter().write(jsonObject.toString());
+	}
+	
+	/**
+	 * 从远程网页获得需要的信息
+	 * @param webLinkContent
+	 * @return
+	 * @throws IOException
+	 */
+	public WebLink fetchFromRemote(String webLinkContent) throws IOException{
 		WebLink webLink = new WebLink();
 		if(webLinkContent.indexOf("http:") == -1){
 			webLinkContent = "http://" + webLinkContent; 
@@ -73,7 +111,6 @@ public class WebLinkController {
 		Elements titleElements = doc.select("title");
 		String title = titleElements.html();
 		webLink.setName(title);
-		webLink.setUserId(user.getUserId());
 		//网页描述
 		Elements descriptionElements = doc.select("meta[name=description]");
 		String description = descriptionElements.attr("content");
@@ -106,16 +143,7 @@ public class WebLinkController {
 			
 		}
 		webLink.setLink(webLinkContent);
-		//fetch link title
-		webLink.setWebLinkId(webLinkId);
-		webLinkMapperService.update(webLink);
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("host", webLink.getHost());
-		jsonObject.put("name", webLink.getName());
-		jsonObject.put("description", webLink.getDescription());
-		jsonObject.put("icon", webLink.getIcon());
-		jsonObject.put("link", webLink.getLink());
-		response.getWriter().write(jsonObject.toString());
+		return webLink;
 	}
 	
 	@RequestMapping("my-addWebLinktype")
@@ -146,21 +174,23 @@ public class WebLinkController {
 		response.getWriter().write(jsonObject.toString());
 	}
 	
-	@RequestMapping("deleteLinkType")
+	@RequestMapping("my-deleteWebLinktype")
 	public void deleteLineType(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
-	    String webLinktypeId = request.getParameter("webLinktypeId");
+	    int webLinktypeId = DataHandle.returnValueInt(request, "webLinktypeId");
 	    WebLinktype webLinktype = new WebLinktype();
-	    webLinktype.setIds(webLinktypeId);
-	    webLinktypeMapperService.deleteByIds(webLinktype);
-	    response.getWriter().write("success");
+	    webLinktype.setWebLinktypeId(webLinktypeId);
+	    webLinktypeMapperService.deleteWebLinkType(webLinktype);
+	    JSONObject jsonObject = new JSONObject();
+		jsonObject.put("result", "success");
+		response.getWriter().write(jsonObject.toString());
 	}
 	
-	@RequestMapping("deleteLink")
+	@RequestMapping("my-deleteWebLink")
     public void deleteLine(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
         String webLinkId = request.getParameter("webLinkId");
         WebLink webLink = new WebLink();
         webLink.setIds(webLinkId);
-        webLinkMapperService.deleteByIds(webLink);
+        webLinkMapperService.delete(webLink);
         response.getWriter().write("success");
     }
 	

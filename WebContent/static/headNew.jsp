@@ -20,40 +20,66 @@
 				<c:choose>
 					<c:when test="${user != null}">
 						<ul class="nav pull-right" style="padding-top:10px;">
-						   <% if(request.getRequestURL().indexOf("weblink/view") != -1){ %>
-							<li class="active">
-							<% }else{%>
-							<li>
-							<% }%>
-							    <a href="#">导航</a>
-							</li>
-							<% if(request.getRequestURL().indexOf("blog/view") != -1){ %>
-							<li class="active">
-							<% }else{%>
-							<li>
-							<% }%>
-							    <a href="${base}/blog/view/${user.userId}">博客</a>
-							</li>
-							<% if(request.getRequestURL().indexOf("note/view") != -1){ %>
-							<li class="active">
-							<% }else{%>
-							<li>
-							<% }%>
-							    <a href="#">便签</a>
-							</li>
-		            		<li class="dropdown">
+						    <% 
+						    	if(request.getRequestURL().indexOf("weblink/view") != -1){ 
+						    %>
+								<li class="active">
+							<%
+								}else{
+							%>
+								<li>
+							<% 
+								}
+							%>
+								    <a href="${base}/weblink/view/${user.userId}">导航</a>
+								</li>
+							<% 
+								if(request.getRequestURL().indexOf("blog/view") != -1){ 
+							%>
+								<li class="active">
+							<% 
+								}else{
+							%>
+								<li>
+							<% 
+								}
+							%>
+								    <a href="${base}/blog/view/${user.userId}">博客</a>
+								</li>
+							<% 
+								if(request.getRequestURL().indexOf("note/view") != -1){ 
+							%>
+								<li class="active">
+							<% 
+								}else{
+							%>
+								<li>
+							<% 
+								}
+							%>
+								    <a href="${base}/note/view/${user.userId}">便签</a>
+								</li>
+							<%
+								if(request.getRequestURL().indexOf("my") != -1){
+							%>
+								<li class="dropdown active">
+							<%  
+								}else{
+							%>
+								<li class="dropdown">
+							<% 
+								}
+							%>
 								<a href="#" id="dropdownMenu1" data-toggle="dropdown">${user.username}</a>
 								<ul aria-labelledby="drop5" role="menu" class="dropdown-menu" id="userInfo" >
-				                    <li role="presentation" class="dropdown-header"><a href="${base}/weblink/${user.userId}" tabindex="-1" role="menuitem">我的导航</a></li>
-				                    <li role="presentation" class="dropdown-header"><a href="${base}/blog/${user.userId}" tabindex="-1" role="menuitem">我的博客</a></li>
-				                    <li role="presentation" class="dropdown-header"><a href="${base}/note/${user.userId}" tabindex="-1" role="menuitem">我的便签</a></li>
+				                    <li role="presentation" class="dropdown-header"><a href="${base}/weblink/my/${user.userId}" tabindex="-1" role="menuitem">我的导航</a></li>
+				                    <li role="presentation" class="dropdown-header"><a href="${base}/blog/my/${user.userId}" tabindex="-1" role="menuitem">我的博客</a></li>
+				                    <li role="presentation" class="dropdown-header"><a href="${base}/note/my/${user.userId}" tabindex="-1" role="menuitem">我的便签</a></li>
 				                    <li class="divider" role="presentation"></li>
 				                    <li role="presentation" class="dropdown-header"><a href="#" tabindex="-1" role="menuitem">退出</a></li>
 				                </ul>
-				                		                
 		            		</li>
 		            	</ul>
-		            	
 					</c:when>
 					<c:otherwise>
 						<ul class="nav pull-right" style="padding-top:10px;">
@@ -62,13 +88,9 @@
 							</li>
 						</ul>
 					</c:otherwise>
-					
 				</c:choose>
-
 				<c:if test="${user != null}">
-					
 				</c:if>
-				
 			</div>
 		</div>
 	</div>

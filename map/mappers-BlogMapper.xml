@@ -49,6 +49,10 @@
 	<delete id="deleteByIdsBlog" parameterType="Blog">
 		delete from blog where blogId in (#{ids})
 	</delete>
+	
+	<delete id="deleteBlog" parameterType="Blog">
+		delete from blog where blogId = #{ids}
+	</delete>
 
 	<select id="maxIdBlog" resultType="java.lang.Integer">
 		select max(blogId) from blog		

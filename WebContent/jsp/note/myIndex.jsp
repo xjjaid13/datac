@@ -14,7 +14,6 @@
     #content{
         width : 90%;
         height : 150px;
-        background-color : papayawhip;
     }
     .divBtn{
         background-color : #87CEEB;
@@ -24,26 +23,26 @@
     .flowClass{
         padding : 10px;
         margin : 5px;
-        background-color : #87CEEB;
+        background-color : white;
         word-break : break-all;
         border-radius:5px;
-        box-shadow:0px 0px 10px #258ff2;
+        box-shadow:0px 0px 10px grey;
     }
 </style>
 </head>
 <body style="overflow-x:hidden;">
 <%@include file="../../static/headNew.jsp" %>
 <div class="main">
-    <div style="position:fixed;width:60%;height:300px;background-color:papayawhip;
+    <div style="position:fixed;width:60%;height:300px;background-color:white;
         border-radius:5px;text-align:center;padding:5px;
-        box-shadow:0 0 10px #06C;top:-248px;z-index:10;right:10px;" id="noteContentDiv">
+        box-shadow:0 0 10px grey;top:-248px;z-index:10;right:10px;" id="noteContentDiv">
         <textarea style="width:99%;height:265px;margin:0px;padding:0px;" id="content" ></textarea>
         <div style="position:absolute;right:20px;bottom:-25px;height:30px;
-            background-color:papayawhip;width:100px;border-radius:5px;line-height:30px;">
-            <div id="addNoteBtn">新建笔记</div>
+            background-color:white;width:100px;border-radius:5px;line-height:30px;">
+            <div id="addNoteBtn" class="pointer">新建笔记</div>
         </div>
     </div>
-    <div class="container" style="height:500px;">
+    <div class="container">
         <div id="container" class="span10" style="margin:0px;padding:0px;">
         
         </div>
@@ -111,7 +110,7 @@
 			var pageValue = parseInt($("#page").html());
 			var $this = onContent;
 			$.ajax({
-				url : 'returnNoteContent.action',
+				url : '${base}/note/returnNoteContent.action',
 				data : 'startPage='+pageValue+'&recordNum='+this.getRecordNum(),
 				type : 'post',
 				dataType : 'json',
@@ -183,13 +182,7 @@
    	    
     	$("#toolDiv").sticky({ topSpacing: 70, center:true, className:"hey" });
     	
-    	$("#addNoteBtn").hover(function(){
-    		$(this).addClass("divBtn");
-    		$("#noteContentDiv").css({"background-color":"#8DD1FF"});
-    	},function(){
-    		$(this).removeClass("divBtn");
-    		$("#noteContentDiv").css({"background-color":"papayawhip"});
-    	}).click(function(){
+    	$("#addNoteBtn").click(function(){
     		toggleEnter();
     	});
     	var $noteContent = $("#noteContentDiv");

@@ -35,6 +35,10 @@
 	<delete id="deleteByIdsType" parameterType="Type">
 		delete from type where typeId in (#{ids})
 	</delete>
+	
+	<delete id="deleteType" parameterType="Type">
+		delete from type where typeId #{ids}
+	</delete>
 
 	<select id="maxIdType" resultType="java.util.Map" resultMap="type">
 		select max(typeId) from type		

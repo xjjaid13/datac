@@ -36,6 +36,10 @@
 		delete from tag where tagId in (#{ids})
 	</delete>
 
+	<delete id="deleteTag" parameterType="Tag">
+		delete from tag where tagId = #{ids}
+	</delete>
+
 	<select id="maxIdTag" resultType="java.util.Map" resultMap="tag">
 		select max(tagId) from tag		
 	</select>

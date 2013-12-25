@@ -59,6 +59,10 @@
 	<delete id="deleteByIdsWebLinktype" parameterType="WebLinktype">
 		delete from web_linktype where webLinktypeId in (#{ids})
 	</delete>
+	
+	<delete id="deleteWebLinktype" parameterType="WebLinktype">
+		delete from web_linktype where webLinktypeId = #{webLinktypeId}
+	</delete>
 
 	<select id="maxIdWebLinktype" resultType="java.lang.Integer">
 		select max(webLinktypeId) from web_linktype		

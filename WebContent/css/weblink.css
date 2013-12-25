@@ -91,3 +91,20 @@ html{
 	font-size:12px;
 	margin-bottom:0px;
 }
+.liWebType{
+	position : relative;
+}
+.iconClass{
+	padding-top:3px;margin-right:5px;height:16px;width:16px;
+}
+.linkContent{
+	padding-left:15px;padding-right:15px;
+}
+.linkContent a{
+	color : black;
+}
+.deleteType{
+	position : absolute;
+	color : grey;
+	right : 8px;
+}

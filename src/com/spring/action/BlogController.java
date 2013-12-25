@@ -90,11 +90,12 @@ public class BlogController {
 //		return "blog/index";
 //	}
 
+	
 	/**
 	 * 我的博客(new)
 	 * */
-	@RequestMapping("{userid}")
-	public String doMyNew(HttpSession session, Model model,
+	@RequestMapping("my/{userid}")
+	public String doMyBlog(HttpSession session, Model model,
 			HttpServletRequest request,@PathVariable int userid) {
 		User user = (User) session.getAttribute(Constant.USER);
 		boolean isOperator = false;
@@ -125,7 +126,7 @@ public class BlogController {
 		model.addAttribute("keyword", keyword);
 		model.addAttribute("countArticle", countArticle);
 		model.addAttribute("isOperator",isOperator);
-		return "blog/index";
+		return "blog/myIndex";
 	}
 	
 	@RequestMapping("view/{userId}")

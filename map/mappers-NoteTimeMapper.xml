@@ -41,6 +41,10 @@
 	<delete id="deleteByIdsNoteTime" parameterType="NoteTime">
 		delete from note_time where noteTimeId in (#{ids})
 	</delete>
+	
+	<delete id="deleteNoteTime" parameterType="NoteTime">
+		delete from note_time where noteTimeId = #{ids}
+	</delete>
 
 	<select id="maxIdNoteTime" resultType="java.util.Map" resultMap="noteTime">
 		select max(noteTimeId) from note_time		
