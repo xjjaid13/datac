@@ -21,3 +21,5 @@ a:focus{outline: none;}
 
 .xheDialog label{display : inline;}
 .modal-header{background-image:-moz-linear-gradient(center bottom , #EEEEEE 0%, #FFFFFF 50%)}
+body,html{background:#BEBEBE}
+

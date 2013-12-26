@@ -65,6 +65,7 @@
 										</c:choose>
 							        </a>
 							    </div>
+							    <div class="linkBottom"></div>
 							 </li>
 						 </c:forEach>
 				     </c:if>

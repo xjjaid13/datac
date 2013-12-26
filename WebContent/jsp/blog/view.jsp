@@ -13,7 +13,7 @@
 <%@include file="../../static/headNew.jsp" %>
 <!-- end navbar -->
 <div class="main">
-	<div class="container">
+	<div class="container fullHeight">
 	    <div class="span10" style="margin:-25px 0 0 0;padding:0px;">
 			<div class="row span9">
 				<div class="box-wrapper">
@@ -120,7 +120,7 @@
 			}
 		});
 	}
-
+	
 </script>
 <!-- end Boots_from -->
 </html>
