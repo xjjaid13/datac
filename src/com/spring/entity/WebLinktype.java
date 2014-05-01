@@ -1,5 +1,6 @@
 package com.spring.entity;
 
+import java.util.LinkedList;
 import java.util.List;
 
 public class WebLinktype extends BaseEntity{
@@ -10,7 +11,11 @@ public class WebLinktype extends BaseEntity{
 	
 	private Integer userId;
 	
-	private List<WebLink> webLinkList;
+	private boolean isChange;
+	
+	//private List<WebLink> webLinkList;
+	
+	private LinkedList<WebLink> webLinkList;
 	
 	public Integer getWebLinktypeId() {
 		return webLinktypeId;
@@ -32,14 +37,6 @@ public class WebLinktype extends BaseEntity{
 		return "WebLinktype";
 	}
 
-	public List<WebLink> getWebLinkList() {
-		return webLinkList;
-	}
-
-	public void setWebLinkList(List<WebLink> webLinkList) {
-		this.webLinkList = webLinkList;
-	}
-
 	public Integer getUserId() {
 		return userId;
 	}
@@ -47,5 +44,21 @@ public class WebLinktype extends BaseEntity{
 	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
-	
+
+	public LinkedList<WebLink> getWebLinkList() {
+		return webLinkList;
+	}
+
+	public void setWebLinkList(LinkedList<WebLink> webLinkList) {
+		this.webLinkList = webLinkList;
+	}
+
+	public boolean isChange() {
+		return isChange;
+	}
+
+	public void setChange(boolean isChange) {
+		this.isChange = isChange;
+	}
+
 }

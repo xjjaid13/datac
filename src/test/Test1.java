@@ -29,23 +29,9 @@ public class Test1 {
 	@Autowired
 	BlogMapperService blogMapperService;
 	
-	public void testToIndex() {
-		Note note = new Note();
-		note.setCondition("noteId = 141");
-		List<Note> list = noteMapperService.selectList(note);
-		System.out.println(".........................="+list.size());
-	}
-	
 	@Test
 	public void test(){
 		Blog blog = new Blog();
-		blog.setUserId(4);
-		blog.setPage(10);
-		blog.setStartPage(1);
-		List<Blog> blogList = blogMapperService.returnTitleEntity(blog);
-		JSONObject jsonObject = new JSONObject();
-		jsonObject.put("data", blogList);
-		System.out.println("...."+jsonObject.toString());
 	}
 	
 	public static void main(String[] args) {

@@ -56,5 +56,5 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
     public List<T> selectList(String sql, Object param) {
         return sqlSessionTemplate.selectList(sql, param);
     }
-	
+
 }

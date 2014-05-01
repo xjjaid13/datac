@@ -3,12 +3,16 @@ package com.util;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 
 /**
  * @author Cloud
@@ -105,7 +109,53 @@ public class FileHandle {
 		} 
 	}
 	
+	public static void write(String path, String content) {
+		try {
+			File f = new File(path);
+			if (f.exists()) {
+				System.out.println("文件存在");
+				 
+			} else {
+				System.out.println("文件不存在，正在创建...");
+				if (f.createNewFile()) {
+					System.out.println("文件创建成功！");
+				} else {
+					System.out.println("文件创建失败！");
+				}
+			}
+			FileOutputStream fos  =   new  FileOutputStream(path);
+            OutputStreamWriter osw  =   new  OutputStreamWriter(fos, "UTF-8");
+            osw.write(content);
+            osw.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
+	public static void write(String path, String content , boolean isCover) {
+		try {
+			File f = new File(path);
+			if (f.exists()) {
+				System.out.println(path+":文件存在");
+				if(!isCover){
+					return;
+				}
+			} else {
+				System.out.println(path+"文件不存在，正在创建...");
+				if (f.createNewFile()) {
+					System.out.println("文件创建成功！");
+				} else {
+					System.out.println("文件创建失败！");
+				}
+			}
+			FileOutputStream fos  =   new  FileOutputStream(path);
+            OutputStreamWriter osw  =   new  OutputStreamWriter(fos, "UTF-8");
+            osw.write(content);
+            osw.flush();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	/**
 	 * file read with encode
 	 * @param filePath String
@@ -192,13 +242,32 @@ public class FileHandle {
 		return strBuf.toString();
 	}
 	
+	/**
+	 * 文件重命名
+	 * */
 	public static void rename(String file,String file2){
 		new File(file).renameTo(new File(file2));
 	}
 	
-	public static void main(String[] args){
-		String s1 = "D:/3184487_ri097_a.jpg";
-		String s2 = "D:/aaa.jpg";
-		FileHandle.copyFile(new File(s1), new File(s2));
+	/**
+	 * 写入文件
+	 * */
+	@SuppressWarnings("resource")
+	public boolean writeFile(String filePath,String content){
+		FileWriter fw;
+		boolean b = false;
+		try {
+			fw = new FileWriter(filePath);
+			fw.write(content,0,content.length());  
+			fw.flush();
+			b = true;
+		} catch (IOException e) {
+			Log.Error(e.getMessage());
+		}  
+		return b;
+	}
+	
+	public static void main(String[] args) throws IOException{
+		FileHandle.write("D:/test.txt", "颠三倒四");
 	}
 }

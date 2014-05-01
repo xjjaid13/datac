@@ -7,7 +7,7 @@ import com.spring.dao.WebLinkMapperDao;
 import com.spring.entity.WebLink;
 import com.spring.service.WebLinkMapperService;
 
-@Service
+@Service("webLinkMapperService")
 public class WebLinkMapperServiceImpl extends BaseServiceImpl<WebLink> implements WebLinkMapperService{
 
 	@Autowired

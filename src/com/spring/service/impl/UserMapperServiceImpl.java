@@ -7,7 +7,7 @@ import com.spring.dao.UserMapperDao;
 import com.spring.entity.User;
 import com.spring.service.UserMapperService;
 
-@Service
+@Service("userMapperService")
 public class UserMapperServiceImpl extends BaseServiceImpl<User> implements UserMapperService{
 
 	@Autowired

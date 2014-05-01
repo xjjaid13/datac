@@ -14,7 +14,6 @@ public class InterceptorController implements HandlerInterceptor{
 	public void afterCompletion(HttpServletRequest request,
 			HttpServletResponse response, Object arg2, Exception arg3)
 			throws Exception {
-	    
 	}
 
 	public void postHandle(HttpServletRequest arg0, HttpServletResponse arg1,

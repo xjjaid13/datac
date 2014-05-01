@@ -1,6 +1,7 @@
 package com.spring.action;
 
 import java.io.IOException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -12,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.httpclient.DefaultHttpMethodRetryHandler;
+import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.HttpStatus;
@@ -33,6 +35,7 @@ import com.spring.service.WebLinkMapperService;
 import com.spring.service.WebLinktypeMapperService;
 import com.util.Constant;
 import com.util.DataHandle;
+import com.util.InitServlet;
 
 @Controller
 @RequestMapping("weblink")
@@ -95,6 +98,11 @@ public class WebLinkController {
 		response.getWriter().write(jsonObject.toString());
 	}
 	
+	@RequestMapping("test")
+	public String test(){
+		return "test";
+	}
+	
 	/**
 	 * 从远程网页获得需要的信息
 	 * @param webLinkContent
@@ -130,7 +138,8 @@ public class WebLinkController {
 			    method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, 
 			    		new DefaultHttpMethodRetryHandler(3, false));
 			    //是否是icon,如果不是icon,去页面内容中查找
-			    if(method.getResponseHeaders("Content-Type")[0].toString().indexOf("image/x-icon") == -1){
+			    Header[] HeaderArray = method.getResponseHeaders("Content-Type");
+			    if(HeaderArray.length > 0 && HeaderArray[0].toString().indexOf("image/x-icon") == -1){
 		    		Elements iconElements = doc.select("link[rel=shortcut icon]");
 					webLink.setIcon(iconElements.attr("href"));
 		    	}else{
@@ -176,7 +185,11 @@ public class WebLinkController {
 	
 	@RequestMapping("my-deleteWebLinktype")
 	public void deleteLineType(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
+		User user = (User) session.getAttribute(Constant.USER);
+		LinkedList<WebLinktype> linkedListType = InitServlet.webLinkTypeMap.get(user.getUserId()+"");
 	    int webLinktypeId = DataHandle.returnValueInt(request, "webLinktypeId");
+	    int typeIndex = DataHandle.returnValueInt(request, "typeIndex");
+	    linkedListType.remove(typeIndex);
 	    WebLinktype webLinktype = new WebLinktype();
 	    webLinktype.setWebLinktypeId(webLinktypeId);
 	    webLinktypeMapperService.deleteWebLinkType(webLinktype);
@@ -186,51 +199,99 @@ public class WebLinkController {
 	}
 	
 	@RequestMapping("my-deleteWebLink")
-    public void deleteLine(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
-        String webLinkId = request.getParameter("webLinkId");
+    public void myDeleteWebLink(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
+		User user = (User) session.getAttribute(Constant.USER);
+		LinkedList<WebLinktype> linkedListType = InitServlet.webLinkTypeMap.get(user.getUserId()+"");
+        int webLinkId = DataHandle.returnValueInt(request, "webLinkId");
+        int urlIndex = DataHandle.returnValueInt(request, "urlIndex");
+	    int typeIndex = DataHandle.returnValueInt(request, "typeIndex");
+	    linkedListType.get(typeIndex).getWebLinkList().remove(urlIndex);
         WebLink webLink = new WebLink();
-        webLink.setIds(webLinkId);
+        webLink.setWebLinkId(webLinkId);
         webLinkMapperService.delete(webLink);
         response.getWriter().write("success");
     }
 	
-	public static void main(String[] args) throws IOException {
-		String url = "http://www.baidu.com/favicon.ico";
-		HttpClient client = new HttpClient();
-
-	    // Create a method instance.
-	    GetMethod method = new GetMethod(url);
-	    
-	    // Provide custom retry handler is necessary
-	    method.getParams().setParameter(HttpMethodParams.RETRY_HANDLER, 
-	    		new DefaultHttpMethodRetryHandler(3, false));
-
-	    try {
-	      // Execute the method.
-	      int statusCode = client.executeMethod(method);
-
-	      if (statusCode != HttpStatus.SC_OK) {
-	        System.err.println("Method failed: " + method.getStatusLine());
-	      }
-	      System.out.println("....="+method.getResponseHeaders("Content-Type")[0].toString().indexOf("image/x-icon"));
-
-	      // Read the response body.
-	      byte[] responseBody = method.getResponseBody();
-
-	      // Deal with the response.
-	      // Use caution: ensure correct character encoding and is not binary data
-	      //System.out.println(new String(responseBody));
-
-	    } catch (HttpException e) {
-	      System.err.println("Fatal protocol violation: " + e.getMessage());
-	      e.printStackTrace();
-	    } catch (IOException e) {
-	      System.err.println("Fatal transport error: " + e.getMessage());
-	      e.printStackTrace();
-	    } finally {
-	      // Release the connection.
-	      method.releaseConnection();
-	    }  
+	@RequestMapping("index/{userId}")
+	public String doIndex(@PathVariable int userId,Model model,HttpServletRequest request){
+		LinkedList<WebLinktype> webLinktypeList = InitServlet.webLinkTypeMap.get(userId+"");
+		String view = DataHandle.returnValue(request, "view");
+		model.addAttribute("webLinktypeList", webLinktypeList);
+		model.addAttribute("view", view);
+		return "weblink2/index";
 	}
+	
+	@RequestMapping("addWebLinkData")
+	public void addWebLinkData(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
+		User user = (User) session.getAttribute(Constant.USER);
+		String handleType = request.getParameter("handleType");
+		String title = DataHandle.returnValue(request, "title");
+		LinkedList<WebLinktype> linkedListType = InitServlet.webLinkTypeMap.get(user.getUserId()+"");
+		JSONObject jsonObject = new JSONObject();
+		if("webLinktype".equals(handleType)){
+			WebLinktype webLinktype = new WebLinktype();
+			webLinktype.setName(title);
+			webLinktype.setUserId(user.getUserId());
+			webLinktypeMapperService.insert(webLinktype);
+			linkedListType.add(webLinktype);
+		}else if("webLink".equals(handleType)){
+			String url = DataHandle.returnValue(request, "url");
+			int typeIndex = DataHandle.returnValueInt(request, "typeIndex");
+			WebLinktype webLinktype = linkedListType.get(typeIndex);
+			WebLink webLink = new WebLink();
+			webLink.setLink(url);
+			webLink.setName(title);
+			//WebLink webLink = fetchFromRemote(url);
+			webLink.setUserId(user.getUserId());
+			webLink.setWebLinktypeId(webLinktype.getWebLinktypeId());
+			webLinkMapperService.insert(webLink);
+			webLinktype.getWebLinkList().add(webLink);
+			jsonObject.put("webLink", webLink);
+		}
+		jsonObject.put("result", "success");
+		response.getWriter().write(jsonObject.toString());
+	}
+	
+	@RequestMapping("updateWebLinkData")
+	public void updateWebLinkData(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
+		User user = (User) session.getAttribute(Constant.USER);
+		String handleType = request.getParameter("handleType");
+		int fromIndex = DataHandle.returnValueInt(request, "fromIndex");
+		int toIndex = DataHandle.returnValueInt(request, "toIndex");
+		LinkedList<WebLinktype> linkedListType = InitServlet.webLinkTypeMap.get(user.getUserId()+"");
+		if("webLinktype".equals(handleType)){
+			WebLinktype fromWebLinktype = linkedListType.get(fromIndex); 
+			linkedListType.remove(fromIndex);
+			linkedListType.add(toIndex, fromWebLinktype);
+		}else if("webLink".equals(handleType)){
+			int typeIndex = DataHandle.returnValueInt(request, "typeIndex");
+			int oringType = DataHandle.returnValueInt(request, "oringType");
+			WebLinktype webLinktype = linkedListType.get(typeIndex);
+			webLinktype.setChange(true);
+			WebLinktype oringWebLinktype = linkedListType.get(oringType);
+			oringWebLinktype.setChange(true);
+			LinkedList<WebLink> webLinkLinkedList = oringWebLinktype.getWebLinkList();
+			WebLink webLink = webLinkLinkedList.get(fromIndex);
+			if(typeIndex != oringType){
+				webLink.setWebLinktypeId(typeIndex);
+			}
+			webLinkLinkedList.remove(fromIndex);
+			if(toIndex == -1){
+				webLinktype.getWebLinkList().add(webLink);
+			}else{
+				webLinktype.getWebLinkList().add(toIndex, webLink);
+			}
+		}
+		JSONObject jsonObject = new JSONObject();
+		jsonObject.put("result", "success");
+		response.getWriter().write(jsonObject.toString());
+	}
+	
+	
+	public static void main(String[] args) throws IOException {
+		WebLink webLink = new WebLinkController().fetchFromRemote("www.baidu.com");
+		
+	}
+
 	
 }
