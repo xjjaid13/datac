@@ -25,7 +25,7 @@ public class Test {
     public static void main(String[] args) throws CorruptIndexException, Exception {
 		// Lucene Document的域名
 		String fieldName = "text";
-		// 检索内容
+		// 检索内容 
 		String text = "的数据库的设计可怜的";
 		// 实例化IKAnalyzer分词器
 		Analyzer analyzer = new IKAnalyzer();
