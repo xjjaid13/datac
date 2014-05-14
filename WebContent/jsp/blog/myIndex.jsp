@@ -7,6 +7,15 @@
 <link type="text/css" rel="stylesheet" href="${base}/css/blog.css">
 <link href="${base}/js/levelMenu/levelMenu.css" rel="stylesheet" type="text/css"/>
 <link href="${base}/js/xDialog-master/xDialog.css" rel="stylesheet" type="text/css"/>
+<style>
+	.btnCode{
+		background : url("${base}/image/code.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0)
+	}
+	pre {
+	    background-color: #F0F0F0;
+	    margin: 4px 0;
+	}
+</style>
 </head>     
 <body>
 <input type="hidden" name="page" value="${page+1}" >
