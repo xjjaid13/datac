@@ -44,7 +44,7 @@
 
     </div>
 
-    <footer class="white navbar-fixed-bottom" style="background-color: #FFEFD5;">
+    <footer class="white navbar-fixed-bottom">
     <div style="display:none;">
 	    <script type="text/javascript">
 			var _bdhmProtocol = (("https:" == document.location.protocol) ? " https://" : " http://");

@@ -73,6 +73,7 @@
 								<a href="#" id="dropdownMenu1" data-toggle="dropdown">${user.username}</a>
 								<ul aria-labelledby="drop5" role="menu" class="dropdown-menu" id="userInfo" >
 				                    <li role="presentation" class="dropdown-header"><a href="${base}/weblink/my/${user.userId}" tabindex="-1" role="menuitem">我的导航</a></li>
+				                    <li role="presentation" class="dropdown-header"><a target="_blank" href="${base}/weblink/index/${user.userId}?view=0" tabindex="-1" role="menuitem">新导航(test)</a></li>
 				                    <li role="presentation" class="dropdown-header"><a href="${base}/blog/my/${user.userId}" tabindex="-1" role="menuitem">我的博客</a></li>
 				                    <li role="presentation" class="dropdown-header"><a href="${base}/note/my/${user.userId}" tabindex="-1" role="menuitem">我的便签</a></li>
 				                    <li class="divider" role="presentation"></li>

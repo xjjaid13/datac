@@ -8,7 +8,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>导航</title>
 <link type="text/css" rel="stylesheet" href="${base}/css/common.css" />
+<link type="text/css" rel="stylesheet" href="${base}/css/weblinkNew.css" />
 <script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
+<script src="${base}/js/cookie/jquery.cookie.js"></script>
 <c:if test="${view == 0}">
 <link rel="stylesheet" href="${base}/js/jquery-ui/themes/base/jquery.ui.all.css">
 <script src="${base}/js/jquery-ui/ui/jquery.ui.core.js"></script>
@@ -26,13 +28,6 @@
 <script>
 	$(function(){
 		var deleteDiv = $("#deleteDiv").html();
-		$(document).on( "mouseenter", ".panel .panel-content li", function() {
-			$(this).addClass("active").append(deleteDiv);
-		}).on( "mouseleave", ".panel .panel-content li", function() {
-			$(this).removeClass("active").find(".deleteUrl").remove();
-		}).on( "click", ".panel .panel-content li", function() {
-			window.open($(this).attr("attr"));
-		});
 		
 		var startIndex = 0;
 		var oringType = 0;
@@ -61,32 +56,9 @@
 				}
 			}
 		});
-		$( ".main" ).sortable({
-			placeholder: "main-sort-placeholder",
-			start : function(event, ui){
-				startIndex = ui.item.index();
-			},
-			stop : function(event, ui){
-				var item = ui.item;
-				var toIndex = item.index();
-				$.ajax({
-					url : '${base}/weblink/updateWebLinkData',
-					data : 'handleType=webLinktype&fromIndex='+startIndex+'&toIndex='+toIndex,
-					type : 'post',
-					dataType : 'json',
-					success : function(ajaxData){
-						
-					}
-				});
-			}
-		});
 		
 		$(".addType").click(function(){
-			$(this).hide();
-			$(".inputType").show().find("input").focus();
-		});
-		
-		$("#addType").click(function(){
+			var $this = $(this);
 			$("#addUrlTypeDiv" ).dialog({
 				autoOpen: true,
 				height: 170,
@@ -107,10 +79,11 @@
 							dataType : 'json',
 							success : function(ajaxData){
 								var typeSize = $(".panel").size();
-								$(".main").append('<div class="panel" attr="'+typeSize+'">'
-										+'<div class="panel-heading">'+typeName+'<a class="addUrl">+</a></div>'
-										+'<div class="panel-content">'
-										+'<ul></ul></div></div>');
+								var index = (parseInt(typeSize) - 1);
+								$this.before('<div class="panel-heading headShadow'+typeSize+' fl" attr="'+ index +'">'
+										+'<div>'+typeName+'<a class="deleteType">×</a></div></div>');
+								$(".panel").append("<div class='panel panel-content control"+index+" hide' attr='"+index+"'>"
+										+"<ul class='connectedSortable placeHolderPadding'></ul></div>");
 								$thisDialog.dialog( "close" );
 							}
 						});
@@ -122,7 +95,7 @@
 			});
 		});
 		
-		$(document).on("click",".addUrl",function(){
+		$(document).on("click","#addUrl",function(){
 			var $this = $(this);
 			$( "#addUrlDiv" ).dialog({
 				autoOpen: true,
@@ -144,14 +117,13 @@
 						var $thisDialog = $(this);
 						$.ajax({
 							url : '${base}/weblink/addWebLinkData',
-							data : 'handleType=webLink&title='+urlName+'&url='+url+'&typeIndex='+$this.closest(".panel").attr("attr"),
+							data : 'handleType=webLink&title='+urlName+'&url='+url+'&typeIndex='+tabIndex,
 							type : 'post',
 							dataType : 'json',
 							success : function(ajaxData){
 								var webLink = ajaxData.webLink;
-								
 								var content = '';
-								content += '<li attr="'+url+'">';
+								content += '<li attr="'+url+'" >';
 								content += '<span title="'+webLink.name+'">';
 								if(webLink.name.length > 16){
 									content += webLink.name.substring(0,16) + '...';
@@ -159,7 +131,8 @@
 									content += webLink.name;
 								}
 								content += '</span></li>';
-								$this.closest(".panel").find(".panel-content ul").append(content);
+								alert(tabIndex);
+								$(".control"+tabIndex).find("ul").append(content);
 								$("#urlName").val("");
 								$("#url").val("");
 								$thisDialog.dialog( "close" );
@@ -175,7 +148,7 @@
 			var deleteLi = $(this).closest("li");
 			var urlIndex = deleteLi.index();
 			var typeIndex = deleteLi.closest(".panel").index();
-			$.post("${base}/weblink/my-deleteWebLink",{webLinkId:deleteLi.attr("attrid"),urlIndex:urlIndex,typeIndex:typeIndex},function(){
+			$.post("${base}/weblink/my-deleteWebLink",{urlIndex:urlIndex,typeIndex:typeIndex},function(){
 				deleteLi.fadeOut().remove();
 			});
 			event.stopPropagation();
@@ -183,11 +156,21 @@
 			if(confirm("sure delete?")){
 				var deleteDiv = $(this).closest(".panel");
 				var typeIndex = deleteDiv.index();
-				$.post("${base}/weblink/my-deleteWebLinktype",{webLinktypeId:deleteDiv.attr("attrid"),typeIndex:typeIndex},function(){
+				$.post("${base}/weblink/my-deleteWebLinktype",{typeIndex:typeIndex},function(){
 					deleteDiv.slideUp().remove();
 				});
 			}
-		});
+		}).on("mouseenter",".panel-heading",function(){
+			$(this).find(".deleteType").show();
+		}).on("mouseleave",".panel-heading",function(){
+			$(this).find(".deleteType").hide();
+		}).on( "mouseenter", ".panel .panel-content li", function() {
+			$(this).addClass("active").append(deleteDiv);
+		}).on( "mouseleave", ".panel .panel-content li", function() {
+			$(this).removeClass("active").find(".deleteUrl").remove();
+		}).on( "click", ".panel .panel-content li", function() {
+			window.open($(this).attr("attr"));
+		});;
 		
 	});
 </script>
@@ -205,99 +188,32 @@
 	});
 </script>
 </c:if>
-<style>
-	.main-sort-placeholder{
-		border: 1px dashed #808080;
-    	height: 30px;
-	}
-	.panel{
-		width : 100%;
-		background-color : white;
-		border : 1px solid #EDEDED;
-	}
-	.panel .panel-heading{
-		padding : 10px 15px;
-		background-color : #EDEDED;
-	}
-	.panel .panel-content{
-		padding : 5px;
-		background-color:wheat;
-	}
-	.panel-content ul{
-		content : "";
-		display : table;
-	}
-	.panel-content ul li{
-		float : left;
-		padding : 5px;
-		border : 1px solid transparent;
-		cursor : pointer;
-		padding-right : 25px;
-		position : relative;
-	}
-	.panel-content ul .sort-placeholder{
-		border: 1px dashed #808080;
-	    height: 25px;
-	    margin-right: 15px;
-	    padding: 0;
-	    width: 80px;
-	}
-	.panel-content .active{
-		background-color : #EDEDED;
-		border : 1px solid grey;
-	}
-	.panel-content .active .deleteUrl{
-		background-color : #FAFAFA;
-		border : 1px solid grey;
-		padding : 0 3px;
-		position : absolute;
-		right : 2px;
-		top : 5px;
-		display : block;
-		border-radius : 3px;
-		text-decoration : none;
-	}
-	.addUrl,.deleteType{
-		background-color : #FAFAFA;
-		border : 1px solid grey;
-		padding : 0 3px;
-		border-radius : 3px;
-		text-decoration : none;
-		text-decoration : none;
-		cursor : pointer;
-	}
-	.panel-content .active a:hover{
-		background-color : #FFFFFF;
-	}
-	.hide{
-		display : none;
-	}
-	label{
-		display : block;
-	}
-	.textClass{
-		border:1px solid #EDEDED;
-		padding:0 6px;
-		height : 30px;
-		width : 95%;
-	}
-	#addType{
-		width : 100%;
-		height : 30px;
-		background-color : #EDEDED;
-		padding-top: 7px;
-    	text-align: center;
-    	cursor : pointer;
-	}
-	.placeHolderPadding{
-		padding:1px 20px;
-	}
-</style>
+<script>
+	var tabIndex;
+	$(function(){
+		tabIndex = $.cookie('tabIndex');
+		if(tabIndex == undefined){
+			tabIndex = "0";
+		}
+		$(".control" + tabIndex).show();
+		$(".headShadow" + tabIndex).addClass("thistab");
+		$(document).on("click",".panel-heading",function(){
+			$(".headShadow" + tabIndex).removeClass("thistab");
+			$(".control" + tabIndex).hide();
+			$(this).addClass("thistab");
+			tabIndex = $(this).attr("attr");
+			$(".control" + tabIndex).show();
+			$.cookie('tabIndex',tabIndex,{
+				expires : 7
+			});
+		});
+	});
+</script>
 </head>
 <body>
 <c:if test="${view == 0}">
 	<div id="deleteDiv" class="hide">
-		<a class="deleteUrl">×</a>
+		<a class="deleteUrl"><img src="${base}/image/opt/remove.png"></a>
 	</div>
 	<div id="addUrlTypeDiv" class="hide" title="新增类型">
 		<label for="typeName">名称</label>
@@ -311,15 +227,24 @@
 	</div>
 </c:if>
 <div class="main">
-	<c:forEach items="${webLinktypeList}" var="webLinktype" varStatus="linkType" >
-		<div class="panel" attr='${linkType.index}' attrid='${webLinktype.webLinktypeId}'>
-			<div class="panel-heading">${webLinktype.name}
-			<c:if test="${view == 0}">
-				<a class="addUrl">+</a>
-				<a class="deleteType">×</a>
-			</c:if>
-			</div>
-			<div class="panel-content">
+	<div class="panel">
+		<ul class="head">
+			<c:forEach items="${webLinktypeList}" var="webLinktype" varStatus="linkType" >
+				<li class="panel-heading headShadow${linkType.index} fl" attr="${linkType.index}">
+					<div>
+						${webLinktype.name}
+						<c:if test="${view == 0}">
+							<a class="deleteType" style="position:absolute;right:0;">
+								<img src="${base}/image/opt/remove.png">
+							</a>
+						</c:if>
+					</div>
+				</li>
+			</c:forEach>
+			<li class="fl addType"><img src="${base}/image/opt/add.png"></li>
+		</ul>
+		<c:forEach items="${webLinktypeList}" var="webLinktype" varStatus="linkType" >
+			<div class="panel panel-content control${linkType.index} hide" attr='${linkType.index}' >
 				<c:choose>
 					<c:when test="${webLinktype.webLinkList == null || webLinktype.webLinkList[0].name == null}">
 						<ul class="connectedSortable placeHolderPadding">
@@ -328,7 +253,7 @@
 					<c:otherwise>
 						<ul class="connectedSortable placeHolderPadding">
 							<c:forEach items="${webLinktype.webLinkList}" var="webLink" >
-								<li attr="${webLink.link}" attrid="${webLink.webLinkId}">
+								<li attr="${webLink.link}" >
 									<span title="${webLink.name}">
 										<c:choose>
 										   <c:when test="${fn:length(webLink.name) > 16}">
@@ -345,11 +270,11 @@
 				   </c:otherwise>
 				</c:choose>
 			</div>
-		</div>
-	</c:forEach>
+		</c:forEach>
+	</div>
 </div>
 <c:if test="${view == 0}">
-	<div id="addType">+</div>
+	<div id="addUrl"><img style="margin-top:7px;" src="${base}/image/opt/add.png"></div>
 </c:if>
 </body>
 </html>

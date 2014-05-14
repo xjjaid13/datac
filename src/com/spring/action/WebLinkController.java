@@ -187,12 +187,12 @@ public class WebLinkController {
 	public void deleteLineType(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
 		User user = (User) session.getAttribute(Constant.USER);
 		LinkedList<WebLinktype> linkedListType = InitServlet.webLinkTypeMap.get(user.getUserId()+"");
-	    int webLinktypeId = DataHandle.returnValueInt(request, "webLinktypeId");
+	    //int webLinktypeId = DataHandle.returnValueInt(request, "webLinktypeId");
 	    int typeIndex = DataHandle.returnValueInt(request, "typeIndex");
 	    linkedListType.remove(typeIndex);
-	    WebLinktype webLinktype = new WebLinktype();
-	    webLinktype.setWebLinktypeId(webLinktypeId);
-	    webLinktypeMapperService.deleteWebLinkType(webLinktype);
+//	    WebLinktype webLinktype = new WebLinktype();
+//	    webLinktype.setWebLinktypeId(webLinktypeId);
+//	    webLinktypeMapperService.deleteWebLinkType(webLinktype);
 	    JSONObject jsonObject = new JSONObject();
 		jsonObject.put("result", "success");
 		response.getWriter().write(jsonObject.toString());
@@ -202,13 +202,13 @@ public class WebLinkController {
     public void myDeleteWebLink(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
 		User user = (User) session.getAttribute(Constant.USER);
 		LinkedList<WebLinktype> linkedListType = InitServlet.webLinkTypeMap.get(user.getUserId()+"");
-        int webLinkId = DataHandle.returnValueInt(request, "webLinkId");
+        //int webLinkId = DataHandle.returnValueInt(request, "webLinkId");
         int urlIndex = DataHandle.returnValueInt(request, "urlIndex");
 	    int typeIndex = DataHandle.returnValueInt(request, "typeIndex");
 	    linkedListType.get(typeIndex).getWebLinkList().remove(urlIndex);
-        WebLink webLink = new WebLink();
-        webLink.setWebLinkId(webLinkId);
-        webLinkMapperService.delete(webLink);
+//        WebLink webLink = new WebLink();
+//        webLink.setWebLinkId(webLinkId);
+//        webLinkMapperService.delete(webLink);
         response.getWriter().write("success");
     }
 	
@@ -234,6 +234,7 @@ public class WebLinkController {
 			webLinktype.setUserId(user.getUserId());
 			webLinktypeMapperService.insert(webLinktype);
 			linkedListType.add(webLinktype);
+			jsonObject.put("webLinktype", webLinktype);
 		}else if("webLink".equals(handleType)){
 			String url = DataHandle.returnValue(request, "url");
 			int typeIndex = DataHandle.returnValueInt(request, "typeIndex");
@@ -245,7 +246,14 @@ public class WebLinkController {
 			webLink.setUserId(user.getUserId());
 			webLink.setWebLinktypeId(webLinktype.getWebLinktypeId());
 			webLinkMapperService.insert(webLink);
-			webLinktype.getWebLinkList().add(webLink);
+			LinkedList<WebLink> webLinkList = webLinktype.getWebLinkList();
+			if(webLinkList == null){
+				webLinkList = new LinkedList<WebLink>();
+				webLinkList.add(webLink);
+				webLinktype.setWebLinkList(webLinkList);
+			}else{
+				webLinkList.add(webLink);
+			}
 			jsonObject.put("webLink", webLink);
 		}
 		jsonObject.put("result", "success");
