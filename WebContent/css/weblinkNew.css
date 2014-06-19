@@ -1,124 +1,4 @@
 @CHARSET "UTF-8";
-.main-sort-placeholder{
-	border: 1px dashed #808080;
-   	height: 30px;
-}
-.panel{
-	width : 100%;
-	border : 1px solid #EDEDED;
-}
-.head{
-	display : table-cell;
-	border-bottom: 1px solid #DAE6FF;
-    border-left: 1px solid #999999;
-    height: 32px;
-    width: 100%;
-}
-.panel .panel-heading{
-	padding : 5px 15px;
-	cursor : pointer;
-	position : relative;
-}
-.panel .panel-heading div{
-	float : left;
-}
-.panel .panel-content{
-	padding : 5px;
-}
-.panel-content ul{
-	content : "";
-	display : table;
-}
-.panel-content ul li{
-	float : left;
-	padding : 5px;
-	border : 1px solid #DAE6FF;
-	cursor : pointer;
-	padding-right : 25px;
-	position : relative;
-	background-image: linear-gradient(to bottom, #FFFFFF, #F2F2F2);
-	margin:7px;
-	padding : 10px;
-}
-.panel-content ul .sort-placeholder{
-	border: 1px dashed #808080;
-    height: 35px;
-    margin-right: 15px;
-    padding: 0;
-    width: 120px;
-}
-.panel-content .active{
-	background-color : #EDEDED;
-	border : 1px solid #EDEDED;
-}
-.panel-content .active .deleteUrl{
-	position : absolute;
-	right : 0;
-	top : 0;
-	display : block;
-	text-decoration : none;
-}
-.deleteType{
-	text-decoration : none;
-	text-decoration : none;
-	cursor : pointer;
-	position:absolute;
-	top : 0;
-	right:0;
-	display : none;
-}
-.addType{
-	text-decoration : none;
-	text-decoration : none;
-	cursor : pointer;
-	margin-top : 15px;
-	margin-left : 8px;
-	
-}
-.panel-content .active a:hover{
-	background-color : #FFFFFF;
-}
-.hide{
-	display : none;
-}
-label{
-	display : block;
-}
-.textClass{
-	border:1px solid #EDEDED;
-	padding:0 6px;
-	height : 30px;
-	width : 95%;
-}
-#addUrl{
-	width : 100%;
-	height : 30px;
-	background-color : #EDEDED;
-	padding-top: 7px;
-   	text-align: center;
-   	cursor : pointer;
-   	position : fixed;
-   	bottom : 0;
-}
-.placeHolderPadding{
-	padding:1px 20px;
-}
-.head .panel-heading{
-	-moz-border-bottom-colors: none;
-    -moz-border-left-colors: none;
-    -moz-border-right-colors: none;
-    -moz-border-top-colors: none;
-    border-color: #DAE6FF;
-    border-image: none;
-    border-style: solid solid solid none;
-    border-width: 1px 1px 1px medium;
-    float: left;
-    height: 31px;
-    line-height: 31px;
-    margin-bottom: -1px;
-    overflow: hidden;
-    position: relative;
-}
 
 .head .thistab, .head .thistab a:hover {
     background: url("//d85wutc1n854v.cloudfront.net/live/imgs/darkgrain.png") repeat scroll 0 0 #EEEEEE;
@@ -126,4 +6,58 @@ label{
 }
 html {
 	background: url("//d85wutc1n854v.cloudfront.net/live/imgs/darkgrain.png") repeat scroll 0 0 #EEEEEE;
+}
+
+.panel-heading{
+	width : 100%;
+	border : 1px solid #dae6ff;
+	padding : 5px;
+	min-height : 20px;
+	position : relative;
+}
+.panel-heading>span{
+	position : absolute;
+}
+
+.hide{
+	display : none;
+}
+
+#nav{
+	width : 50%;
+}
+.connectedSortable li{
+	float : left;
+}
+.nav-panel{
+	float : left;
+	width : 100%;
+	min-height : 20px;
+}
+.nav-panel li{
+	float : left;
+	padding : 3px;
+	border : 1px solid #DAE6FF;
+	cursor : pointer;
+	padding-right : 15px;
+	position : relative;
+	background-image : linear-gradient(to bottom, #FFFFFF, #F2F2F2);
+	margin : 4px;
+	padding : 7px;
+	width : 210px;
+}
+.iconClass{
+	width : 16px;
+	height : 16px;
+}
+.nav-panel .active{
+	background-color : #EDEDED;
+	border : 1px solid #EDEDED;
+}
+.sort-placeholder{
+	border: 1px dashed #808080;
+    height: 15px;
+    margin-right: 15px;
+    padding: 0;
+    width: 120px;
 }

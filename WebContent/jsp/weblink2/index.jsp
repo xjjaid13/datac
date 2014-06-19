@@ -27,12 +27,10 @@
 <script src="${base}/js/jquery-ui/ui/jquery.ui.effect.js"></script>
 <script>
 	$(function(){
-		var deleteDiv = $("#deleteDiv").html();
-		
 		var startIndex = 0;
 		var oringType = 0;
 		
-		$( ".panel-content ul" ).sortable({
+		$( ".nav-panel" ).sortable({
 			placeholder: "sort-placeholder",
 			connectWith: ".connectedSortable",
 			start : function(event, ui){
@@ -144,33 +142,11 @@
 					}
 				}
 			});
-		}).on("click",".deleteUrl",function(){
-			var deleteLi = $(this).closest("li");
-			var urlIndex = deleteLi.index();
-			var typeIndex = deleteLi.closest(".panel").index();
-			$.post("${base}/weblink/my-deleteWebLink",{urlIndex:urlIndex,typeIndex:typeIndex},function(){
-				deleteLi.fadeOut().remove();
-			});
-			event.stopPropagation();
-		}).on("click",".deleteType",function(){
-			if(confirm("sure delete?")){
-				var deleteDiv = $(this).closest(".panel");
-				var typeIndex = deleteDiv.index();
-				$.post("${base}/weblink/my-deleteWebLinktype",{typeIndex:typeIndex},function(){
-					deleteDiv.slideUp().remove();
-				});
-			}
-		}).on("mouseenter",".panel-heading",function(){
-			$(this).find(".deleteType").show();
-		}).on("mouseleave",".panel-heading",function(){
-			$(this).find(".deleteType").hide();
-		}).on( "mouseenter", ".panel .panel-content li", function() {
-			$(this).addClass("active").append(deleteDiv);
-		}).on( "mouseleave", ".panel .panel-content li", function() {
-			$(this).removeClass("active").find(".deleteUrl").remove();
-		}).on( "click", ".panel .panel-content li", function() {
-			window.open($(this).attr("attr"));
-		});;
+		}).on( "mouseenter", ".panel-content", function() {
+			$(this).addClass("active");
+		}).on( "mouseleave", ".panel-content", function() {
+			$(this).removeClass("active");
+		});
 		
 	});
 </script>
@@ -178,103 +154,55 @@
 <c:if test="${view != 0}">
 <script>
 	$(function(){
-		$(document).on( "mouseenter", ".panel .panel-content li", function() {
-			$(this).addClass("active");
-		}).on( "mouseleave", ".panel .panel-content li", function() {
-			$(this).removeClass("active");
-		}).on( "click", ".panel .panel-content li", function(event) {
+		$(document).on( "click", ".panel-content", function(event) {
 			window.open($(this).attr("attr"));
 		});
 	});
 </script>
 </c:if>
-<script>
-	var tabIndex;
-	$(function(){
-		tabIndex = $.cookie('tabIndex');
-		if(tabIndex == undefined){
-			tabIndex = "0";
-		}
-		$(".control" + tabIndex).show();
-		$(".headShadow" + tabIndex).addClass("thistab");
-		$(document).on("click",".panel-heading",function(){
-			$(".headShadow" + tabIndex).removeClass("thistab");
-			$(".control" + tabIndex).hide();
-			$(this).addClass("thistab");
-			tabIndex = $(this).attr("attr");
-			$(".control" + tabIndex).show();
-			$.cookie('tabIndex',tabIndex,{
-				expires : 7
-			});
-		});
-	});
-</script>
+
 </head>
 <body>
-<c:if test="${view == 0}">
-	<div id="deleteDiv" class="hide">
-		<a class="deleteUrl"><img src="${base}/image/opt/remove.png"></a>
-	</div>
-	<div id="addUrlTypeDiv" class="hide" title="新增类型">
-		<label for="typeName">名称</label>
-		<input type="text" class="textClass" id="typeName" name="typeName">
-	</div>
-	<div id="addUrlDiv" class="hide" title="新增链接">
-		<label for="urlName"><font color=red>*</font>名称</label>
-		<input type="text" class="textClass" id="urlName" name="urlName">
-		<label for="url"><font color=red>*</font>链接</label>
-		<input type="text" class="textClass" value="" id="url" name="url">
-	</div>
-</c:if>
 <div class="main">
-	<div class="panel">
-		<ul class="head">
+	<div id="nav">
+		<ul>
+			<li class="panel-heading" style="margin-left:70px;">
+				<a class="fr">编辑</a>
+			</li>
 			<c:forEach items="${webLinktypeList}" var="webLinktype" varStatus="linkType" >
-				<li class="panel-heading headShadow${linkType.index} fl" attr="${linkType.index}">
-					<div>
-						${webLinktype.name}
-						<c:if test="${view == 0}">
-							<a class="deleteType" style="position:absolute;right:0;">
-								<img src="${base}/image/opt/remove.png">
-							</a>
-						</c:if>
-					</div>
+				<li class="panel-heading headShadow${linkType.index}" attr="${linkType.index}" style="padding-left:70px;">
+					<span style="left:10px;">${webLinktype.name}</span>
+					<c:choose>
+						<c:when test="${webLinktype.webLinkList == null || webLinktype.webLinkList[0].name == null}">
+							<ul class="connectedSortable nav-panel">
+							
+							</ul>
+						</c:when>
+						<c:otherwise>
+							<ul class="connectedSortable nav-panel">
+								<c:forEach items="${webLinktype.webLinkList}" var="webLink" >
+									<li class="panel-content" attr="${webLink.link}" >
+										<img class="iconClass" src="${webLink.icon}" />
+										<span title="${webLink.name}">
+											<c:choose>
+											   <c:when test="${fn:length(webLink.name) > 16}">
+											   	   <c:out value="${fn:substring(webLink.name, 0, 16)}..." /> 
+											   </c:when>
+											   <c:otherwise>
+											       ${webLink.name}
+											   </c:otherwise>
+											</c:choose>
+										</span>
+									</li>
+								</c:forEach>
+							</ul>
+					   </c:otherwise>
+					</c:choose>
+					<ul style="clear:both;height:0;"></ul>
 				</li>
 			</c:forEach>
-			<li class="fl addType"><img src="${base}/image/opt/add.png"></li>
 		</ul>
-		<c:forEach items="${webLinktypeList}" var="webLinktype" varStatus="linkType" >
-			<div class="panel panel-content control${linkType.index} hide" attr='${linkType.index}' >
-				<c:choose>
-					<c:when test="${webLinktype.webLinkList == null || webLinktype.webLinkList[0].name == null}">
-						<ul class="connectedSortable placeHolderPadding">
-						</ul>
-					</c:when>
-					<c:otherwise>
-						<ul class="connectedSortable placeHolderPadding">
-							<c:forEach items="${webLinktype.webLinkList}" var="webLink" >
-								<li attr="${webLink.link}" >
-									<span title="${webLink.name}">
-										<c:choose>
-										   <c:when test="${fn:length(webLink.name) > 16}">
-										   	   <c:out value="${fn:substring(webLink.name, 0, 16)}..." /> 
-										   </c:when>
-										   <c:otherwise>
-										       ${webLink.name}
-										   </c:otherwise>
-										</c:choose>
-									</span>
-								</li>
-							</c:forEach>
-						</ul>
-				   </c:otherwise>
-				</c:choose>
-			</div>
-		</c:forEach>
 	</div>
 </div>
-<c:if test="${view == 0}">
-	<div id="addUrl"><img style="margin-top:7px;" src="${base}/image/opt/add.png"></div>
-</c:if>
 </body>
 </html>
