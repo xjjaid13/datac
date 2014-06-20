@@ -8,14 +8,14 @@ html {
 	background: url("//d85wutc1n854v.cloudfront.net/live/imgs/darkgrain.png") repeat scroll 0 0 #EEEEEE;
 }
 
-.panel-heading{
+.nav-grid{
 	width : 100%;
 	border : 1px solid #dae6ff;
 	padding : 5px;
-	min-height : 20px;
+	min-height : 50px;
 	position : relative;
 }
-.panel-heading>span{
+.nav-grid>span{
 	position : absolute;
 }
 
@@ -60,4 +60,10 @@ html {
     margin-right: 15px;
     padding: 0;
     width: 120px;
+}
+.requiredFlag{
+	position : relative;
+	left : 3px;
+	top : 3px;
+	color : red;
 }

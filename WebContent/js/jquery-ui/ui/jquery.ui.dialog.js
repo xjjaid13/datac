@@ -51,7 +51,7 @@ $.widget( "ui.dialog", {
 		maxWidth: null,
 		minHeight: 150,
 		minWidth: 150,
-		modal: false,
+		modal: false, 
 		position: {
 			my: "center",
 			at: "center",
@@ -669,8 +669,9 @@ $.widget( "ui.dialog", {
 		maxContentHeight = typeof options.maxHeight === "number" ?
 			Math.max( 0, options.maxHeight - nonContentHeight ) :
 			"none";
-
+			
 		if ( options.height === "auto" ) {
+			
 			this.element.css({
 				minHeight: minContentHeight,
 				maxHeight: maxContentHeight,

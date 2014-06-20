@@ -13,4 +13,9 @@ i,em,cite{font-style:normal;}
 .fl,.fr {display:inline;float:left; }
 .fr {float:right;}
 .pointer{cursor : pointer;}
-
+.ui-dialog-content{
+	margin-bottom : -20px;
+}
+.ui-dialog-content label.control-label{
+	padding-top : 5px;
+}
