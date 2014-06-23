@@ -33,23 +33,16 @@
 		var startIndex = 0;
 		var oringType = 0;
 		
-		$("#nav>ul").sortable();
-		
-		$(".nav-panel").sortable({
-			placeholder: "sort-placeholder",
-			connectWith: ".connectedSortable",
+		$("#nav>ul").sortable({
 			start : function(event, ui){
 				startIndex = ui.item.index();
-				oringType = ui.item.closest('.panel').attr('attr');
 			},
 			stop : function(event, ui){
 				var item = ui.item;
-				item.removeClass("active").find(".deleteUrl").remove();
-				var currentType = item.closest('.panel').attr('attr');
-				if(item.index() != startIndex || oringType != currentType){
+				if(item.index() != startIndex){
 					$.ajax({
 						url : '${base}/weblink/updateWebLinkData',
-						data : 'handleType=webLink&fromIndex='+startIndex+'&toIndex='+item.index()+'&typeIndex='+currentType+'&oringType='+oringType,
+						data : 'handleType=webLinktype&fromIndex='+startIndex+'&toIndex='+item.index(),
 						type : 'post',
 						dataType : 'json',
 						success : function(ajaxData){
@@ -59,6 +52,8 @@
 				}
 			}
 		});
+		
+		dragUrlInit();
 		
 		$("#addUrlTypeDiv" ).dialog({
 			autoOpen: false,
@@ -72,32 +67,23 @@
 						return false;
 					}
 					
-					var typeSize = $(".panel").size();
-					var index = (parseInt(typeSize) - 1);
-					var htmlContent = '<li class="nav-grid headShadow${linkType.index}" attr="${linkType.index}" style="padding-left:70px;">';
-					htmlContent += '<span style="left:10px;">'+typeName+'</span>';
-					htmlContent += '<ul class="connectedSortable nav-panel">';
-					htmlContent += '<ul></li>';
-					
-					$("#nav-ul").append(htmlContent);
 					$( this ).dialog( "close" );
-					/*var $thisDialog = $(this);
+					var $thisDialog = $(this);
 					$.ajax({
 						url : '${base}/weblink/addWebLinkData',
 						data : 'handleType=webLinktype&title='+typeName,
 						type : 'post',
 						dataType : 'json',
 						success : function(ajaxData){
-							var typeSize = $(".panel").size();
-							var index = (parseInt(typeSize) - 1);
-							$this.before('<div class="nav-grid headShadow'+typeSize+' fl" attr="'+ index +'">'
-									+'<div>'+typeName+'<a class="deleteType">×</a></div></div>');
-							$(".panel").append("<div class='panel panel-content control"+index+" hide' attr='"+index+"'>"
-									+"<ul class='connectedSortable placeHolderPadding'></ul></div>");
+							var htmlContent = '<li class="nav-grid" attr="${linkType.index}" style="padding-left:70px;">';
+							htmlContent += '<span style="left:10px;">'+typeName+'</span>';
+							htmlContent += '<ul class="connectedSortable nav-panel">';
+							htmlContent += '</ul><ul style="clear:both;height:0;"></ul></li>';
+							$("#nav-ul").append(htmlContent);
+							dragUrlInit();
 							$thisDialog.dialog( "close" );
 						}
 					});
-					*/
 				},
 				"取消": function() {
 					$( this ).dialog( "close" );
@@ -131,8 +117,8 @@
 							var content = '';
 							content += '<li attr="'+url+'" >';
 							content += '<span title="'+webLink.name+'">';
-							if(webLink.name.length > 16){
-								content += webLink.name.substring(0,16) + '...';
+							if(webLink.name.length > 10){
+								content += webLink.name.substring(0,10) + '...';
 							}else{
 								content += webLink.name;
 							}
@@ -168,6 +154,33 @@
 		});
 		
 	});
+	
+	function dragUrlInit(){
+		$(".nav-panel").sortable({
+			placeholder: "sort-placeholder panel-content",
+			connectWith: ".connectedSortable",
+			start : function(event, ui){
+				startIndex = ui.item.index();
+				oringType = ui.item.closest('.nav-grid').index();
+			},
+			stop : function(event, ui){
+				var item = ui.item;
+				item.removeClass("active").find(".deleteUrl").remove();
+				var currentType = item.closest('.nav-grid').index();
+				if(item.index() != startIndex || oringType != currentType){
+					$.ajax({
+						url : '${base}/weblink/updateWebLinkData',
+						data : 'handleType=webLink&fromIndex='+startIndex+'&toIndex='+item.index()+'&currentType='+currentType+'&oringType='+oringType,
+						type : 'post',
+						dataType : 'json',
+						success : function(ajaxData){
+							
+						}
+					});
+				}
+			}
+		});
+	}
 </script>
 <c:if test="${view != 0}">
 <script>
@@ -215,24 +228,24 @@
 						</ul>
 					</c:when>
 					<c:otherwise>
-						<ul class="connectedSortable nav-panel">
+						<div class="connectedSortable nav-panel">
 							<c:forEach items="${webLinktype.webLinkList}" var="webLink" >
-								<li class="panel-content" attr="${webLink.link}" >
+								<a class="panel-content btn btn-default" style="text-align : left;white-space:normal;"  attr="${webLink.link}">
 									<img class="iconClass" src="${webLink.icon}" />
 									<span title="${webLink.name}">
-										<c:choose>
-										   <c:when test="${fn:length(webLink.name) > 12}">
-										   	   <c:out value="${fn:substring(webLink.name, 0, 12)}..." /> 
-										   </c:when>
-										   <c:otherwise>
-										       ${webLink.name}
-										   </c:otherwise>
-										</c:choose>
+											<c:choose>
+											   <c:when test="${fn:length(webLink.name) > 9}">
+											   	   <c:out value="${fn:substring(webLink.name, 0, 9)}..." /> 
+											   </c:when>
+											   <c:otherwise>
+											       ${webLink.name}
+											   </c:otherwise>
+											</c:choose>
 									</span>
-									<button type="button" class="btn btn-default fr" style="padding:2px 4px;"><span class="ui-icon ui-icon-close"></span></button>
-								</li>
-							</c:forEach>
-						</ul>
+									<button class="btn btn-default fr" style="padding:2px 4px;white-space:normal;" type="submit"><span class="ui-icon ui-icon-close"></span></button>
+								</a>
+							</c:forEach> 
+						</div>
 				   </c:otherwise>
 				</c:choose>
 				<ul style="clear:both;height:0;"></ul>

@@ -268,20 +268,20 @@ public class WebLinkController {
 		int toIndex = DataHandle.returnValueInt(request, "toIndex");
 		LinkedList<WebLinktype> linkedListType = InitServlet.webLinkTypeMap.get(user.getUserId()+"");
 		if("webLinktype".equals(handleType)){
-			WebLinktype fromWebLinktype = linkedListType.get(fromIndex); 
-			linkedListType.remove(fromIndex);
-			linkedListType.add(toIndex, fromWebLinktype);
+			WebLinktype fromWebLinktype = linkedListType.get(fromIndex -1); 
+			linkedListType.remove(fromIndex - 1);
+			linkedListType.add(toIndex - 1, fromWebLinktype);
 		}else if("webLink".equals(handleType)){
-			int typeIndex = DataHandle.returnValueInt(request, "typeIndex");
-			int oringType = DataHandle.returnValueInt(request, "oringType");
-			WebLinktype webLinktype = linkedListType.get(typeIndex);
+			int currentType = DataHandle.returnValueInt(request, "currentType") - 1;
+			int oringType = DataHandle.returnValueInt(request, "oringType") - 1;
+			WebLinktype webLinktype = linkedListType.get(currentType);
 			webLinktype.setChange(true);
 			WebLinktype oringWebLinktype = linkedListType.get(oringType);
 			oringWebLinktype.setChange(true);
 			LinkedList<WebLink> webLinkLinkedList = oringWebLinktype.getWebLinkList();
 			WebLink webLink = webLinkLinkedList.get(fromIndex);
-			if(typeIndex != oringType){
-				webLink.setWebLinktypeId(typeIndex);
+			if(currentType != oringType){
+				webLink.setWebLinktypeId(currentType);
 			}
 			webLinkLinkedList.remove(fromIndex);
 			if(toIndex == -1){

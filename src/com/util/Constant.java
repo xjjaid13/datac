@@ -16,4 +16,6 @@ public class Constant {
 	
 	public static String STYLE = "style1";
 	
+	public static String REALPATH = "";
+	
 }
