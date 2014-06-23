@@ -1,37 +1,37 @@
 package com.util;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.servlet.Servlet;
 import javax.servlet.ServletConfig;
 import javax.servlet.http.HttpServlet;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Repository;
 
-import com.spring.entity.User;
-import com.spring.entity.WebLink;
 import com.spring.entity.WebLinktype;
-import com.spring.service.UserMapperService;
-import com.spring.service.WebLinktypeMapperService;
 
 @Repository
 public class InitServlet extends HttpServlet implements Servlet{
 
 	private static final long serialVersionUID = 1L;
 	
-	public static Map<String,LinkedList<WebLinktype>> webLinkTypeMap = new HashMap<String, LinkedList<WebLinktype>>();
+	public static Map<Integer,LinkedList<WebLinktype>> webLinkTypeMap = new HashMap<Integer, LinkedList<WebLinktype>>();
+	
+	public static Set<Integer> changeList = new HashSet<Integer>();
 
 	public void init(ServletConfig servletConfig){
 		String realPath = servletConfig.getServletContext().getRealPath("")+"/";
@@ -40,48 +40,69 @@ public class InitServlet extends HttpServlet implements Servlet{
 		new Init().init(realPath);
 		try {
 			initWebLinkData();
+			final String navDBPath = Constant.REALPATH + "/db/nav";
+			ScheduledExecutorService schedulePool = Executors.newScheduledThreadPool(1);
+			schedulePool.scheduleAtFixedRate(new Runnable() {   
+	             @Override   
+	             public void run() {
+	            	 if(changeList != null && changeList.size() > 0){
+	            		 for(Integer id : changeList){
+	            			 LinkedList<WebLinktype> linkedListType = webLinkTypeMap.get(id);
+	            			 ObjectOutputStream os = null;
+	            			 try {
+								os = new ObjectOutputStream(new FileOutputStream(new File(navDBPath + "/" + id)));
+								os.writeObject(linkedListType);
+							} catch (FileNotFoundException e) {
+								e.printStackTrace();
+							} catch (IOException e) {
+								e.printStackTrace();
+							} finally{
+								try {
+									os.close();
+								} catch (IOException e) {
+									e.printStackTrace();
+								}
+							}
+	            			Log.Info("用户" + id + "导航有改动，变更完毕。");
+	            			changeList.remove(id);
+	            		 }
+	            	 }
+	             }
+	         }, 1, 1, TimeUnit.MINUTES);  
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Log.Error(e);
+		} catch (ClassNotFoundException e) {
+			Log.Error(e);
 		}
 	}
 	
-	public void initWebLinkData() throws FileNotFoundException, IOException{
-		ApplicationContext context = new ClassPathXmlApplicationContext(
-				new String[] { "springmvc.xml" });
+	public void initWebLinkData() throws FileNotFoundException, ClassNotFoundException{
 		String navDBPath = Constant.REALPATH + "/db/nav";
-		FileHandle.createPath(navDBPath);
-		WebLinktypeMapperService webLinktypeMapperService = (WebLinktypeMapperService) context.getBean("webLinktypeMapperService");
-		UserMapperService userMapperService = (UserMapperService) context.getBean("userMapperService");
-		List<User> userList = userMapperService.selectList(new User());
-		if(userList != null && userList.size() > 0){
-			for(User user : userList){
-				WebLinktype webLinktype = new WebLinktype();
-				webLinktype.setUserId(user.getUserId());
-				int countWebLinktype = webLinktypeMapperService.count(webLinktype);
-				if(countWebLinktype > 0){
-					LinkedList<WebLinktype> linkedListType = new LinkedList<WebLinktype>();
-					List<WebLinktype> webLinkTypeList = webLinktypeMapperService.returnEntityList(webLinktype);
-					linkedListType.addAll(webLinkTypeList);
-					OutputStream os = new ObjectOutputStream(new FileOutputStream(new File(navDBPath + "/" + user.getUserId())));
-					webLinkTypeMap.put(user.getUserId() + "", linkedListType);
+		File dbFile = new File(navDBPath);
+		if(dbFile.exists()){
+			File[] fileList = dbFile.listFiles();
+			if(fileList != null && fileList.length > 0){
+				for(File file : fileList){
+					ObjectInputStream oi = null;
+					try {
+						oi = new ObjectInputStream(new FileInputStream(file));
+						@SuppressWarnings("unchecked")
+						LinkedList<WebLinktype> linkedListType = (LinkedList<WebLinktype>) oi.readObject();
+						webLinkTypeMap.put(Integer.parseInt(file.getName()), linkedListType);
+					} catch (IOException e) {
+						Log.Error(e);
+					} finally{
+						try {
+							oi.close();
+						} catch (IOException e) {
+							Log.Error(e);
+						}
+					}
+					
 				}
 			}
 		}
-		System.out.println("aa");
-		
-	}
-	
-	public static void main(String[] args) {
-		WebLinktype webLinktype = new WebLinktype();
-		webLinktype.setName("aaa");
-		LinkedList<WebLink> webLinkList = new LinkedList<WebLink>();
-		WebLink webLink = new WebLink();
-		webLink.setName("aa");
-		
+		Log.Info("初始化导航完成。");
 	}
 	
 }

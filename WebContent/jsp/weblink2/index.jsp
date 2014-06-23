@@ -33,6 +33,26 @@
 		var startIndex = 0;
 		var oringType = 0;
 		
+		$("#toggleedit").toggle(function(){
+			$(this).html('取消编辑');
+			$("#nav").removeClass("view");
+			$("#nav>ul").sortable({
+				disabled: false
+			});
+			$(".nav-panel").sortable({
+				disabled: false
+			});
+		},function(){
+			$(this).html('编辑');
+			$("#nav").addClass("view");
+			$("#nav>ul").sortable({
+				disabled: true
+			});
+			$(".nav-panel").sortable({
+				disabled: true
+			});
+		});
+		
 		$("#nav>ul").sortable({
 			start : function(event, ui){
 				startIndex = ui.item.index();
@@ -50,8 +70,10 @@
 						}
 					});
 				}
-			}
+			},
+			disabled: true
 		});
+		
 		
 		dragUrlInit();
 		
@@ -75,10 +97,10 @@
 						type : 'post',
 						dataType : 'json',
 						success : function(ajaxData){
-							var htmlContent = '<li class="nav-grid" attr="${linkType.index}" style="padding-left:70px;">';
+							var htmlContent = '<li class="nav-grid" attr="${linkType.index}" >';
 							htmlContent += '<span style="left:10px;">'+typeName+'</span>';
 							htmlContent += '<ul class="connectedSortable nav-panel">';
-							htmlContent += '</ul><ul style="clear:both;height:0;"></ul></li>';
+							htmlContent += '</ul><ul class="cb"></ul></li>';
 							$("#nav-ul").append(htmlContent);
 							dragUrlInit();
 							$thisDialog.dialog( "close" );
@@ -102,32 +124,43 @@
 			buttons: {
 				"保存": function() {
 					var url = $("#url").val();
+					var urlName = $("#urlName").val();
 					if($.trim(url) == ''){
 						alert('url不能为空');
 						return false;
 					}
 					var $thisDialog = $(this);
+					var urlTypeIndex = $("#urlType").get(0).selectedIndex;
 					$.ajax({
 						url : '${base}/weblink/addWebLinkData',
-						data : 'handleType=webLink&title='+urlName+'&url='+url+'&typeIndex='+tabIndex,
+						data : 'handleType=webLink&title='+urlName+'&url='+url+'&typeIndex='+urlTypeIndex,
 						type : 'post',
 						dataType : 'json',
 						success : function(ajaxData){
-							var webLink = ajaxData.webLink;
-							var content = '';
-							content += '<li attr="'+url+'" >';
-							content += '<span title="'+webLink.name+'">';
-							if(webLink.name.length > 10){
-								content += webLink.name.substring(0,10) + '...';
+							if(ajaxData.result == 'success'){
+								var webLink = ajaxData.webLink;
+								var webLinkName = '';
+								if(webLink.name.length > 9){
+									webLinkName += webLink.name.substring(0,9) + '...';
+								}else{
+									webLinkName += webLink.name;
+								}
+								var urlContent = '';
+								urlContent += '<a class="panel-content btn btn-default" >';
+								urlContent += '<img class="iconClass" src="' + webLink.icon + '" />';
+								urlContent += '<span title="'+webLink.name+'">';
+								urlContent += webLinkName;
+								urlContent += '</span>';
+								urlContent += '<button class="btn btn-default fr" type="submit"><span class="ui-icon ui-icon-close"></span></button>';	
+								urlContent += '</a>';
+								$(".nav-grid").eq(urlTypeIndex + 1).find(".nav-panel").append(urlContent);
+								$("#urlName").val("");
+								$("#url").val("");
+								$thisDialog.dialog( "close" );
 							}else{
-								content += webLink.name;
+								alert('URL解析错误，重新输入url');
 							}
-							content += '</span></li>';
-							alert(tabIndex);
-							$(".control"+tabIndex).find("ul").append(content);
-							$("#urlName").val("");
-							$("#url").val("");
-							$thisDialog.dialog( "close" );
+							
 						}
 					});
 				},
@@ -147,10 +180,49 @@
 			$("#addUrlDiv").dialog('open');
 		});
 		
-		$(document).on( "mouseenter", ".panel-content", function() {
-			$(this).addClass("active");
-		}).on( "mouseleave", ".panel-content", function() {
-			$(this).removeClass("active");
+		$(document).on( "click", ".deleteUrl", function(e) {
+			var $this = $(this);
+			var urlIndex = $this.closest("a").index();
+			var urlType = $this.closest("li").index();
+			$.ajax({
+				url : '${base}/weblink/my-deleteWebLink',
+				data : 'typeIndex='+urlType + '&urlIndex=' + urlIndex,
+				type : 'post',
+				dataType : 'json',
+				success : function(data){
+					if(data.result == 'success'){
+						$this.parent().fadeOut();
+					}
+				}
+			});
+			return false;
+			e.stopPropagation();  
+		}).on("click",".deleteUrlType",function(e){
+			if($(event.target).is(".ui-icon-close")){
+				var $this = $(this);
+				var urlIndex = $this.closest("li").index();
+				$.ajax({
+					url : '${base}/weblink/my-deleteWebLinktype',
+					data : 'typeIndex='+urlIndex,
+					type : 'post',
+					dataType : 'json',
+					success : function(data){
+						if(data.result == 'success'){
+							$this.closest("li").fadeOut();
+						}
+					}
+				});
+			}
+		}).on("mouseenter",".nav-grid",function(){
+			var $this = $(this);
+			if($this.find(".panel-content").attr("class") == undefined){
+				$this.find(".nav-panel").append("<a class='deleteUrlType fr cursor-pointer'>删除类型</a>");
+			}
+		}).on("mouseleave",".nav-grid",function(){
+			var $this = $(this);
+			if($this.find(".panel-content").attr("class") == undefined){
+				$this.find(".nav-panel").html('');
+			}
 		});
 		
 	});
@@ -165,7 +237,6 @@
 			},
 			stop : function(event, ui){
 				var item = ui.item;
-				item.removeClass("active").find(".deleteUrl").remove();
 				var currentType = item.closest('.nav-grid').index();
 				if(item.index() != startIndex || oringType != currentType){
 					$.ajax({
@@ -178,20 +249,11 @@
 						}
 					});
 				}
-			}
+			},
+			disabled: true
 		});
 	}
 </script>
-<c:if test="${view != 0}">
-<script>
-	$(function(){
-		$(document).on( "click", ".panel-content", function(event) {
-			window.open($(this).attr("attr"));
-		});
-	});
-</script>
-</c:if>
-
 </head>
 <body>
 <div id="addUrlDiv" class="form-horizontal" title="新增链接">
@@ -211,26 +273,26 @@
 	</div>
 </div>
 
-<div id="nav" style="width:735px;">
+<div id="nav" class="view">
 	<ul id="nav-ul">
 		<li class="nav-grid">
-			<a class="fr">编辑</a>
-			<a class="fr" id="addUrl" style="margin-right:5px;">新增</a>
-			<a class="fr" id="addUrlType" style="margin-right:5px;">新增类型</a>
+			<a class="fr cursor-pointer" id="toggleedit">编辑</a>
+			<a class="fr cursor-pointer" id="addUrl" class="mr5">新增</a>
+			<a class="fr cursor-pointer" id="addUrlType" class="mr5">新增类型</a>
 		</li>
 		<c:forEach items="${webLinktypeList}" var="webLinktype" varStatus="linkType" >
-			<li class="nav-grid headShadow${linkType.index}" attr="${linkType.index}" style="padding-left:70px;">
-				<span style="left:10px;">${webLinktype.name}</span>
+			<li class="nav-grid">
+				<span>${webLinktype.name}</span>
 				<c:choose>
 					<c:when test="${webLinktype.webLinkList == null || webLinktype.webLinkList[0].name == null}">
-						<ul class="connectedSortable nav-panel">
+						<div class="connectedSortable nav-panel">
 						
-						</ul>
+						</div>
 					</c:when>
 					<c:otherwise>
 						<div class="connectedSortable nav-panel">
 							<c:forEach items="${webLinktype.webLinkList}" var="webLink" >
-								<a class="panel-content btn btn-default" style="text-align : left;white-space:normal;"  attr="${webLink.link}">
+								<a href="${webLink.link}" target="_blank" class="panel-content btn btn-default">
 									<img class="iconClass" src="${webLink.icon}" />
 									<span title="${webLink.name}">
 											<c:choose>
@@ -242,13 +304,13 @@
 											   </c:otherwise>
 											</c:choose>
 									</span>
-									<button class="btn btn-default fr" style="padding:2px 4px;white-space:normal;" type="submit"><span class="ui-icon ui-icon-close"></span></button>
+									<button class="deleteUrl btn btn-default fr" type="submit"><span class="ui-icon ui-icon-close"></span></button>
 								</a>
 							</c:forEach> 
 						</div>
 				   </c:otherwise>
 				</c:choose>
-				<ul style="clear:both;height:0;"></ul>
+				<ul class="cb"></ul>
 			</li>
 		</c:forEach>
 	</ul>

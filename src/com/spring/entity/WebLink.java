@@ -2,6 +2,11 @@ package com.spring.entity;
 
 public class WebLink extends BaseEntity{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private Integer webLinkId;
 	
 	private String name;

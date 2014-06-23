@@ -1,10 +1,14 @@
 package com.spring.entity;
 
 import java.util.LinkedList;
-import java.util.List;
 
 public class WebLinktype extends BaseEntity{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
 	private Integer webLinktypeId;
 	
 	private String name;
@@ -12,8 +16,6 @@ public class WebLinktype extends BaseEntity{
 	private Integer userId;
 	
 	private boolean isChange;
-	
-	//private List<WebLink> webLinkList;
 	
 	private LinkedList<WebLink> webLinkList;
 	
