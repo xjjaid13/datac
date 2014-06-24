@@ -1,15 +1,5 @@
 @CHARSET "UTF-8";
 
-.head .thistab, .head .thistab a:hover {
-    background: url("//d85wutc1n854v.cloudfront.net/live/imgs/darkgrain.png") repeat scroll 0 0 #EEEEEE;
-    border-bottom: 1px solid transparent;
-}
-html {
-	background: url("//d85wutc1n854v.cloudfront.net/live/imgs/darkgrain.png") repeat scroll 0 0 #EEEEEE;
-}
-body{
-	height : 600px;
-}
 .nav-grid{
 	width : 100%;
 	border : 1px solid #dae6ff;

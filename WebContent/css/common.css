@@ -13,9 +13,47 @@ i,em,cite{font-style:normal;}
 .fl,.fr {display:inline;float:left; }
 .fr {float:right;}
 .pointer{cursor : pointer;}
+html, body {
+    background-attachment: fixed !important;
+    background-color: #8f71ab;
+    background-image: -moz-linear-gradient(center bottom , #5571ab 0px, #9b87b3 0px, #5771ab 0px, #5d71ab 24.63%, #6f71ab 50%, #7f71ab 75%, #8f71ab 100%);
+    color: #fff;
+    font-family: "Open Sans",sans-serif;
+    font-size: 14px;
+    line-height: 1.6em;
+}
 .ui-dialog-content{
 	margin-bottom : -20px;
 }
 .ui-dialog-content label.control-label{
 	padding-top : 5px;
+}
+#mainbar ul li a i {
+    display: block;
+    font-size: 3.5em;
+}
+#mainbar {
+    background-color: rgba(255, 255, 255, 0.3);
+    border-right: 1px solid #ccc;
+    bottom: 0;
+    box-shadow: 2px 0 3px 0 rgba(0, 0, 0, 0.55);
+    float: left;
+    left: 0;
+    overflow: hidden;
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    width: 100px;
+}
+#mainbar ul {
+    margin: 0 auto;
+    text-align: center;
+}
+#mainbar ul li {
+    font-family: "Roboto",sans-serif;
+    margin: 20px 0;
+}
+#mainbar ul li a {
+    color: #fff;
+    text-decoration: none;
 }
