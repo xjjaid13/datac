@@ -1,1 +1,9 @@
+<script src="http://code.jquery.com/jquery-1.8.3.min.js"></script>
 <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="${base}/js/jquery-ui/ui/jquery.ui.core.js"></script>
+<script src="${base}/js/jquery-ui/ui/jquery.ui.widget.js"></script>
+<script src="${base}/js/jquery-ui/ui/jquery.ui.mouse.js"></script>
+<script src="${base}/js/jquery-ui/ui/jquery.ui.sortable.js"></script>
+<script src="${base}/js/jquery-ui/ui/jquery.ui.position.js"></script>
+<script src="${base}/js/jquery-ui/ui/jquery.ui.button.js"></script>
+<script src="${base}/js/jquery-ui/ui/jquery.ui.dialog.js"></script>

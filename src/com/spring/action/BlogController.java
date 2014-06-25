@@ -34,68 +34,17 @@ public class BlogController {
 	@Autowired
 	private BlogMapperService blogMapperService;
 
-	/**
-	 * 博客首页
-	 * */
-//	@RequestMapping("index")
-//	public String doIndex(Model model, HttpServletRequest request,
-//			HttpSession session) {
-//		Blog blog = new Blog();
-//		int page = DataHandle.returnValueInt(request, "page");
-//		if (page == 0) {
-//			page = 0;
-//		} else {
-//			page = page - 1;
-//		}
-//		String keyword = DataHandle.returnValue(request, "keyword");
-//		blog.setStartpage(page * Constant.BLOGPAGE);
-//		blog.setPage(Constant.BLOGPAGE);
-//		List<Blog> blogList = blogMapperService.selectList(blog);
-//		int countArticle = blogMapperService.count(blog);
-//		model.addAttribute("blogList", blogList);
-//		model.addAttribute("page", page);
-//		model.addAttribute("keyword", keyword);
-//		model.addAttribute("countArticle", countArticle);
-//		return "blog/index";
-//	}
-
-//	/**
-//	 * 我的博客
-//	 * */
-//	@RequestMapping("my-blog")
-//	public String doMy(HttpSession session, Model model,
-//			HttpServletRequest request) {
-//		User user = (User) session.getAttribute(Constant.USER);
-//		Blog blog = new Blog();
-//		int page = DataHandle.returnValueInt(request, "page");
-//		if (page == 0) {
-//			page = 0;
-//		} else {
-//			page = page - 1;
-//		}
-//		String keyword = DataHandle.returnValue(request, "keyword");
-//		if (!"".equals(keyword)) {
-//			Integer KeywordId = Init.keywordHm.get(user.getUserId() + "").get(keyword);
-//			blog.setKeywords("," + KeywordId + ",");
-//		}
-//		blog.setUserId(user.getUserId());
-//		blog.setStartPage(page * Constant.BLOGPAGE);
-//		blog.setPage(Constant.BLOGPAGE);
-//		List<Blog> blogList = blogMapperService.selectList(blog);
-//		int countArticle = blogMapperService.count(blog);
-//		model.addAttribute("blogList", blogList);
-//		model.addAttribute("page", page);
-//		model.addAttribute("keyword", keyword);
-//		model.addAttribute("countArticle", countArticle);
-//		return "blog/index";
-//	}
-
+	@RequestMapping("myBlog/{userid}")
+	public String doMyBlog(HttpSession session, Model model,
+			HttpServletRequest request,@PathVariable int userid){
+		return "blog/index";
+	}
 	
 	/**
 	 * 我的博客(new)
 	 * */
 	@RequestMapping("my/{userid}")
-	public String doMyBlog(HttpSession session, Model model,
+	public String doMy(HttpSession session, Model model,
 			HttpServletRequest request,@PathVariable int userid) {
 		User user = (User) session.getAttribute(Constant.USER);
 		boolean isOperator = false;
