@@ -6,153 +6,56 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Insert title here</title>
 <%@include file="../../static/css-file.jsp" %>
-<style>
-	a, a:hover {
-	    text-decoration: none;
-	}
-	ul, ol {
-	    list-style: none outside none;
-	}
-	.wrapper {
-	    margin: 0 auto;
-	    max-width: 1280px;
-	    position: relative;
-	    width: 95%;
-	}
-	.main {
-	    margin: 50px 0;
-	    text-align: center;
-	    width: 100%;
-	}
-	.content {
-	    margin: 25px 0;
-	    text-align: left;
-	}
-	.content-text {
-	    margin: 0 0 15px;
-	}
-	.nav {
-	    display: inline-block;
-	    font-size: 14px;
-	    font-weight: 900;
-	    position: relative;
-	    width : 200px;
-	}
-	.nav-item {
-	    float: left;
-	    position: relative;
-	}
-	.nav-item>a,.nav-item .nav-submenu .nav-submenu-item>a{
-		background-color:white;
-	    border-bottom: 1px solid wheat;
-	    display: block;
-	    height: 50px;
-	    padding: 15px;
-	    transition: all 0.2s ease-in-out 0s;
-	}
-	.nav-item > a:hover {
-	    background: none repeat scroll 0 0 #e5e5e5;
-	}
-	.nav-item:hover .nav-submenu {
-	    display: block;
-	}
-	.nav-submenu {
-	    display: none;
-	    left: 0;
-	    position: absolute;
-	    width: 180px;
-	}
-	.nav-submenu-item>a {
-	    background: none repeat scroll 0 0 whitesmoke;
-	    border-bottom: 1px solid white;
-	    display: block;
-	    padding: 15px;
-	}
-	.nav-submenu-item a:hover {
-	    background: none repeat scroll 0 0 #e5e5e5;
-	}
-	.nav-click {
-	    border-left: 1px solid wheat;
-	    cursor: pointer;
-	    display: none;
-	    height: 49px;
-	    position: absolute;
-	    right: 0;
-	    top: 0;
-	    width: 50px;
-	}
-	.nav-click i {
-	    background: url("../img/drop.svg") no-repeat scroll center center / 20px auto rgba(0, 0, 0, 0);
-	    display: block;
-	    height: 48px;
-	    width: 48px;
-	}
-	.nav-rotate {
-	    transform: rotate(180deg);
-	}
-	.nav-mobile {
-    	display: block;
-	}
-	.nav-list {
-	    display: block;
-	    padding-left:0;
-	    text-align: left;
-	    overflow:auto;
-	}
-	.nav-item {
-	    float: none;
-	    width: 100%;
-	}
-	.nav-item > a {
-	    padding: 15px;
-	}
-	.nav-click {
-	    display: block;
-	}
-	.nav-mobile-open {
-	    border-radius: 5px 5px 0 0;
-	}
-	.nav-item:hover .nav-submenu {
-	    display: none;
-	}
-	.nav-submenu {
-	    position: static;
-	    width: 100%;
-	    padding-left:0;
-	    display: none;
-	}
-	.nav-btn{
-		padding : 10px 0;
-		width : 100px;
-		background-color:white;
-		border:1px solid wheat;
-		display:block;
-		float:left;
-		text-align:center;
-		color:#428bca;
-	}
-	.nav-item>.dropdown{
-		float: right;
-	    margin-right: 60px;
-	    position: relative;
-	    top:-33px;
-	}
-	
-	.nav-item ul .dropdown{
-		float: right;
-	    margin-right: 10px;
-	    position: relative;
-	    top:-33px;
-	}
-	
-</style>
-<link rel="stylesheet" type="text/css" href="http://pontikis.github.io/jui_dropdown/v1.0.4/jquery.jui_dropdown.css"/>
-<link rel="stylesheet" type="text/css" href="http://www.qingdou.me/r.php?url=http://baijs.nl/tinyscrollbar/"/>
-
+<link type="text/css" rel="stylesheet" href="${base}/css/blog-new.css" />
+<link href="${base}/js/datatables/css/datatables_bootstrap.css" rel="stylesheet" type="text/css"/>
 <%@include file="../../static/js-file.jsp" %>
-<script type="text/javascript" src="http://pontikis.github.io/jui_dropdown/v1.0.4/jquery.jui_dropdown.min.js"></script>
-<script type="text/javascript" src="http://baijs.nl/tinyscrollbar/js/jquery.tinyscrollbar.js"></script>
-
+<script src="${base}/js/datatables/js/jquery.dataTables.min.js"></script>
+<script src="${base}/js/datatables/js/jquery.dataTables.rowGrouping.js"></script>
+<script src="${base}/js/datatables/js/ColReorderWithResize.js"></script>
+<script src="${base}/js/datatables/extras/ColVis/js/ColVis.min.js"></script>
+<style>
+	div.dataTables_length label {
+	    width: 460px;
+	    float: left;
+	    text-align: left;
+	}
+	 
+	div.dataTables_length select {
+	    width: 75px;
+	}
+	 
+	div.dataTables_filter label {
+	    float: right;
+	    width: 460px;
+	}
+	 
+	div.dataTables_info {
+	    padding-top: 8px;
+	}
+	 
+	div.dataTables_paginate {
+	    float: right;
+	    margin: 0;
+	}
+	 
+	table {
+	    margin: 3px 0;
+	    clear: both;
+	}
+	#sample-table-2_length label{
+		padding-top: 5px;
+	}
+	#sample-table-2_wrapper .dt_foot{
+		border-radius : 0 0 5px 5px;
+	}
+	.ui-dialog *{
+		-moz-box-sizing : content-box
+	}
+	.row .tableGroup{
+		padding : 0;
+		float : left;
+	}
+</style>
 <script>
 	//DOM ready
 	$(function() {
@@ -257,6 +160,47 @@
 				$ul.remove();
 			}
 		});
+		
+		$('#blog-table').dataTable({
+		    "sDom": "rt<'row dt_foot'<'col-md-4'l><'col-md-3'i><'col-md-5'p>>",
+			"bServerSide": true,
+            "sAjaxSource": "${base}/blog/returnBlogListDateTables",
+            "aoColumnDefs": [ 
+                    { 'bSortable': false, 'aTargets': [0] } ,
+                    { "sClass": "center", "aTargets": [0] }
+            ], 
+            "aaSorting": [[ 2, 'desc' ]],
+            "fnDrawCallback": function ( oSettings ) {
+                    var that = this;
+                    this.$('td:first-child').each( function (i) {
+                        that.fnUpdate(oSettings._iDisplayStart + i+1, this.parentNode, 0, false, false );
+                    });
+                },
+            "aoColumns" : [ {
+                "sTitle" : "编号",
+                "sName" : "blogId",
+                "mData" : "blogId",
+                "sClass":"table-number center"
+            },{
+                "sTitle" : "title",
+                "sName" : "title",
+                "mData" : function(data,type,row){
+                    return data.title;
+                }
+            }, {
+                "sTitle" : "createDate",
+                "sName" : "createDate",
+                "mData" : function(data,type,row){
+                    return data.createDate;
+                }
+            }, {
+                "sTitle" : "<s:text name='common.table.operator'/>",
+                "mData" : function(data,type,row){
+                	return "<a href='javascript:void()' class='blue'><i class='icon-zoom-in bigger-130'></i></a>";
+                }
+            }]
+		});
+		
 		jqUpdateSize();
 		$(window).resize(jqUpdateSize);
 	});
@@ -295,85 +239,91 @@
 		</div>
 	</div>
 	<%@include file="../../static/left-nav.jsp" %>
-           
-	<nav class="nav" style="margin-left:102px;">
-		<span class="nav-btn" id="addParentType">新增父类</span>
-		<span class="nav-btn" id="addType">新增子类</span>
-		<div style="clear:both;height:0;"></div>
-		<ul class="nav-list">
-			<li attr="1" class="nav-item nav-li">
-				<a href="?=home">Home</a>
-				<div class="dropdown">
-				    <span data-toggle="dropdown" class="ui-icon ui-icon-wrench"></span>
-				    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-				    	<li role="presentation"><a class="rename-type" tabindex="-1" role="menuitem">alter</a></li>
-				    	<li class="divider" role="presentation"></li>
-		                <li role="presentation"><a class="delete-type" tabindex="-1" role="menuitem">delete</a></li>
-				    </ul>
-				</div>	
-				<ul class="nav-submenu">
-					<li class="nav-submenu-item nav-li">
-						<a href="?=submenu-1">Submenu item 1111</a>
-						<div class="dropdown">
-						    <span data-toggle="dropdown" class="ui-icon ui-icon-wrench"></span>
-						    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-						    	<li role="presentation"><a class="rename-type" tabindex="-1" role="menuitem">alter</a></li>
-						    	<li class="divider" role="presentation"></li>
-				                <li role="presentation"><a class="delete-type" tabindex="-1" role="menuitem">delete</a></li>
-						    </ul>
-						</div>
-					</li>
-					<li class="nav-submenu-item nav-li">
-						<a href="?=submenu-2">Submenu item 2</a>
-						<div class="dropdown">
-						    <span data-toggle="dropdown" class="ui-icon ui-icon-wrench"></span>
-						    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-						    	<li role="presentation"><a class="rename-type" tabindex="-1" role="menuitem">alter</a></li>
-						    	<li class="divider" role="presentation"></li>
-				                <li role="presentation"><a class="delete-type" tabindex="-1" role="menuitem">delete</a></li>
-						    </ul>
-						</div>
-					</li>
-				</ul>
-			</li>
-			<li attr="2" class="nav-item nav-li">
-				<a href="?=about">About</a>
-				<div class="dropdown">
-				    <span data-toggle="dropdown" class="ui-icon ui-icon-wrench"></span>
-				    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
-				    	<li role="presentation"><a class="rename-type" tabindex="-1" role="menuitem">alter</a></li>
-				    	<li class="divider" role="presentation"></li>
-		                <li role="presentation"><a class="delete-type" tabindex="-1" role="menuitem">delete</a></li>
-				    </ul>
-				</div>
-			</li>
-			<li attr="3" class="nav-item nav-li">
-				<a href="?=services">Services</a>
-				<ul class="nav-submenu">
-					<li class="nav-submenu-item nav-li">
-						<a href="?=submenu-1">Submenu item 1</a>
-					</li>
-					<li class="nav-submenu-item nav-li">
-						<a href="?=submenu-2">Submenu item 2</a>
-					</li>
-					<li class="nav-submenu-item nav-li">
-						<a href="?=submenu-3">Submenu item 3</a>
-					</li>
-					<li class="nav-submenu-item nav-li">
-						<a href="?=submenu-4">Submenu item 4</a>
-					</li>
-				</ul>
-			</li>
-			<li attr="4" class="nav-item nav-li">
-				<a href="?=portfolio">Portfolio</a>
-			</li>
-			<li attr="5" class="nav-item">
-				<a href="?=testimonials">Testimonials</a>
-			</li>
-			<li attr="6" class="nav-item">
-				<a href="?=contact">Contact</a>
-			</li>
-		</ul>
-	</nav>
+    <div style="margin-left:100px;">
+		<nav class="nav" style="float:left;margin-left:20px;margin-top:20px;">
+			<span class="nav-btn" id="addParentType">新增父类</span>
+			<span class="nav-btn" id="addType">新增子类</span>
+			<div style="clear:both;height:0;"></div>
+			<ul class="nav-list">
+				<li attr="1" class="nav-item nav-li">
+					<a href="?=home">Home</a>
+					<div class="dropdown">
+					    <span data-toggle="dropdown" class="ui-icon ui-icon-wrench"></span>
+					    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+					    	<li role="presentation"><a class="rename-type" tabindex="-1" role="menuitem">alter</a></li>
+					    	<li class="divider" role="presentation"></li>
+			                <li role="presentation"><a class="delete-type" tabindex="-1" role="menuitem">delete</a></li>
+					    </ul>
+					</div>	
+					<ul class="nav-submenu">
+						<li class="nav-submenu-item nav-li">
+							<a href="?=submenu-1">Submenu item 1111</a>
+							<div class="dropdown">
+							    <span data-toggle="dropdown" class="ui-icon ui-icon-wrench"></span>
+							    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+							    	<li role="presentation"><a class="rename-type" tabindex="-1" role="menuitem">alter</a></li>
+							    	<li class="divider" role="presentation"></li>
+					                <li role="presentation"><a class="delete-type" tabindex="-1" role="menuitem">delete</a></li>
+							    </ul>
+							</div>
+						</li>
+						<li class="nav-submenu-item nav-li">
+							<a href="?=submenu-2">Submenu item 2</a>
+							<div class="dropdown">
+							    <span data-toggle="dropdown" class="ui-icon ui-icon-wrench"></span>
+							    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+							    	<li role="presentation"><a class="rename-type" tabindex="-1" role="menuitem">alter</a></li>
+							    	<li class="divider" role="presentation"></li>
+					                <li role="presentation"><a class="delete-type" tabindex="-1" role="menuitem">delete</a></li>
+							    </ul>
+							</div>
+						</li>
+					</ul>
+				</li>
+				<li attr="2" class="nav-item nav-li">
+					<a href="?=about">About</a>
+					<div class="dropdown">
+					    <span data-toggle="dropdown" class="ui-icon ui-icon-wrench"></span>
+					    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+					    	<li role="presentation"><a class="rename-type" tabindex="-1" role="menuitem">alter</a></li>
+					    	<li class="divider" role="presentation"></li>
+			                <li role="presentation"><a class="delete-type" tabindex="-1" role="menuitem">delete</a></li>
+					    </ul>
+					</div>
+				</li>
+				<li attr="3" class="nav-item nav-li">
+					<a href="?=services">Services</a>
+					<ul class="nav-submenu">
+						<li class="nav-submenu-item nav-li">
+							<a href="?=submenu-1">Submenu item 1</a>
+						</li>
+						<li class="nav-submenu-item nav-li">
+							<a href="?=submenu-2">Submenu item 2</a>
+						</li>
+						<li class="nav-submenu-item nav-li">
+							<a href="?=submenu-3">Submenu item 3</a>
+						</li>
+						<li class="nav-submenu-item nav-li">
+							<a href="?=submenu-4">Submenu item 4</a>
+						</li>
+					</ul>
+				</li>
+				<li attr="4" class="nav-item nav-li">
+					<a href="?=portfolio">Portfolio</a>
+				</li>
+				<li attr="5" class="nav-item">
+					<a href="?=testimonials">Testimonials</a>
+				</li>
+				<li attr="6" class="nav-item">
+					<a href="?=contact">Contact</a>
+				</li>
+			</ul>
+		</nav>
+		<div class="table-response col-md-8" style="margin-top:20px;">
+			<table id="blog-table" class="table table-striped table-bordered bootstrap-datatable datatable">
+									
+			</table>
+		</div>
+	</div>
 </body>
 </html>

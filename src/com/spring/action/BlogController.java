@@ -281,7 +281,7 @@ public class BlogController {
 		jsonObject.put("data", blog);
 		response.getWriter().write(jsonObject.toString());
 	}
-
+	
 	@RequestMapping("returnBlogList")
 	public void returnBlogList(HttpSession session,HttpServletResponse response,HttpServletRequest request) throws IOException{
 		User user = (User) session.getAttribute(Constant.USER);
@@ -300,6 +300,57 @@ public class BlogController {
 		jsonObject.put("dataList", blogList);
 		jsonObject.put("recordSum", recordSum);
 		response.getWriter().write(jsonObject.toString());
+	}
+
+	@RequestMapping("returnBlogListDateTables")
+	public void returnBlogListDateTables(HttpSession session,HttpServletResponse response,HttpServletRequest request) throws IOException{
+		User user = (User) session.getAttribute(Constant.USER);
+		
+		/** 开始页 */
+        int sPage = DataHandle.returnValueInt(request, "iDisplayStart");
+        /** 每页数量 */
+        int sRows = DataHandle.returnValueInt(request, "iDisplayLength");
+        /** 排序列位置 */
+        String iSortCol = DataHandle.returnValue(request, "iSortCol_0");
+        /** 排序方式 */
+        String sOrderType = DataHandle.returnValue(request, "sSortDir_0");
+        /** 排序列 */
+        String sOrderCol = "";
+        /** 所有列code */
+        String sColumns = DataHandle.returnValue(request, "sColumns");
+        String[] cols = new String[] {};
+        if (sColumns != null) {
+            cols = sColumns.split(",");
+        }
+        if (!DataHandle.isNullOrEmpty(iSortCol)) {
+        	/** 获取当前排序列 */
+            sOrderCol = cols[Integer.valueOf(iSortCol)];
+        }
+        
+        String orderType = "";
+        String orderCol = "";
+        /** 设置排序参数 */
+        if (!DataHandle.isNullOrEmpty(sOrderCol)) {
+            orderCol = " order by " + sOrderCol;
+            if (!DataHandle.isNullOrEmpty(sOrderType)) {
+                orderType = sOrderType;
+            }
+            orderCol += " " + orderType;
+        }
+        
+        Blog blog = new Blog();
+        blog.setUserId(user.getUserId());
+        blog.setStartPage(sPage);
+        blog.setPage(sRows);
+        blog.setCondition(" 1 = 1 " + orderCol);
+		List<Blog> blogList = blogMapperService.returnTitleEntity(blog);
+		int count = blogMapperService.count(blog);
+		JSONObject json = new JSONObject();
+		json = new JSONObject();
+		json.put("iTotalRecords", 10);  //本次查询记录数
+		json.put("iTotalDisplayRecords", count); //记录总数
+		json.put("aaData", blogList); 
+		response.getWriter().write(json.toString());
 	}
 	
 	/**
