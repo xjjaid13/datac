@@ -69,11 +69,10 @@ ul, ol {
     border-left: 1px solid #ddd;
     cursor: pointer;
     display: none;
-    height: 49px;
     position: absolute;
     right: 0;
     top: 0;
-    width: 50px;
+    padding : 18px 10px;
 }
 .nav-click i {
     background: url("../img/drop.svg") no-repeat scroll center center / 20px auto rgba(0, 0, 0, 0);

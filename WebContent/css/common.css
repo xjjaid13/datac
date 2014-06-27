@@ -61,3 +61,15 @@ pre {
     background-color: #F0F0F0;
     margin: 4px 0;
 }
+.dropdown-menu{
+	left:-50px;
+	min-width:0;
+	padding:0;
+	cursor:pointer;
+}
+.dropdown-menu li{
+	width:100px;
+}
+.dropdown-menu .divider{
+	margin:0;
+}

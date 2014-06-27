@@ -61,7 +61,7 @@
 	$(function() {
 		
 		// Add a <span> to every .nav-item that has a <ul> inside
-		$('.nav-item').has('ul').prepend('<span class="nav-click"><i class="nav-arrow"></i></span>');
+		$('.nav-item').has('ul').prepend('<span class="nav-click"><a><span class="glyphicon glyphicon-arrow-down"></span></a></span>');
 		
 		// Click to reveal the nav
 		$('.nav-mobile').click(function(){
@@ -122,7 +122,7 @@
 						$li.append('<ul class="nav-submenu"><li class="nav-submenu-item nav-li"><a>'+typeName+'</a>'
 								+$("#dropdown-div").html()
 								+'</li></ul>')
-						   .prepend('<span class="nav-click"><i class="nav-arrow"></i></span>');
+						   .prepend('<span class="nav-click"><span class="glyphicon glyphicon-arrow-down"></span></span>');
 					}else{
 						$li.find("ul").append('<li class="nav-submenu-item nav-li"><a>'+typeName+'</a>'
 								+$("#dropdown-div").html()
