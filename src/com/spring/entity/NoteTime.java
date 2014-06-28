@@ -14,6 +14,7 @@ public class NoteTime extends BaseEntity{
 	
 	private String displayValue;
 	
+	
 	public Integer getNoteTimeId() {
 		return noteTimeId;
 	}
@@ -28,6 +29,10 @@ public class NoteTime extends BaseEntity{
 	
 	public Integer getParentId() {
 		return parentId;
+	}
+	
+	public Integer getUserId() {
+		return userId;
 	}
 	
 	public String getDisplayValue() {
@@ -51,19 +56,15 @@ public class NoteTime extends BaseEntity{
 		this.parentId = parentId;
 	}
 	
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+	
 	public void setDisplayValue(String displayValue) {
 		this.displayValue = displayValue;
 	}
 	
 	public String toString(){
 		return "NoteTime";
-	}
-
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
 	}
 }

@@ -2,11 +2,6 @@ package com.spring.entity;
 
 public class WebLink extends BaseEntity{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private Integer webLinkId;
 	
 	private String name;
@@ -25,6 +20,7 @@ public class WebLink extends BaseEntity{
 	
 	private String icon;
 	
+	
 	public Integer getWebLinkId() {
 		return webLinkId;
 	}
@@ -41,8 +37,24 @@ public class WebLink extends BaseEntity{
 		return webLinktypeId;
 	}
 	
+	public Integer getUserId() {
+		return userId;
+	}
+	
 	public Integer getHit() {
 		return hit;
+	}
+	
+	public String getHost() {
+		return host;
+	}
+	
+	public String getDescription() {
+		return description;
+	}
+	
+	public String getIcon() {
+		return icon;
 	}
 	
 	
@@ -62,43 +74,27 @@ public class WebLink extends BaseEntity{
 		this.webLinktypeId = webLinktypeId;
 	}
 	
+	public void setUserId(Integer userId) {
+		this.userId = userId;
+	}
+	
 	public void setHit(Integer hit) {
 		this.hit = hit;
 	}
 	
-	public String toString(){
-		return "WebLink";
-	}
-
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
-
-	public String getHost() {
-		return host;
-	}
-
 	public void setHost(String host) {
 		this.host = host;
 	}
-
-	public String getDescription() {
-		return description;
-	}
-
+	
 	public void setDescription(String description) {
 		this.description = description;
 	}
-
-	public String getIcon() {
-		return icon;
-	}
-
+	
 	public void setIcon(String icon) {
 		this.icon = icon;
+	}
+	
+	public String toString(){
+		return "WebLink";
 	}
 }

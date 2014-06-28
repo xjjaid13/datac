@@ -3,7 +3,6 @@
  */
 package com.util;
 
-import java.io.File;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.DatabaseMetaData;
@@ -14,10 +13,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Random;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author cloud
@@ -59,6 +54,17 @@ public class DBHandle {
 		try {
 			Class.forName(strDirverPath);
 			conn = DriverManager.getConnection(url,"root","111111");
+			st = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void openConnMysqlParam(String driver,String url,String user,String password){
+		String strDirverPath = driver;
+		try {
+			Class.forName(strDirverPath);
+			conn = DriverManager.getConnection(url,user,password);
 			st = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -281,7 +287,7 @@ public class DBHandle {
 	 * */
 	public int getColumnType(String tablename,String columnname){
 		try{
-			rs = st.executeQuery("SELECT * FROM "+tablename+" WHERE 1=0");
+			rs = st.executeQuery("SELECT * FROM `"+tablename+"` WHERE 1=0");
 			rsm = rs.getMetaData();
 			for(int i = 1;i <= rsm.getColumnCount();i++){
 				if(rsm.getColumnName(i).equals(columnname)){
@@ -445,16 +451,9 @@ public class DBHandle {
 	}
 	
 	public static void main(String[] args){
-		DBHandle db = new DBHandle();
-		db.openConnMysql();
-		for(int x = 0; x < 1000; x++){
-			String content = "";
-			for(int i = 0; i < 50; i++){
-				content += new Random().nextInt();
-			}
-			String strProvice = "insert into note (content,createDate,bgUserId) values ('"+content+"','"+TimeHandle.currentTime()+"',4)";
-			db.executeUpdate(strProvice);
-		}
-		db.closeConn();
+		DBHandle dbHandle = new DBHandle();
+		dbHandle.openConnMysql();
+		System.out.println(dbHandle.getColumnType("blog-type", "blogTypeId"));
+		dbHandle.closeConn();
 	}
 }

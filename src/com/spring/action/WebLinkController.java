@@ -2,6 +2,7 @@ package com.spring.action;
 
 import java.io.IOException;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -18,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.spring.entity.User;
 import com.spring.entity.WebLink;
 import com.spring.entity.WebLinktype;
-import com.spring.service.WebLinkMapperService;
 import com.spring.service.WebLinktypeMapperService;
 import com.util.Constant;
 import com.util.DataHandle;
@@ -29,6 +29,19 @@ import com.util.InitServlet;
 @RequestMapping("weblink")
 public class WebLinkController {
 
+	@Autowired
+	WebLinktypeMapperService webLinktypeMapperService;
+	
+	@RequestMapping("view/{userId}")
+	public String returnWebLink(Model model,@PathVariable int userId){
+		WebLinktype webLinktype = new WebLinktype();
+		webLinktype.setUserId(userId);
+		List<WebLinktype> webLinkTypeList = webLinktypeMapperService.returnEntityList(webLinktype);
+		
+		model.addAttribute("webLinkTypeList", webLinkTypeList);
+		return "weblink/view";
+	}
+	
 	@RequestMapping("my-deleteWebLinktype")
 	public void deleteLineType(HttpServletRequest request,HttpServletResponse response,HttpSession session) throws IOException{
 		User user = (User) session.getAttribute(Constant.USER);

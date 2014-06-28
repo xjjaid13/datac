@@ -12,6 +12,7 @@ public class Note extends BaseEntity{
 	
 	private Integer userId;
 	
+	
 	public Integer getNoteId() {
 		return noteId;
 	}
@@ -27,6 +28,11 @@ public class Note extends BaseEntity{
 	public String getCreateDate() {
 		return createDate;
 	}
+	
+	public Integer getUserId() {
+		return userId;
+	}
+	
 	
 	public void setNoteId(Integer noteId) {
 		this.noteId = noteId;
@@ -44,15 +50,11 @@ public class Note extends BaseEntity{
 		this.createDate = createDate;
 	}
 	
-	public String toString(){
-		return "Note";
-	}
-
-	public Integer getUserId() {
-		return userId;
-	}
-
 	public void setUserId(Integer userId) {
 		this.userId = userId;
+	}
+	
+	public String toString(){
+		return "Note";
 	}
 }
