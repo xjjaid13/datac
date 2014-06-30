@@ -22,4 +22,6 @@ public interface BaseService<T> {
 	
 	List<T> selectList(String sql,Object param);
 	
+	int insertAndReturnId(T t);
+	
 }

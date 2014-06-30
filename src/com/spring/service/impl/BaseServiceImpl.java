@@ -63,4 +63,9 @@ public class BaseServiceImpl<T> implements BaseService<T>{
         return baseDao.selectList(sql, param);
     }
 
+	@Override
+	public int insertAndReturnId(T t) {
+		return baseDao.insertAndReturnId(t);
+	}
+
 }

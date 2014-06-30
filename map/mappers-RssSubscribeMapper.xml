@@ -6,23 +6,23 @@
     <result property="rssId" column="rssId"/>
     <result property="rssTypeId" column="rssTypeId"/>
   </resultMap>
-  <select id="select" resultType="java.util.Map" resultMap="rssSubscribe">select * from rss_subscribe where rssSubscribeId = #{rssSubscribeId}</select>
-  <select id="selectList" resultType="java.util.List" resultMap="rssSubscribe">select * from rss_subscribe where 1 = 1 
+  <select id="selectRssSubscribe" resultType="java.util.Map" resultMap="rssSubscribe">select * from rss_subscribe where rssSubscribeId = #{rssSubscribeId}</select>
+  <select id="selectListRssSubscribe" resultType="java.util.List" resultMap="rssSubscribe">select * from rss_subscribe where 1 = 1 
     <if test="condition != null">and ${condition}</if>  
     <if test="rssId != null">and rssId = #{rssId}</if>  
     <if test="rssTypeId != null">and rssTypeId = #{rssTypeId}</if>  
     <if test="startPage != -1">limit #{startPage},#{page}</if> 
   </select>
-  <select id="selectCount" resultType="java.lang.Integer">select count(rssSubscribeId) from rss_subscribe where 1 = 1 
+  <select id="selectCountRssSubscribe" resultType="java.lang.Integer">select count(rssSubscribeId) from rss_subscribe where 1 = 1 
     <if test="condition != null">and ${condition}</if>  
     <if test="rssId != null">and rssId = #{rssId}</if>  
     <if test="rssTypeId != null">and rssTypeId = #{rssTypeId}</if> 
   </select>
-  <insert id="insert" parameterType="RssSubscribe">insert into rss_subscribe ( rssId,rssTypeId ) values ( #{rssId},#{rssTypeId} )</insert>
-  <update id="update" parameterType="RssSubscribe">update rss_subscribe set 
+  <insert id="insertRssSubscribe" parameterType="RssSubscribe">insert into rss_subscribe ( rssId,rssTypeId ) values ( #{rssId},#{rssTypeId} )</insert>
+  <update id="updateRssSubscribe" parameterType="RssSubscribe">update rss_subscribe set 
     <if test="columnname != null">rssId = #{rssId},</if>
     <if test="columnname != null">rssTypeId = #{rssTypeId},</if> rssSubscribeId = #{rssSubscribeId} where rssSubscribeId = #{rssSubscribeId}
   </update>
-  <delete id="deleteByIds" parameterType="RssSubscribe">delete from rss_subscribe where rssSubscribeId in (#{ids})</delete>
-  <select id="maxId" resultType="java.util.Map" resultMap="rssSubscribe">select max(rssSubscribeId) from rss_subscribe</select>
+  <delete id="deleteByIdsRssSubscribe" parameterType="RssSubscribe">delete from rss_subscribe where rssSubscribeId in (#{ids})</delete>
+  <select id="maxIdRssSubscribe" resultType="java.util.Map" resultMap="rssSubscribe">select max(rssSubscribeId) from rss_subscribe</select>
 </mapper>

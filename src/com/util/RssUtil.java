@@ -35,9 +35,9 @@ public class RssUtil {
 			resultMap.put("copyright", copyright);
 			SyndImage syndImage = feed.getImage();
 	        if(syndImage != null){
-	        	resultMap.put("channelImageUrl", syndImage.getUrl());
+	        	resultMap.put("icon", syndImage.getUrl());
 	        }else{
-	        	resultMap.put("channelImageUrl", "");
+	        	resultMap.put("icon", "");
 	        }
 
 	        List<SyndEntry> list = feed.getEntries();

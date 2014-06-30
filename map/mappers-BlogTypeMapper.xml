@@ -8,8 +8,8 @@
     <result property="level" column="level"/>
     <result property="userId" column="userId"/>
   </resultMap>
-  <select id="select" resultType="java.util.Map" resultMap="blogType">select * from blog_type where blogTypeId = #{blogTypeId}</select>
-  <select id="selectList" resultType="java.util.List" resultMap="blogType">select * from blog_type where 1 = 1 
+  <select id="selectBlogType" resultType="java.util.Map" resultMap="blogType">select * from blog_type where blogTypeId = #{blogTypeId}</select>
+  <select id="selectListBlogType" resultType="java.util.List" resultMap="blogType">select * from blog_type where 1 = 1 
     <if test="condition != null">and ${condition}</if>  
     <if test="blogTypeId != null">and blogTypeId = #{blogTypeId}</if>  
     <if test="title != null">and title = '#{title}'</if>  
@@ -17,20 +17,20 @@
     <if test="userId != null">and userId = #{userId}</if>  
     <if test="startPage != -1">limit #{startPage},#{page}</if> 
   </select>
-  <select id="selectCount" resultType="java.lang.Integer">select count(blogTypeId) from blog_type where 1 = 1 
+  <select id="selectCountBlogType" resultType="java.lang.Integer">select count(blogTypeId) from blog_type where 1 = 1 
     <if test="condition != null">and ${condition}</if>  
     <if test="blogTypeId != null">and blogTypeId = #{blogTypeId}</if>  
     <if test="title != null">and title = '#{title}'</if>  
     <if test="level != null">and level = #{level}</if>  
     <if test="userId != null">and userId = #{userId}</if> 
   </select>
-  <insert id="insert" parameterType="BlogType">insert into blog_type ( blogTypeId,title,level,userId ) values ( #{blogTypeId},#{title},#{level},#{userId} )</insert>
-  <update id="update" parameterType="BlogType">update blog_type set 
+  <insert id="insertBlogType" parameterType="BlogType">insert into blog_type ( blogTypeId,title,level,userId ) values ( #{blogTypeId},#{title},#{level},#{userId} )</insert>
+  <update id="updateBlogType" parameterType="BlogType">update blog_type set 
     <if test="columnname != null">blogTypeId = #{blogTypeId},</if>
     <if test="columnname != null">title = #{title},</if>
     <if test="columnname != null">level = #{level},</if>
     <if test="columnname != null">userId = #{userId},</if> blogTypeId = #{blogTypeId} where blogTypeId = #{blogTypeId}
   </update>
-  <delete id="deleteByIds" parameterType="BlogType">delete from blog_type where blogTypeId in (#{ids})</delete>
-  <select id="maxId" resultType="java.util.Map" resultMap="blogType">select max(blogTypeId) from blog_type</select>
+  <delete id="deleteByIdsBlogType" parameterType="BlogType">delete from blog_type where blogTypeId in (#{ids})</delete>
+  <select id="maxIdBlogType" resultType="java.util.Map" resultMap="blogType">select max(blogTypeId) from blog_type</select>
 </mapper>

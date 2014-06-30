@@ -57,4 +57,10 @@ public class BaseDaoImpl<T> implements BaseDao<T> {
         return sqlSessionTemplate.selectList(sql, param);
     }
 
+	@Override
+	public int insertAndReturnId(T t) {
+		sqlSessionTemplate.insert("insert" + t.toString(), t);
+		return sqlSessionTemplate.selectOne("maxId" + t.toString());
+	}
+
 }

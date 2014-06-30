@@ -7,26 +7,26 @@
     <result property="typeName" column="typeName"/>
     <result property="userId" column="userId"/>
   </resultMap>
-  <select id="select" resultType="java.util.Map" resultMap="rssType">select * from rss_type where rssTypeId = #{rssTypeId}</select>
-  <select id="selectList" resultType="java.util.List" resultMap="rssType">select * from rss_type where 1 = 1 
+  <select id="selectRssType" resultType="java.util.Map" resultMap="rssType">select * from rss_type where rssTypeId = #{rssTypeId}</select>
+  <select id="selectListRssType" resultType="java.util.List" resultMap="rssType">select * from rss_type where 1 = 1 
     <if test="condition != null">and ${condition}</if>  
     <if test="rssTypeId != null">and rssTypeId = #{rssTypeId}</if>  
     <if test="typeName != null">and typeName = '#{typeName}'</if>  
     <if test="userId != null">and userId = #{userId}</if>  
     <if test="startPage != -1">limit #{startPage},#{page}</if> 
   </select>
-  <select id="selectCount" resultType="java.lang.Integer">select count(rssTypeId) from rss_type where 1 = 1 
+  <select id="selectCountRssType" resultType="java.lang.Integer">select count(rssTypeId) from rss_type where 1 = 1 
     <if test="condition != null">and ${condition}</if>  
     <if test="rssTypeId != null">and rssTypeId = #{rssTypeId}</if>  
     <if test="typeName != null">and typeName = '#{typeName}'</if>  
     <if test="userId != null">and userId = #{userId}</if> 
   </select>
-  <insert id="insert" parameterType="RssType">insert into rss_type ( rssTypeId,typeName,userId ) values ( #{rssTypeId},#{typeName},#{userId} )</insert>
-  <update id="update" parameterType="RssType">update rss_type set 
+  <insert id="insertRssType" parameterType="RssType">insert into rss_type ( rssTypeId,typeName,userId ) values ( #{rssTypeId},#{typeName},#{userId} )</insert>
+  <update id="updateRssType" parameterType="RssType">update rss_type set 
     <if test="columnname != null">rssTypeId = #{rssTypeId},</if>
     <if test="columnname != null">typeName = #{typeName},</if>
     <if test="columnname != null">userId = #{userId},</if> rssTypeId = #{rssTypeId} where rssTypeId = #{rssTypeId}
   </update>
-  <delete id="deleteByIds" parameterType="RssType">delete from rss_type where rssTypeId in (#{ids})</delete>
-  <select id="maxId" resultType="java.util.Map" resultMap="rssType">select max(rssTypeId) from rss_type</select>
+  <delete id="deleteByIdsRssType" parameterType="RssType">delete from rss_type where rssTypeId in (#{ids})</delete>
+  <select id="maxIdRssType" resultType="java.util.Map" resultMap="rssType">select max(rssTypeId) from rss_type</select>
 </mapper>

@@ -22,4 +22,7 @@ public interface BaseDao<T> {
 	int deleteByIds(T t);
 	
 	List<T> selectList(String sql,Object param);
+	
+	int insertAndReturnId(T t);
+	
 }

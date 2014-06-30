@@ -2,11 +2,6 @@ package com.spring.entity;
 
 public class User extends BaseEntity{
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
 	private Integer userId;
 	
 	private String username;
