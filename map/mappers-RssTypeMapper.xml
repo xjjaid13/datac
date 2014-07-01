@@ -28,5 +28,5 @@
     <if test="columnname != null">userId = #{userId},</if> rssTypeId = #{rssTypeId} where rssTypeId = #{rssTypeId}
   </update>
   <delete id="deleteByIdsRssType" parameterType="RssType">delete from rss_type where rssTypeId in (#{ids})</delete>
-  <select id="maxIdRssType" resultType="java.util.Map" resultMap="rssType">select max(rssTypeId) from rss_type</select>
+  <select id="maxIdRssType" resultType="java.lang.Integer">select max(rssTypeId) from rss_type</select>
 </mapper>

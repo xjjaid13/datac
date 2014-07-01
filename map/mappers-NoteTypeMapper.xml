@@ -9,7 +9,8 @@
   <select id="selectNoteType" resultType="java.util.Map" resultMap="noteType">select * from note_type where noteTypeId = #{noteTypeId}</select>
   <select id="selectListNoteType" resultType="java.util.List" resultMap="noteType">select * from note_type where 1 = 1 
     <if test="noteTypeId != null">and noteTypeId = #{noteTypeId}</if>  
-    <if test="noteTypeName != null">and noteTypeName = '#{noteTypeName}'</if> limit #{startPage},#{page}
+    <if test="noteTypeName != null">and noteTypeName = '#{noteTypeName}'</if> 
+    <if test="startPage != -1"> limit #{startPage},#{page}</if> 
   </select>
   <select id="selectCountNoteType" resultType="java.lang.Integer">select count(noteTypeId) from note_type where 1 = 1 
     <if test="noteTypeId != null">and noteTypeId = #{noteTypeId}</if>  

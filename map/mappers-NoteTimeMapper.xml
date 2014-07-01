@@ -17,7 +17,8 @@
     <if test="value != null">and value = '#{value}'</if>  
     <if test="parentId != null">and parentId = #{parentId}</if>  
     <if test="userId != null">and userId = #{userId}</if>  
-    <if test="displayValue != null">and displayValue = '#{displayValue}'</if> limit #{startPage},#{page}
+    <if test="displayValue != null">and displayValue = '#{displayValue}'</if> 
+    <if test="startPage != -1"> limit #{startPage},#{page}</if> 
   </select>
   <select id="selectCountNoteTime" resultType="java.lang.Integer">select count(noteTimeId) from note_time where 1 = 1 
     <if test="noteTimeId != null">and noteTimeId = #{noteTimeId}</if>  

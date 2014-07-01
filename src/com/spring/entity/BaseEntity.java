@@ -9,7 +9,7 @@ public class BaseEntity implements Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	private int startPage = 0;
+	private int startPage = -1;
 	
 	private int page = 10;
 	

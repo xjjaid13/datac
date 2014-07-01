@@ -7,11 +7,12 @@
     <result property="username" column="username"/>
     <result property="password" column="password"/>
   </resultMap>
-  <select id="selectUser" resultType="java.util.Map" resultMap="user">select * from bg_article where userId = #{userId}</select>
+  <select id="selectUser" resultType="java.util.Map" resultMap="user">select * from user where userId = #{userId}</select>
   <select id="selectListUser" resultType="java.util.List" resultMap="user">select * from user where 1 = 1 
     <if test="userId != null">and userId = #{userId}</if>  
-    <if test="username != null">and username = '#{username}'</if>  
-    <if test="password != null">and password = '#{password}'</if> limit #{startPage},#{page}
+    <if test="username != null">and username = #{username}</if>  
+    <if test="password != null">and password = #{password}</if> 
+    <if test="startPage != -1"> limit #{startPage},#{page}</if> 
   </select>
   <select id="selectCountUser" resultType="java.lang.Integer">select count(userId) from user where 1 = 1 
     <if test="userId != null">and userId = #{userId}</if>  

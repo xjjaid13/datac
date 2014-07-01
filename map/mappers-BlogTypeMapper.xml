@@ -32,5 +32,5 @@
     <if test="columnname != null">userId = #{userId},</if> blogTypeId = #{blogTypeId} where blogTypeId = #{blogTypeId}
   </update>
   <delete id="deleteByIdsBlogType" parameterType="BlogType">delete from blog_type where blogTypeId in (#{ids})</delete>
-  <select id="maxIdBlogType" resultType="java.util.Map" resultMap="blogType">select max(blogTypeId) from blog_type</select>
+  <select id="maxIdBlogType" resultType="java.lang.Integer">select max(blogTypeId) from blog_type</select>
 </mapper>

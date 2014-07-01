@@ -21,7 +21,8 @@
     <if test="link != null">and link = '#{link}'</if>  
     <if test="webLinktypeId != null">and webLinktypeId = #{webLinktypeId}</if>  
     <if test="userId != null">and userId = #{userId}</if>  
-    <if test="hit != null">and hit = #{hit}</if> limit #{startPage},#{page}
+    <if test="hit != null">and hit = #{hit}</if> 
+    <if test="startPage != -1"> limit #{startPage},#{page}</if> 
   </select>
   <select id="selectCountWebLink" resultType="java.lang.Integer">select count(webLinkId) from web_link where 1 = 1 
     <if test="host != null">and host = #{host}</if>  

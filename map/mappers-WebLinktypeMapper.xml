@@ -24,7 +24,8 @@
   <select id="selectListWebLinktype" resultType="java.util.List" resultMap="webLinktype">select * from web_linktype where 1 = 1 
     <if test="webLinktypeId != null">and webLinktypeId = #{webLinktypeId}</if>  
     <if test="userId != null">and userId = #{userId}</if>  
-    <if test="name != null">and name = '#{name}'</if> limit #{startPage},#{page}
+    <if test="name != null">and name = '#{name}'</if> 
+    <if test="startPage != -1"> limit #{startPage},#{page}</if> 
   </select>
   <select id="selectCountWebLinktype" resultType="java.lang.Integer">select count(webLinktypeId) from web_linktype where 1 = 1 
     <if test="webLinktypeId != null">and webLinktypeId = #{webLinktypeId}</if>  

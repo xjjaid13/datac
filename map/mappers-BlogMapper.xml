@@ -25,7 +25,8 @@
     <if test="shortContent != null">and shortContent = '#{shortContent}'</if>  
     <if test="commentnum != null">and commentnum = #{commentnum}</if>  
     <if test="blogType != null">and blogType = #{blogType}</if>  
-    <if test="keywords != null">and keywords = '#{keywords}'</if> order by createDate desc limit #{startPage},#{page}
+    <if test="keywords != null">and keywords = '#{keywords}'</if> order by createDate desc 
+    <if test="startPage != -1"> limit #{startPage},#{page}</if> 
   </select>
   <select id="selectCountBlog" resultType="java.lang.Integer">select count(blogId) from blog where 1 = 1 
     <if test="blogId != null">and blogId = #{blogId}</if>  

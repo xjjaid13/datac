@@ -168,7 +168,7 @@ public class Template {
 			String selectListString = "select * from {tablename} where 1 = 1 "+
 				"<if test=\"condition != null\"> and ${condition}</if> "+
 				"{for}<if test=\"{columnname} != null\"> and {columnname} = {#columnname}</if> {endfor}"+
-		        " <if test=\"startPage != -1\"> limit #{startPage},#{page}</if>";
+		        " <if test=\"startPage != -1\">  <if test=\"startPage != -1\"> limit #{startPage},#{page}</if> ";
 			String selectListResult = returnContent(selectListString,result,field,tableName,type);
 			result.delete(0, result.length());
 			String selectCountString = "select count({tableName}Id) from {tablename} where 1 = 1 "+
@@ -306,11 +306,12 @@ public class Template {
 		if(!"".equals(field)){
 			content = content.replaceAll("\\{columnName\\}", transfer(field));
 			content = content.replaceAll("\\{columnname\\}", field);
-			if("String".equals(type)){
-				content = content.replaceAll("\\{#columnname\\}", "'#{"+field+"}'");
-			}else{
-				content = content.replaceAll("\\{#columnname\\}", "#{"+field+"}");
-			}
+			content = content.replaceAll("\\{#columnname\\}", "#{"+field+"}");
+//			if("String".equals(type)){
+//				content = content.replaceAll("\\{#columnname\\}", "'#{"+field+"}'");
+//			}else{
+//				content = content.replaceAll("\\{#columnname\\}", "#{"+field+"}");
+//			}
 			content = content.replaceAll("\\{Columnname\\}", firstUppercase(field));
 			content = content.replaceAll("\\{ColumnName\\}", firstUppercase(transfer(field)));
 			content = content.replaceAll("\\{type\\}", type);
